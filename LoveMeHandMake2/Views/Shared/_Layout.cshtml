@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 樂米手創館</title>
+    <title>@ViewBag.Title - 乐米手创馆</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -24,6 +24,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("门市", "Index", "Store")</li>
                     <li>@Html.ActionLink("产品分类", "Index", "ProductCategory")</li>
+                    <li>@Html.ActionLink("系統參數", "Index", "SysParameter")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -33,7 +34,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 樂米手創館</p>
+            <p>&copy; @DateTime.Now.Year - 乐米手创馆</p>
         </footer>
     </div>
 
