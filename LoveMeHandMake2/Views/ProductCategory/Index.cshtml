@@ -28,15 +28,16 @@
             </td>
             <td>
                 @if (item.Unit == 1)
-                { @Html.Label("点");
+                { 
+                    @Html.Label("点");
                 }
                 else if (item.Unit == 2)
-                { @Html.Label("豆");
+                { 
+                    @Html.Label("豆");
                 }
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
         </tr>

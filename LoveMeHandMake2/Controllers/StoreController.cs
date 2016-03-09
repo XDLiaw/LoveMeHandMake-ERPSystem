@@ -30,15 +30,15 @@ namespace LoveMeHandMake2.Controllers
         //
         // GET: /Store/Details/5
 
-        public ActionResult Details(int id = 0)
-        {
-            Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id);
-            if (store == null)
-            {
-                return HttpNotFound();
-            }
-            return View(store);
-        }
+        //public ActionResult Details(int id = 0)
+        //{
+        //    Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id);
+        //    if (store == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(store);
+        //}
 
         //
         // GET: /Store/Create
@@ -132,7 +132,9 @@ namespace LoveMeHandMake2.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Store store = db.Stores.Find(id);
+            ViewBag.categories = db.ProductCategory.ToList();
+            //Store store = db.Stores.Find(id);
+            Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id);
             if (store == null)
             {
                 return HttpNotFound();
@@ -149,6 +151,7 @@ namespace LoveMeHandMake2.Controllers
         {
             Store store = db.Stores.Find(id);
             db.Stores.Remove(store);
+            db.StoreCanSellCategory.RemoveRange(db.StoreCanSellCategory.Where(x => x.StoreID == store.ID));
             db.SaveChanges();
             return RedirectToAction("Index");
         }

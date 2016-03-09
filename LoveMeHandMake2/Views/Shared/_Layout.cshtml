@@ -5,9 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 乐米手创馆</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Styles.Render("~/Content/datetimepicker")
+    @Scripts.Render("~/bundles/datetimepicker")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -24,6 +27,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("门市", "Index", "Store")</li>
                     <li>@Html.ActionLink("产品类别", "Index", "ProductCategory")</li>
+                    <li>@Html.ActionLink("储值优惠", "Index", "DepositeRewardRule")</li>
                     <li>@Html.ActionLink("系统参数", "Index", "SysParameter")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -38,8 +42,6 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

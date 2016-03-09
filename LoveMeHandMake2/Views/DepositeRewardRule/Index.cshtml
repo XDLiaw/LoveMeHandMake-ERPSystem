@@ -1,0 +1,68 @@
+﻿@model IEnumerable<LoveMeHandMake2.Models.DepositeRewardRule>
+
+@{
+    ViewBag.Title = "储值优惠";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("新增储值优惠", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepositeAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardMoney)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccumulateFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValidDateStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValidDateEnd)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepositeAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RewardPoint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RewardMoney)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccumulateFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValidDateStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValidDateEnd)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

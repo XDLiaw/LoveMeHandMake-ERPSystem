@@ -26,6 +26,14 @@ namespace LoveMeHandMake2
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            //Create bundel for jQueryUI  
+            //js  
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
+                      "~/Scripts/jquery.datetimepicker.full.js"));
+            //css  
+            bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
+                   "~/Content/jquery.datetimepicker.css"));  
         }
     }
 }

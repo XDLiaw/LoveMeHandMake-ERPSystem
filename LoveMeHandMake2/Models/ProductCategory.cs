@@ -14,9 +14,6 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "产品类别名称")]
         public string Name { get; set; }
 
-        
-
-
         private int _Unit;
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]

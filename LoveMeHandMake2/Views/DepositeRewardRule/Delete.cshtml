@@ -1,0 +1,79 @@
+﻿@model LoveMeHandMake2.Models.DepositeRewardRule
+
+@{
+    ViewBag.Title = "删除储值优惠";
+}
+
+<h2>删除</h2>
+
+<h3>你确定要删除吗？</h3>
+<div>
+    <h4>储值优惠</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivityName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActivityName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepositeAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepositeAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RewardPoint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RewardPoint)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RewardMoney)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RewardMoney)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccumulateFlag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccumulateFlag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValidDateStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValidDateStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValidDateEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValidDateEnd)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
