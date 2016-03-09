@@ -11,13 +11,16 @@ namespace LoveMeHandMake2.Models
         public enum PriceUnit { Point = 1, Bean = 2 }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
+        [Display(Name = "产品类别名称")]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
-        //public String Unit { get; set; }
+        
+
 
         private int _Unit;
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
+        [Display(Name = "计价单位")]
         public int Unit
         {
             get { return this._Unit; }

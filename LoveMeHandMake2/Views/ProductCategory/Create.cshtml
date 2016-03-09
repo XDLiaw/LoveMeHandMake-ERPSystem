@@ -1,38 +1,42 @@
 ﻿@model LoveMeHandMake2.Models.ProductCategory
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "产品类别";
 }
 
-<h2>Create</h2>
+<h2>新增</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>ProductCategory</legend>
+    <div class="form-horizontal">
+        <h4>产品类别</h4>
+        <hr />
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Unit)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label>@Html.RadioButtonFor(model => model.Unit, 1, new { Checked = "checked" }) <text>点</text></label>
+                <label>@Html.RadioButtonFor(model => model.Unit, 2) <text>豆</text></label>
+            </div>
         </div>
-        <div>
-            <label>@Html.RadioButtonFor(model => model.Unit, 1) 点</label>
-            <label>@Html.RadioButtonFor(model => model.Unit, 2) 豆</label>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
         </div>
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
+    </div>
 }
 
 <div>

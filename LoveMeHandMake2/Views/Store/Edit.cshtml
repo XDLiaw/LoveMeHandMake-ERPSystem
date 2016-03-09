@@ -1,66 +1,69 @@
 ﻿@model LoveMeHandMake2.Models.Store
 
 @{
-    ViewBag.Title = "编辑门市";
+    ViewBag.Title = "门市";
 }
 
-<h2>编辑门市</h2>
+<h2>编辑</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.StoreCode)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.StoreCode)
-            @Html.ValidationMessageFor(model => model.StoreCode)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.OverThresholdBonus)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.OverThresholdBonus)
-            @Html.ValidationMessageFor(model => model.OverThresholdBonus)
-        </div>
-        <div class="editor-label">
-            @Html.DisplayNameFor(model => model.StoreCanSellCategories)
-        </div>
-        <div class="editor-field">
-           @foreach (var cat in ViewBag.categories)
-           {
-               if (Model.IsSellableCategory(cat.ID))
-               {
-                   <div class="col-md-4"><input type="checkbox" name="@("category_"+cat.ID)" value="@cat.ID" checked> @cat.Name</div>
-               }
-               else
-               {
-                   <div class="col-md-4"><input type="checkbox" name="@("category_"+cat.ID)" value="@cat.ID"> @cat.Name</div>
-               }
-           }
-        </div>
-
-
+    <div class="form-horizontal">
+        <h4>门市</h4>
+        <hr />
         @Html.HiddenFor(model => model.ID)
         @Html.HiddenFor(nidek => Model.CreateTime)
         @Html.HiddenFor(nidek => Model.UpdateTime)
         @Html.HiddenFor(nidek => Model.ValidFlag)
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StoreCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.OverThresholdBonus, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OverThresholdBonus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OverThresholdBonus, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StoreCanSellCategories, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @foreach (var cat in ViewBag.categories)
+                {
+                    if (Model.IsSellableCategory(cat.ID))
+                    {
+                        <div class="col-md-4"><input type="checkbox" name="@("category_"+cat.ID)" value="@cat.ID" checked> @cat.Name</div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4"><input type="checkbox" name="@("category_"+cat.ID)" value="@cat.ID"> @cat.Name</div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
 }
 
 <div>
