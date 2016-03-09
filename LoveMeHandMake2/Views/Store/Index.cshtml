@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LoveMeHandMake2.Models.Store>
+
+@{
+    ViewBag.Title = "门市";
+}
+
+<h2>门市</h2>
+
+<p>
+    @Html.ActionLink("新增门市", "Create")
+</p>
+<table class="table">
+    <tr class="row">
+        <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.StoreCode)
+        </th>
+        <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.OverThresholdBonus)
+        </th>
+        <th class="col-md-4">
+            @Html.DisplayNameFor(model => model.StoreCanSellCategories)
+        </th>
+        <th class="col-md-2"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="row">
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.StoreCode)
+            </td>
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.OverThresholdBonus)
+            </td>
+            <td class="col-md-4">
+                @{
+        string categoryList = "";
+        foreach (var category in item.StoreCanSellCategories)
+        {
+            //categoryList = categoryList + category.ProductCategory.Name + " ";
+            <p>@category.ProductCategory.Name</p>
+        }
+                }
+                @categoryList
+            </td>
+            <td class="col-md-2">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

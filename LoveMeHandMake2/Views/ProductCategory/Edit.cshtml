@@ -1,0 +1,50 @@
+﻿@model LoveMeHandMake2.Models.ProductCategory
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>ProductCategory</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Unit)
+        </div>
+        <div>
+            <label>@Html.RadioButtonFor(model => model.Unit, 1) 点</label>
+            <label>@Html.RadioButtonFor(model => model.Unit, 2) 豆</label>
+        </div>
+
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.CreateTime)
+        @Html.HiddenFor(model => model.UpdateTime)
+        @Html.HiddenFor(model => model.ValidFlag)
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

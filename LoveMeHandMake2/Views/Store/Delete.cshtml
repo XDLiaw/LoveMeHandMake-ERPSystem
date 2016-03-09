@@ -1,0 +1,62 @@
+﻿@model LoveMeHandMake2.Models.Store
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Store</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.StoreCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StoreCode)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.OverThresholdBonus)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OverThresholdBonus)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.CreateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateTime)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.UpdateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UpdateTime)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ValidFlag)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ValidFlag)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

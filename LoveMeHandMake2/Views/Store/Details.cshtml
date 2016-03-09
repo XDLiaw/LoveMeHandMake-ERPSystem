@@ -1,0 +1,60 @@
+﻿@model LoveMeHandMake2.Models.Store
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <div class="table">
+        <div class="row">
+            <div class="display-label col-sm-5">
+                @Html.DisplayNameFor(model => model.StoreCode)
+            </div>
+            <div class="display-field col-sm-7">
+                @Html.DisplayFor(model => model.StoreCode)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="display-label col-sm-5">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+            <div class="display-field col-sm-7">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="display-label col-sm-5">
+                @Html.DisplayNameFor(model => model.OverThresholdBonus)
+            </div>
+            <div class="display-field col-sm-7">
+                @Html.DisplayFor(model => model.OverThresholdBonus)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="display-label col-sm-5">
+                @Html.DisplayNameFor(model => model.StoreCanSellCategories)
+            </div>
+            <div class="display-field col-sm-7">
+                @{
+                    string categoryList = "";
+                    foreach (var category in Model.StoreCanSellCategories)
+                    {
+                        categoryList = categoryList + category.ProductCategory.Name + ", ";
+                    }
+                    categoryList = categoryList.Remove(categoryList.Length - 2);
+                }
+                @categoryList
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,50 @@
+﻿@model LoveMeHandMake2.Models.ProductCategory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>ProductCategory</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Unit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Unit)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.CreateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateTime)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.UpdateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UpdateTime)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ValidFlag)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ValidFlag)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
