@@ -100,6 +100,12 @@ namespace LoveMeHandMake2.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (HasProductUnderCategory(id))
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(productcategory);
         }
 
@@ -111,9 +117,20 @@ namespace LoveMeHandMake2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ProductCategory productcategory = db.ProductCategory.Find(id);
+            if (HasProductUnderCategory(id))
+            {
+                return RedirectToAction("Index");
+            }
+
             db.ProductCategory.Remove(productcategory);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public bool HasProductUnderCategory(int productCategoryID)
+        {
+            int productNum = db.Products.Where(x => x.ProductCategoryID == productCategoryID).Count();
+            return productNum > 0 ? true : false;
         }
 
         protected override void Dispose(bool disposing)

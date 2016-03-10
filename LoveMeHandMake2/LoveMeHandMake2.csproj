@@ -180,6 +180,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\SysParameterController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -206,6 +207,18 @@
     <Compile Include="Migrations\201603100118274_Init5.cs" />
     <Compile Include="Migrations\201603100118274_Init5.Designer.cs">
       <DependentUpon>201603100118274_Init5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603100952427_Init6.cs" />
+    <Compile Include="Migrations\201603100952427_Init6.Designer.cs">
+      <DependentUpon>201603100952427_Init6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603100953560_Init7.cs" />
+    <Compile Include="Migrations\201603100953560_Init7.Designer.cs">
+      <DependentUpon>201603100953560_Init7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603101029285_Init8.cs" />
+    <Compile Include="Migrations\201603101029285_Init8.Designer.cs">
+      <DependentUpon>201603101029285_Init8.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -344,6 +357,11 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Teacher\Create.cshtml" />
+    <Content Include="Views\Teacher\Delete.cshtml" />
+    <Content Include="Views\Teacher\Details.cshtml" />
+    <Content Include="Views\Teacher\Edit.cshtml" />
+    <Content Include="Views\Teacher\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -373,6 +391,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603100118274_Init5.resx">
       <DependentUpon>201603100118274_Init5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603100952427_Init6.resx">
+      <DependentUpon>201603100952427_Init6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603100953560_Init7.resx">
+      <DependentUpon>201603100953560_Init7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603101029285_Init8.resx">
+      <DependentUpon>201603101029285_Init8.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
