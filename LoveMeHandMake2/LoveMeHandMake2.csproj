@@ -177,6 +177,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\SysParameterController.cs" />
     <Compile Include="Global.asax.cs">
@@ -197,6 +198,14 @@
     <Compile Include="Migrations\201603090847448_Init3.cs" />
     <Compile Include="Migrations\201603090847448_Init3.Designer.cs">
       <DependentUpon>201603090847448_Init3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603090942352_Init4.cs" />
+    <Compile Include="Migrations\201603090942352_Init4.Designer.cs">
+      <DependentUpon>201603090942352_Init4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603100118274_Init5.cs" />
+    <Compile Include="Migrations\201603100118274_Init5.Designer.cs">
+      <DependentUpon>201603100118274_Init5.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -223,6 +232,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\btn.file.browse.css" />
     <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -329,6 +339,11 @@
     <Content Include="Views\DepositeRewardRule\Delete.cshtml" />
     <Content Include="Views\DepositeRewardRule\Edit.cshtml" />
     <Content Include="Views\DepositeRewardRule\Index.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Product\Delete.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -352,6 +367,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603090847448_Init3.resx">
       <DependentUpon>201603090847448_Init3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603090942352_Init4.resx">
+      <DependentUpon>201603090942352_Init4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603100118274_Init5.resx">
+      <DependentUpon>201603100118274_Init5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

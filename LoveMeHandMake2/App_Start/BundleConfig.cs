@@ -33,7 +33,9 @@ namespace LoveMeHandMake2
                       "~/Scripts/jquery.datetimepicker.full.js"));
             //css  
             bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
-                   "~/Content/jquery.datetimepicker.css"));  
+                   "~/Content/jquery.datetimepicker.css"));
+            bundles.Add(new StyleBundle("~/Content/fileBrowseBtn").Include(
+                   "~/Content/btn.file.browse.css"));  
         }
     }
 }
