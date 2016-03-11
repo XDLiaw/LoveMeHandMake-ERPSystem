@@ -6,12 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LoveMeHandMake2.Models;
+using log4net;
 
 namespace LoveMeHandMake2.Controllers
 {
     public class ProductCategoryController : Controller
     {
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
+        private static readonly ILog log = LogManager.GetLogger(typeof(StoreController));
 
         //
         // GET: /ProductCategory/
@@ -127,10 +129,17 @@ namespace LoveMeHandMake2.Controllers
             return RedirectToAction("Index");
         }
 
-        public bool HasProductUnderCategory(int productCategoryID)
+        private bool HasProductUnderCategory(int productCategoryID)
         {
             int productNum = db.Products.Where(x => x.ProductCategoryID == productCategoryID).Count();
             return productNum > 0 ? true : false;
+        }
+
+        public ActionResult HasProductUnderCategoryAjax(int productCategoryID)
+        {
+            log.Debug("HasProductUnderCategoryAjax("+productCategoryID+")");
+            bool hasProduct = HasProductUnderCategory(productCategoryID);
+            return Json(hasProduct);
         }
 
         protected override void Dispose(bool disposing)

@@ -38,7 +38,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { id = item.ID, @class = "delete", onclick = "HasProductUnderCategory(this);" })
             </td>
         </tr>
     }
@@ -46,28 +46,20 @@
 </table>
 
 <script>
-    //$(document).ready(function () {
-    //    $(".deleteLink").click(function () {
-    //        alert("111");
-    //        console.log("123");
+    function HasProductUnderCategory(obj) {
+        $.post(
+            "@Url.Content("~/ProductCategory/HasProductUnderCategoryAjax")",
+            {productCategoryID : obj.id},
+            function (hasProduct) {
+                if (hasProduct) {
+                    alert("有产品在此类别下，无法删除!");
+                } 
+            },
+            "json"
+        );
+    }
 
 
-    //    });
-    //});
 
-
-
-
-    @*$(function () {
-        var data = {
-            "players[0].Id": "P01",
-            "players[0].Name": "Jeffrey",
-            "players[1].Id": "P02",
-            "players[1].Name": "Darkthread"
-        };
-        $.post("@Url.Content("~/AjaxPost/Update")", data, function (res) {
-            alert(JSON.stringify(res));
-        }, "json");
-    });*@
 </script>
 
