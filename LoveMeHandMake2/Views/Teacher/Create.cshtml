@@ -42,10 +42,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CanPublishPRCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.CanPublishPRCard)
-                    @Html.ValidationMessageFor(model => model.CanPublishPRCard, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.CanPublishPRCard)
+                @Html.ValidationMessageFor(model => model.CanPublishPRCard, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -68,7 +66,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ArriveDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ArriveDate, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.EditorFor(model => model.ArriveDate, new { htmlAttributes = new { @class = "form-control calendarBox" } })
                 @Html.ValidationMessageFor(model => model.ArriveDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -76,7 +74,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ResignDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ResignDate, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.EditorFor(model => model.ResignDate, new { htmlAttributes = new { @class = "form-control calendarBox" } })
                 @Html.ValidationMessageFor(model => model.ResignDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -84,7 +82,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control calendarBox" } })
                 @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -134,14 +132,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".datetime").datetimepicker({
-                timepicker: false,
-                format: 'Y/m/d'
-            });
-
-        });
-    </script>
 }

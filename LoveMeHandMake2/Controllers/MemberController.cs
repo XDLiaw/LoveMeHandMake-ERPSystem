@@ -8,125 +8,125 @@ using System.Web;
 using System.Web.Mvc;
 using LoveMeHandMake2.Models;
 using log4net;
-using System.Web.Configuration;
 
 namespace LoveMeHandMake2.Controllers
 {
-    public class ProductController : Controller
+    public class MemberController : Controller
     {
-        private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
         private static readonly ILog log = LogManager.GetLogger(typeof(StoreController));
+        private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
-
-        // GET: Product
+        // GET: Member
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.ProductCategory);
-            return View(products.ToList());
+            var members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher);
+            return View(members.ToList());
         }
 
-        // GET: Product/Details/5
+        // GET: Member/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            Member member = db.Members.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(member);
         }
 
-        // GET: Product/Create
+        // GET: Member/Create
         public ActionResult Create()
         {
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");
+            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
             return View();
         }
 
-        // POST: Product/Create
+        // POST: Member/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Member member)
         {
             if (ModelState.IsValid)
             {
-                product.ProductCategory = db.ProductCategory.Find(product.ProductCategoryID);
-                product.Create();
-                db.Products.Add(product);
+                member.Create();
+                db.Members.Add(member);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
-            return View(product);
+            ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
+            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
+            return View(member);
         }
 
-        // GET: Product/Edit/5
+        // GET: Member/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Include(x => x.ProductCategory).FirstOrDefault(r => r.ID == id);
-            if (product == null)
+            Member member = db.Members.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
-            return View(product);
+            ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
+            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
+            return View(member);
         }
 
-        // POST: Product/Edit/5
+        // POST: Member/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(Member member)
         {
             if (ModelState.IsValid)
             {
-                product.ProductCategory = db.ProductCategory.Find(product.ProductCategoryID);
-                product.Update();
-                db.Entry(product).State = EntityState.Modified;
+                member.Update();
+                db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
-            return View(product);
+            ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
+            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
+            return View(member);
         }
 
-        // GET: Product/Delete/5
+        // GET: Member/Delete/5
         public ActionResult Delete(int? id)
         {
-            log.Warn("Delete(" + id + ") method is called!");
+            log.Warn("Delete("+id+") method is called!");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+            Member member = db.Members.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(member);
         }
 
-        // POST: Product/Delete/5
+        // POST: Member/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
+            Member member = db.Members.Find(id);
+            db.Members.Remove(member);
             db.SaveChanges();
-            product.DeleteProductImage();
             return RedirectToAction("Index");
         }
 

@@ -59,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StopBusinessDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StopBusinessDate, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.EditorFor(model => model.StopBusinessDate, new { htmlAttributes = new { @class = "form-control calendarBox" } })
                 @Html.ValidationMessageFor(model => model.StopBusinessDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -79,15 +79,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".datetime").datetimepicker({
-                timepicker: false,
-                format: 'Y/m/d'
-            });
-
-        });
-    </script>
-
 }

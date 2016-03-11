@@ -95,8 +95,9 @@ namespace LoveMeHandMake2.Controllers
         //
         // GET: /ProductCategory/Delete/5
 
-        public ActionResult Delete(int id = 0)
+        public ActionResult Delete(int id)
         {
+            log.Warn("Delete(" + id + ") method is called!");
             ProductCategory productcategory = db.ProductCategory.Find(id);
             if (productcategory == null)
             {

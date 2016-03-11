@@ -59,5 +59,15 @@ namespace LoveMeHandMake2.Models
 
         [Display(Name = "累计储值金额")]
         public int AccumulateDeposite { get; set; }
+
+        public override void Create()
+        {
+            base.Create();
+            this.Point = 0;
+            this.AccumulateDeposite = 0;
+        }
+
+
+
     }
 }

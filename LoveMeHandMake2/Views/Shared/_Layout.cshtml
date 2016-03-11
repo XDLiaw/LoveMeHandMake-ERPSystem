@@ -11,6 +11,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/datetimepicker")
     @Scripts.Render("~/bundles/datetimepicker")
+    @Scripts.Render("~/bundles/calendarBox")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -27,6 +28,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("门市", "Index", "Store")</li>
                     <li>@Html.ActionLink("老师", "Index", "Teacher")</li>
+                    <li>@Html.ActionLink("会员", "Index", "Member")</li>
                     <li>@Html.ActionLink("产品类别", "Index", "ProductCategory")</li>
                     <li>@Html.ActionLink("产品", "Index", "Product")</li>
                     <li>@Html.ActionLink("储值优惠", "Index", "DepositeRewardRule")</li>

@@ -174,8 +174,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepositeRewardRuleController.cs" />
+    <Compile Include="Controllers\DropDownListHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
@@ -292,6 +294,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="log4net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\calendarBox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -366,6 +369,11 @@
     <Content Include="Views\Teacher\Details.cshtml" />
     <Content Include="Views\Teacher\Edit.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
+    <Content Include="Views\Member\Create.cshtml" />
+    <Content Include="Views\Member\Delete.cshtml" />
+    <Content Include="Views\Member\Details.cshtml" />
+    <Content Include="Views\Member\Edit.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

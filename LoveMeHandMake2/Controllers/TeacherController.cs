@@ -7,11 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LoveMeHandMake2.Models;
+using log4net;
 
 namespace LoveMeHandMake2.Controllers
 {
     public class TeacherController : Controller
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(StoreController));
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         // GET: Teacher
@@ -40,7 +42,8 @@ namespace LoveMeHandMake2.Controllers
         public ActionResult Create()
         {
             //ViewBag.BelongStoreID = new SelectList(db.Stores, "ID", "Name");
-            SetStoreDropDownList();
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            //SetStoreDropDownList();
             return View();
         }
 
@@ -76,7 +79,8 @@ namespace LoveMeHandMake2.Controllers
                 return HttpNotFound();
             }
             //ViewBag.BelongStoreID = new SelectList(db.Stores, "ID", "Name", teacher.BelongStoreID);
-            SetStoreDropDownList();
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            //SetStoreDropDownList();
             return View(teacher);
         }
 
@@ -101,6 +105,7 @@ namespace LoveMeHandMake2.Controllers
         // GET: Teacher/Delete/5
         public ActionResult Delete(int? id)
         {
+            log.Warn("Delete(" + id + ") method is called!");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -131,21 +136,6 @@ namespace LoveMeHandMake2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private void SetStoreDropDownList()
-        {
-            List<Store> storeList = db.Stores.ToList();
-            List<SelectListItem> items = new List<SelectListItem>();
-            foreach (Store store in storeList)
-            {
-                items.Add(new SelectListItem() { 
-                    Text = store.StoreCode + " - " + store.Name,
-                    Value = store.ID.ToString()
-                });
-            }
-
-            ViewBag.StoreList = items;
         }
     }
 }

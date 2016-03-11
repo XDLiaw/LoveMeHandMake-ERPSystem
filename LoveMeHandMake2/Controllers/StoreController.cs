@@ -132,6 +132,7 @@ namespace LoveMeHandMake2.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            log.Warn("Delete(" + id + ") method is called!");
             ViewBag.categories = db.ProductCategory.ToList();
             //Store store = db.Stores.Find(id);
             Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id);

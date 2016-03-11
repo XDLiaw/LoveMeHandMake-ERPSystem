@@ -7,11 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LoveMeHandMake2.Models;
+using log4net;
 
 namespace LoveMeHandMake2.Controllers
 {
     public class DepositeRewardRuleController : Controller
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(StoreController)); 
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         // GET: DepositeRewardRule
@@ -79,6 +81,7 @@ namespace LoveMeHandMake2.Controllers
         // GET: DepositeRewardRule/Delete/5
         public ActionResult Delete(int? id)
         {
+            log.Warn("Delete(" + id + ") method is called!");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
