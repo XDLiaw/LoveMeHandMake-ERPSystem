@@ -11,74 +11,74 @@ using log4net;
 
 namespace LoveMeHandMake2.Controllers
 {
-    public class DepositeRewardRuleController : Controller
+    public class DepositRewardRuleController : Controller
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(StoreController)); 
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
-        // GET: DepositeRewardRule
+        // GET: DepositRewardRule
         public ActionResult Index()
         {
-            return View(db.DepositeRewardRule.ToList());
+            return View(db.DepositRewardRule.ToList());
         }
 
-        // GET: DepositeRewardRule/Create
+        // GET: DepositRewardRule/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: DepositeRewardRule/Create
+        // POST: DepositRewardRule/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DepositeRewardRule depositeRewardRule)
+        public ActionResult Create(DepositRewardRule depositRewardRule)
         {
             if (ModelState.IsValid)
             {
-                depositeRewardRule.Create();
-                db.DepositeRewardRule.Add(depositeRewardRule);
+                depositRewardRule.Create();
+                db.DepositRewardRule.Add(depositRewardRule);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(depositeRewardRule);
+            return View(depositRewardRule);
         }
 
-        // GET: DepositeRewardRule/Edit/5
+        // GET: DepositRewardRule/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DepositeRewardRule depositeRewardRule = db.DepositeRewardRule.Find(id);
-            if (depositeRewardRule == null)
+            DepositRewardRule depositRewardRule = db.DepositRewardRule.Find(id);
+            if (depositRewardRule == null)
             {
                 return HttpNotFound();
             }
-            return View(depositeRewardRule);
+            return View(depositRewardRule);
         }
 
-        // POST: DepositeRewardRule/Edit/5
+        // POST: DepositRewardRule/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(DepositeRewardRule depositeRewardRule)
+        public ActionResult Edit(DepositRewardRule depositRewardRule)
         {
             if (ModelState.IsValid)
             {
-                depositeRewardRule.Update();
-                db.Entry(depositeRewardRule).State = EntityState.Modified;
+                depositRewardRule.Update();
+                db.Entry(depositRewardRule).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(depositeRewardRule);
+            return View(depositRewardRule);
         }
 
-        // GET: DepositeRewardRule/Delete/5
+        // GET: DepositRewardRule/Delete/5
         public ActionResult Delete(int? id)
         {
             log.Warn("Delete(" + id + ") method is called!");
@@ -86,21 +86,21 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DepositeRewardRule depositeRewardRule = db.DepositeRewardRule.Find(id);
-            if (depositeRewardRule == null)
+            DepositRewardRule depositRewardRule = db.DepositRewardRule.Find(id);
+            if (depositRewardRule == null)
             {
                 return HttpNotFound();
             }
-            return View(depositeRewardRule);
+            return View(depositRewardRule);
         }
 
-        // POST: DepositeRewardRule/Delete/5
+        // POST: DepositRewardRule/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            DepositeRewardRule depositeRewardRule = db.DepositeRewardRule.Find(id);
-            db.DepositeRewardRule.Remove(depositeRewardRule);
+            DepositRewardRule depositRewardRule = db.DepositRewardRule.Find(id);
+            db.DepositRewardRule.Remove(depositRewardRule);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

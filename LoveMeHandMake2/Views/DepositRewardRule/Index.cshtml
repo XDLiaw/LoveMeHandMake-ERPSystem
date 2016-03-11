@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LoveMeHandMake2.Models.DepositeRewardRule>
+﻿@model IEnumerable<LoveMeHandMake2.Models.DepositRewardRule>
 
 @{
     ViewBag.Title = "储值优惠";
@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.ActivityName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DepositeAmount)
+            @Html.DisplayNameFor(model => model.DepositAmount)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.RewardPoint)
@@ -41,7 +41,7 @@
             @Html.DisplayFor(modelItem => item.ActivityName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DepositeAmount)
+            @Html.DisplayFor(modelItem => item.DepositAmount)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RewardPoint)

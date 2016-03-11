@@ -6,14 +6,14 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models
 {
-    public class DepositeRewardRule : BaseModel
+    public class DepositRewardRule : BaseModel
     {
         [Display(Name = "活动名称")]
         public string ActivityName { get; set; }
 
         [Required]
         [Display(Name = "储值金额")]
-        public int DepositeAmount { get; set; }
+        public int DepositAmount { get; set; }
 
         [Display(Name = "赠送点数")]
         public int? RewardPoint { get; set; }

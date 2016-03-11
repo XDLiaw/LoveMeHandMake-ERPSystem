@@ -31,9 +31,9 @@ namespace LoveMeHandMake2.Models
 
         public DbSet<NonMemberTradeList> NonMemverTradeList { get; set; }
 
-        public DbSet<DepositeHistory> DepositeHistory { get; set; }
+        public DbSet<DepositHistory> DepositHistory { get; set; }
 
-        public DbSet<DepositeRewardRule> DepositeRewardRule { get; set; }
+        public DbSet<DepositRewardRule> DepositRewardRule { get; set; }
 
         public DbSet<SysParameter> SysParameter { get; set; }
 

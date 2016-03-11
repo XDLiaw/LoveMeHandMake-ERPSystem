@@ -1,24 +1,20 @@
-﻿@model LoveMeHandMake2.Models.DepositeRewardRule
+﻿@model LoveMeHandMake2.Models.DepositRewardRule
 
 @{
-    ViewBag.Title = "修改储值优惠";
+    ViewBag.Title = "新增储值优惠";
 }
 
-<h2>修改</h2>
+<h2>新增</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>储值优惠</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
-        @Html.HiddenFor(model => model.CreateTime)
-        @Html.HiddenFor(model => model.UpdateTime)
-        @Html.HiddenFor(model => model.ValidFlag)
 
         <div class="form-group">
             @Html.LabelFor(model => model.ActivityName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -29,10 +25,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DepositeAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DepositAmount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DepositeAmount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DepositeAmount, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.DepositAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DepositAmount, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -71,14 +67,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ValidDateEnd, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ValidDateEnd, new { htmlAttributes = new { @class = "form-control calendarBox" } })
+                @Html.EditorFor(model => model.ValidDateEnd, new { htmlAttributes = new { @class = "form-control calendarBox", @id = "ValidDateEnd" } })
                 @Html.ValidationMessageFor(model => model.ValidDateEnd, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models
 {
-    public class DepositeHistory : BaseModel
+    public class DepositHistory : BaseModel
     {
         [Required]
         public int StoreID { get; set; }
@@ -18,7 +18,7 @@ namespace LoveMeHandMake2.Models
         public int MemberID { get; set; }
 
         [Required]
-        public int DepositePoint { get; set; }
+        public int DepositPoint { get; set; }
 
         public int Cash { get; set; }
 
@@ -34,6 +34,6 @@ namespace LoveMeHandMake2.Models
         public int AvgPointCost { get; set; }
 
         [Required]
-        public DateTime DepostiteDate { get; set; }
+        public DateTime DepostitDate { get; set; }
     }
 }

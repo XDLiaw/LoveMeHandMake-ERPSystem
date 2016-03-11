@@ -1,0 +1,24 @@
+﻿@model LoveMeHandMake2.Models.DepositHistory
+
+@{
+    ViewBag.Title = "储值";
+}
+
+<h2>储值</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

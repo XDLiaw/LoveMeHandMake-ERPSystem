@@ -61,10 +61,21 @@ namespace LoveMeHandMake2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
             ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
             return View(member);
+        }
+
+        // GET: Member/Deposite
+        public ActionResult Deposit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            return View();
         }
 
         // GET: Member/Edit/5
@@ -79,7 +90,8 @@ namespace LoveMeHandMake2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
             ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
             return View(member);
         }
@@ -98,7 +110,8 @@ namespace LoveMeHandMake2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
             ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
             return View(member);
         }

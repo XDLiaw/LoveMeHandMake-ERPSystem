@@ -173,7 +173,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DepositeRewardRuleController.cs" />
+    <Compile Include="Controllers\DepositRewardRuleController.cs" />
     <Compile Include="Controllers\DropDownListHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -226,11 +226,19 @@
     <Compile Include="Migrations\201603110330149_Init9.Designer.cs">
       <DependentUpon>201603110330149_Init9.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603110802506_Init10.cs" />
+    <Compile Include="Migrations\201603110802506_Init10.Designer.cs">
+      <DependentUpon>201603110802506_Init10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603110809494_Init11.cs" />
+    <Compile Include="Migrations\201603110809494_Init11.Designer.cs">
+      <DependentUpon>201603110809494_Init11.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\DepositeHistory.cs" />
-    <Compile Include="Models\DepositeRewardRule.cs" />
+    <Compile Include="Models\DepositHistory.cs" />
+    <Compile Include="Models\DepositRewardRule.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoveMeHandMakeContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -355,10 +363,10 @@
     <Content Include="Views\ProductCategory\Delete.cshtml" />
     <Content Include="Views\SysParameter\Edit.cshtml" />
     <Content Include="Views\SysParameter\Index.cshtml" />
-    <Content Include="Views\DepositeRewardRule\Create.cshtml" />
-    <Content Include="Views\DepositeRewardRule\Delete.cshtml" />
-    <Content Include="Views\DepositeRewardRule\Edit.cshtml" />
-    <Content Include="Views\DepositeRewardRule\Index.cshtml" />
+    <Content Include="Views\DepositRewardRule\Create.cshtml" />
+    <Content Include="Views\DepositRewardRule\Delete.cshtml" />
+    <Content Include="Views\DepositRewardRule\Edit.cshtml" />
+    <Content Include="Views\DepositRewardRule\Index.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
@@ -374,6 +382,7 @@
     <Content Include="Views\Member\Details.cshtml" />
     <Content Include="Views\Member\Edit.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
+    <Content Include="Views\Member\Deposit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -415,6 +424,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603110330149_Init9.resx">
       <DependentUpon>201603110330149_Init9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603110802506_Init10.resx">
+      <DependentUpon>201603110802506_Init10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603110809494_Init11.resx">
+      <DependentUpon>201603110809494_Init11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

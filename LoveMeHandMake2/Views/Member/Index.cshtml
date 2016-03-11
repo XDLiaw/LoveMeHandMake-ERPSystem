@@ -33,7 +33,7 @@
             @Html.DisplayNameFor(model => model.Point)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccumulateDeposite)
+            @Html.DisplayNameFor(model => model.AccumulateDeposit)
         </th>
         <th></th>
     </tr>
@@ -62,9 +62,10 @@
             @Html.DisplayFor(modelItem => item.Point)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AccumulateDeposite)
+            @Html.DisplayFor(modelItem => item.AccumulateDeposit)
         </td>
         <td>
+            @Html.ActionLink("Deposite", "Deposit", new { id = item.ID }) |
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) 
         </td>
