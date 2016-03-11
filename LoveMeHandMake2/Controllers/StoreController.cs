@@ -21,7 +21,7 @@ namespace LoveMeHandMake2.Controllers
         public ActionResult Index()
         {
             List<Store> stores = db.Stores
-                .Where(x => x.ValidFlag == true)
+                .Where(x => x.ValidFlag == true || x.StopBusinessDate != null )
                 .Include(x => x.StoreCanSellCategories)
                 .ToList();
             return View(stores);

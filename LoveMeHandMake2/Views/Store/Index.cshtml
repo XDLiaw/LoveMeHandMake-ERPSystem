@@ -20,8 +20,11 @@
         <th class="col-md-2">
             @Html.DisplayNameFor(model => model.OverThresholdBonus)
         </th>
-        <th class="col-md-4">
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.StoreCanSellCategories)
+        </th>
+        <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.StopBusinessDate)
         </th>
         <th class="col-md-2"></th>
     </tr>
@@ -38,20 +41,22 @@
             <td class="col-md-2">
                 @Html.DisplayFor(modelItem => item.OverThresholdBonus)
             </td>
-            <td class="col-md-4">
+            <td class="col-md-2">
                 @{
-        string categoryList = "";
-        foreach (var category in item.StoreCanSellCategories)
-        {
-            //categoryList = categoryList + category.ProductCategory.Name + " ";
-            <p>@category.ProductCategory.Name</p>
-        }
+                    string categoryList = "";
+                    foreach (var category in item.StoreCanSellCategories)
+                    {
+                        //categoryList = categoryList + category.ProductCategory.Name + " ";
+                        <p>@category.ProductCategory.Name</p>
+                    }
                 }
                 @categoryList
             </td>
             <td class="col-md-2">
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.DisplayFor(modelItem => item.StopBusinessDate)
+            </td>
+            <td class="col-md-2">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
             </td>
         </tr>
     }

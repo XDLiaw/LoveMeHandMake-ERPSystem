@@ -1,10 +1,10 @@
 ﻿@model LoveMeHandMake2.Models.Store
 
 @{
-    ViewBag.Title = "门市";
+    ViewBag.Title = "修改门市";
 }
 
-<h2>编辑</h2>
+<h2>修改</h2>
 
 @using (Html.BeginForm())
 {
@@ -56,6 +56,13 @@
                 }
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StopBusinessDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StopBusinessDate, new { htmlAttributes = new { @class = "form-control datetime" } })
+                @Html.ValidationMessageFor(model => model.StopBusinessDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -72,4 +79,15 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datetime").datetimepicker({
+                timepicker: false,
+                format: 'Y/m/d'
+            });
+
+        });
+    </script>
+
 }

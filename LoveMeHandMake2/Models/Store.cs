@@ -23,6 +23,10 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "可销售产品分类")]
         public virtual ICollection<StoreCanSellCategory> StoreCanSellCategories { get; set; }
 
+        [Display(Name = "歇业日期")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? StopBusinessDate { get; set; }
+
         public bool IsSellableCategory(int categoryID)
         {
             foreach (StoreCanSellCategory cat in this.StoreCanSellCategories)
@@ -32,6 +36,14 @@ namespace LoveMeHandMake2.Models
             return false;
         }
 
+        public override void Update()
+        {
+            base.Update();
+            if (this.StopBusinessDate != null)
+            {
+                this.ValidFlag = false;
+            }
+        }
 
     }
 }
