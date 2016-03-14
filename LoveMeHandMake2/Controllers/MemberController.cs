@@ -107,6 +107,7 @@ namespace LoveMeHandMake2.Controllers
         {
             try
             {
+                depositHistory.computeDepositRewardPoint();
                 //double avgCost = depositHistory.AvgPointCost;
                 return Json(depositHistory);
             }

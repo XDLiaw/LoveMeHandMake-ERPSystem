@@ -15,8 +15,9 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "储值金额")]
         public int DepositAmount { get; set; }
 
+        [Required]
         [Display(Name = "赠送点数")]
-        public int? RewardPoint { get; set; }
+        public int RewardPoint { get; set; }
 
         [Required]
         [Display(Name = "是否为累计储值优惠")]

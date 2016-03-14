@@ -90,10 +90,14 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "储值点数")]
         public int DepositPoint { get; set; }
 
+        [Display(Name = "储值满额送点")]
+        public int DepositRewardPoint { get; set; }
+
+
         // TotalPoint = DepositePoint + RewardPoint + DepositRewardRulePoint
         [Display(Name = "总新增点数")]
         [NotMapped]
-        public int TotalPoint { get; set; }
+        public int TotalPoint { get { return this.DepositPoint + this.RewardPoint.GetValueOrDefault() + this.DepositRewardPoint;  } }
 
         // AvgPointCost = ( TotalDepositeMoney - RewardMoney ) / ( DepositePoint + RewardPoint )
         [Display(Name = "每点平均成本")]
@@ -132,9 +136,37 @@ namespace LoveMeHandMake2.Models
             return this.PointUnitValue;
         }
 
-        //public int computeDepositRewardPoint()
-        //{
-            
-        //}
+        public int computeDepositRewardPoint()
+        {
+            List<DepositRewardRule> rules = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+            List<DepositRewardRule> validDateRules = new List<DepositRewardRule>();
+            foreach (DepositRewardRule rule in rules)
+            {
+                DateTime now = DateTime.Now;
+                DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
+                DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
+                bool isAfterStart = DateTime.Compare(start, now) <= 0;
+                bool isBeforeEnd = DateTime.Compare(now, end) <= 0;
+                if ( isAfterStart && isBeforeEnd) {
+                    validDateRules.Add(rule);
+                }
+            }
+
+            int rewardPoint = 0;
+            foreach (DepositRewardRule rule in validDateRules)
+            {
+                if (this.TotalDepositMoney >= rule.DepositAmount)
+                {
+                    rewardPoint = rule.RewardPoint;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            this.DepositRewardPoint = rewardPoint;
+            return rewardPoint;
+        }
     }
 }

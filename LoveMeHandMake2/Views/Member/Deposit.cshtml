@@ -112,6 +112,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.DepositRewardPoint, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DepositRewardPoint, new { htmlAttributes = new { id = "DepositRewardPoint", @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.DepositRewardPoint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.TotalPoint, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TotalPoint, new { htmlAttributes = new { id = "TotalPoint", @class = "form-control", @disabled = "disabled" } })
@@ -164,8 +172,8 @@
             }
 
             $("#DepositPoint").val(TotalDepositMoney/(@Model.PointUnitValue));
-            var TotalPoint = parseInt($("#DepositPoint").val()) + parseInt($("#RewardPoint").val());
-            $("#TotalPoint").val(TotalPoint);
+            //var TotalPoint = parseInt($("#DepositPoint").val()) + parseInt($("#RewardPoint").val());
+            //$("#TotalPoint").val(TotalPoint);
 
             // 計算每點平均成本
             var data = {
@@ -184,7 +192,10 @@
                data,
                 function (res) {
                     if ($.isNumeric((res.AvgPointCost))) {
-                        $("#AvgPointCost").val(parseInt(res.AvgPointCost));
+                        
+                        $("#DepositRewardPoint").val(parseInt(res.DepositRewardPoint));
+                        $("#TotalPoint").val(parseInt(res.TotalPoint));
+                        $("#AvgPointCost").val(parseFloat(res.AvgPointCost));
                     } else {
                         alert(res);
                         return false;
