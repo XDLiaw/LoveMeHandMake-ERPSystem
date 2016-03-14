@@ -6,12 +6,139 @@
 
 <h2>储值</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "DepositForm" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text=danger" })
+        @Html.HiddenFor(model => model.MemberID)
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.Member, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Member.Name, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Member.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Member.CardID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Member.CardID, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.Member.CardID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepositStore, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepositStoreID", (IEnumerable<SelectListItem>)ViewBag.StoreList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepositStoreID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepositTeacher, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepositTeacherID", (IEnumerable<SelectListItem>)ViewBag.TeacherList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepositTeacherID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cash, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Cash, new { htmlAttributes = new { id = "Cash", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
+                @Html.ValidationMessageFor(model => model.Cash, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreditCard, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { id = "CreditCard", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
+                @Html.ValidationMessageFor(model => model.CreditCard, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MallCard, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MallCard, new { htmlAttributes = new { id = "MallCard", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
+                @Html.ValidationMessageFor(model => model.MallCard, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RewardMoney, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0 } })
+                @Html.ValidationMessageFor(model => model.RewardMoney, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RewardPoint, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RewardPoint, new { htmlAttributes = new { id = "RewardPoint", @class = "form-control", min = 0 } })
+                @Html.ValidationMessageFor(model => model.RewardPoint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalDepositMoney, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalDepositMoney, new { htmlAttributes = new { id = "TotalDepositMoney", @class = "form-control", min = 0, @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.TotalDepositMoney, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PointUnitValue, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PointUnitValue, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.PointUnitValue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepositPoint, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DepositPoint, new { htmlAttributes = new { id = "DepositPoint", @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.DepositPoint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalPoint, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalPoint, new { htmlAttributes = new { id = "TotalPoint", @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.TotalPoint, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AvgPointCost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AvgPointCost, new { htmlAttributes = new { id = "AvgPointCost", @class = "form-control", @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.AvgPointCost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+            </div>
+
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="试算" class="btn btn-default" onclick="compute();" />
+                <input type="submit" value="送出" class="btn btn-default" onclick="return btnSubmitClick();" />
+                <input type="button" value="清除" class="btn btn-default" onclick="btnClear();" />
+            </div>
+        </div>
     </div>
 }
 
@@ -21,4 +148,80 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function compute() {
+            // 先檢查可儲值金額以及可獲得儲值點數
+            var TotalDepositMoney = $("#TotalDepositMoney").val();
+            if (TotalDepositMoney <=0 ) {
+                alert("储值金额必须大于0");
+                return false;
+            }
+            if (TotalDepositMoney % @Model.PointUnitValue != 0) {
+                var possibleDeposit = TotalDepositMoney - (TotalDepositMoney % @Model.PointUnitValue);
+                alert("只可储值可整除金额: "+possibleDeposit);
+                return false;
+            }
+
+            $("#DepositPoint").val(TotalDepositMoney/(@Model.PointUnitValue));
+            var TotalPoint = parseInt($("#DepositPoint").val()) + parseInt($("#RewardPoint").val());
+            $("#TotalPoint").val(TotalPoint);
+
+            // 計算每點平均成本
+            var data = {
+                Cash : parseInt($("#Cash").val()),
+                CreditCard : parseInt($("#CreditCard").val()),
+                MallCard : parseInt($("#MallCard").val()),
+                TotalDepositMoney : $("#TotalDepositMoney").val(),
+                DepositPoint : $("#DepositPoint").val(),
+                RewardMoney : parseInt($("#RewardMoney").val()),
+                RewardPoint : parseInt($("#RewardPoint").val())
+            };
+            //alert(JSON.stringify(data), undefined, '\t');
+
+            $.post(
+               "@Url.Content("~/Member/TryCompute")",
+               data,
+                function (res) {
+                    if ($.isNumeric((res.AvgPointCost))) {
+                        $("#AvgPointCost").val(parseInt(res.AvgPointCost));
+                    } else {
+                        alert(res);
+                        return false;
+                    }
+                },
+               "json"
+            );
+
+            return true;
+        }
+
+        function btnSubmitClick() {
+            if (compute()) {
+                alert("submit");
+                $("#DepositForm").submit();
+            } else {
+                return false;
+            }
+        }
+
+        function btnClear() {
+            $("#Cash").val(0);
+            $("#CreditCard").val(0);
+            $("#MallCard").val(0);
+            $("#RewardMoney").val(0);
+            $("#RewardPoint").val(0);
+            $("#TotalDepositMoney").val(0);
+            $("#DepositPoint").val(0);
+            $("#TotalPoint").val(0);
+            $("#AvgPointCost").val(0);
+        }
+
+        function computeTotalDepositMoney() {
+            var Cash = parseInt($("#Cash").val());
+            var CreditCard = parseInt($("#CreditCard").val());
+            var MallCard = parseInt($("#MallCard").val());
+            $("#TotalDepositMoney").val(Cash + CreditCard + MallCard);
+        }
+    </script>
 }

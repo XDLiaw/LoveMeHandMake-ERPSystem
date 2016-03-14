@@ -234,6 +234,38 @@
     <Compile Include="Migrations\201603110809494_Init11.Designer.cs">
       <DependentUpon>201603110809494_Init11.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603110838228_Init12.cs" />
+    <Compile Include="Migrations\201603110838228_Init12.Designer.cs">
+      <DependentUpon>201603110838228_Init12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603110857236_Init13.cs" />
+    <Compile Include="Migrations\201603110857236_Init13.Designer.cs">
+      <DependentUpon>201603110857236_Init13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603110909224_Init14.cs" />
+    <Compile Include="Migrations\201603110909224_Init14.Designer.cs">
+      <DependentUpon>201603110909224_Init14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603140300043_Init15.cs" />
+    <Compile Include="Migrations\201603140300043_Init15.Designer.cs">
+      <DependentUpon>201603140300043_Init15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603140311398_Init16.cs" />
+    <Compile Include="Migrations\201603140311398_Init16.Designer.cs">
+      <DependentUpon>201603140311398_Init16.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603140347033_Init17.cs" />
+    <Compile Include="Migrations\201603140347033_Init17.Designer.cs">
+      <DependentUpon>201603140347033_Init17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603140715523_Init18.cs" />
+    <Compile Include="Migrations\201603140715523_Init18.Designer.cs">
+      <DependentUpon>201603140715523_Init18.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603140908518_Init19.cs" />
+    <Compile Include="Migrations\201603140908518_Init19.Designer.cs">
+      <DependentUpon>201603140908518_Init19.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -430,6 +462,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603110809494_Init11.resx">
       <DependentUpon>201603110809494_Init11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603110838228_Init12.resx">
+      <DependentUpon>201603110838228_Init12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603110857236_Init13.resx">
+      <DependentUpon>201603110857236_Init13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603110909224_Init14.resx">
+      <DependentUpon>201603110909224_Init14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603140300043_Init15.resx">
+      <DependentUpon>201603140300043_Init15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603140311398_Init16.resx">
+      <DependentUpon>201603140311398_Init16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603140347033_Init17.resx">
+      <DependentUpon>201603140347033_Init17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603140715523_Init18.resx">
+      <DependentUpon>201603140715523_Init18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603140908518_Init19.resx">
+      <DependentUpon>201603140908518_Init19.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

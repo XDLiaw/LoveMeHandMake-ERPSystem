@@ -74,8 +74,47 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
-            return View();
+            Member member = db.Members.Find(id);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            DepositHistory depositHistory = new DepositHistory();
+            depositHistory.MemberID = member.ID;
+            depositHistory.Member = member;
+            //depositHistory.settingPointUnitValue();
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
+            return View(depositHistory);
+        }
+
+        [HttpPost]
+        public ActionResult Deposit(DepositHistory depositHistory)
+        {
+            if (ModelState.IsValid)
+            {
+                depositHistory.Create();
+                db.DepositHistory.Add(depositHistory);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.StoreList = DropDownListHelper.GetStoreList();
+            ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
+            return View(depositHistory);
+        }
+
+        public ActionResult TryCompute(DepositHistory depositHistory)
+        {
+            try
+            {
+                //double avgCost = depositHistory.AvgPointCost;
+                return Json(depositHistory);
+            }
+            catch (Exception e)
+            {
+                log.Warn(null, e);
+                return Json(e.Message);
+            }
         }
 
         // GET: Member/Edit/5

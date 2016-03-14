@@ -18,9 +18,6 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "赠送点数")]
         public int? RewardPoint { get; set; }
 
-        [Display(Name = "赠送现金")]
-        public int? RewardMoney { get; set; }
-
         [Required]
         [Display(Name = "是否为累计储值优惠")]
         public bool AccumulateFlag { get; set; }
