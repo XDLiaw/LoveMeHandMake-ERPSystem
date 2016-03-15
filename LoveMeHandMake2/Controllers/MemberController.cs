@@ -23,6 +23,21 @@ namespace LoveMeHandMake2.Controllers
             return View(members.ToList());
         }
 
+        [HttpPost]
+        public ActionResult Index(FormCollection formCollection)
+        {
+            string searchName = formCollection["searchName"];
+            string searchPhone = formCollection["searchPhone"];
+            string searchCardID = formCollection["searchCardID"];
+
+            var members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher)
+                .Where(x => (String.IsNullOrEmpty(searchName) ? true : x.Name.Contains(searchName)))
+                .Where(x => (String.IsNullOrEmpty(searchPhone) ? true : x.Phone.Equals(searchPhone)))
+                .Where(x => (String.IsNullOrEmpty(searchCardID) ? true : x.CardID.Equals(searchCardID)));
+
+            return View(members.ToList());
+        }
+
         // GET: Member/Details/5
         public ActionResult Details(int? id)
         {

@@ -175,15 +175,12 @@
             }
 
             $("#DepositPoint").val(TotalDepositMoney/(@Model.PointUnitValue));
-            //var TotalPoint = parseInt($("#DepositPoint").val()) + parseInt($("#RewardPoint").val());
-            //$("#TotalPoint").val(TotalPoint);
 
             // 計算每點平均成本
             var data = {
                 MemberID : @Model.MemberID,
                 Cash : parseInt($("#Cash").val()),
                 CreditCard : parseInt($("#CreditCard").val()),
-                //TotalDepositMoney : parseInt($("#TotalDepositMoney").val()),
                 MallCard : parseInt($("#MallCard").val()),
                 RewardMoney : parseInt($("#RewardMoney").val()),
                 RewardPoint : parseInt($("#RewardPoint").val())
