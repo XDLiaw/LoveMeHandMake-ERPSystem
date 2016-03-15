@@ -89,14 +89,23 @@ namespace LoveMeHandMake2.Controllers
         }
 
         [HttpPost]
-        public ActionResult Deposit(DepositHistory depositHistory)
+        public ActionResult Deposit([Bind(Exclude="Member")]DepositHistory depositHistory)
         {
             if (ModelState.IsValid)
             {
                 depositHistory.Create();
                 db.DepositHistory.Add(depositHistory);
                 db.SaveChanges();
+                depositHistory.ModifyDbMemberPoint();
+
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+                log.Error(messages);
             }
             ViewBag.StoreList = DropDownListHelper.GetStoreList();
             ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
@@ -107,13 +116,22 @@ namespace LoveMeHandMake2.Controllers
         {
             try
             {
+                depositHistory.Member = db.Members.Find(depositHistory.MemberID);               
                 depositHistory.computeDepositRewardPoint();
-                //double avgCost = depositHistory.AvgPointCost;
-                return Json(depositHistory);
+
+                var result = new
+                {
+                    MemberID = depositHistory.MemberID,
+                    DepositRewardPoint = depositHistory.DepositRewardPoint,
+                    TotalPoint = depositHistory.TotalPoint,
+                    AvgPointCost = depositHistory.AvgPointCost,
+                };
+                return Json(result);
             }
             catch (Exception e)
             {
                 log.Warn(null, e);
+                var result = new { errorMsg = e.Message };
                 return Json(e.Message);
             }
         }

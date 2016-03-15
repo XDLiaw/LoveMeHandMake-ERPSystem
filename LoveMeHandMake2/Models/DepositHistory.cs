@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -93,6 +94,8 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "储值满额送点")]
         public int DepositRewardPoint { get; set; }
 
+        // 有使用到的 累計儲值 滿額送點 規則
+        private DepositRewardRule AccumulateDepositRewardRule = null;
 
         // TotalPoint = DepositePoint + RewardPoint + DepositRewardRulePoint
         [Display(Name = "总新增点数")]
@@ -120,7 +123,6 @@ namespace LoveMeHandMake2.Models
         }
 
         [Display(Name = "储值时间")]
-        [Required]
         public DateTime DepostitDate { get; set; }
 
         public override void Create()
@@ -138,16 +140,23 @@ namespace LoveMeHandMake2.Models
 
         public int computeDepositRewardPoint()
         {
-            List<DepositRewardRule> rules = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+            int rewardPoint = computeNonAccumulateDepositRewardPoint();
+            rewardPoint += computeAccumulateRewardPoint();
+            this.DepositRewardPoint = rewardPoint;
+            return rewardPoint;
+        }
+
+        private int computeNonAccumulateDepositRewardPoint()
+        {
+            List<DepositRewardRule> rules = db.DepositRewardRule.Where(r => r.AccumulateFlag == false).OrderBy(x => x.DepositAmount).ToList();
             List<DepositRewardRule> validDateRules = new List<DepositRewardRule>();
             foreach (DepositRewardRule rule in rules)
             {
                 DateTime now = DateTime.Now;
                 DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
                 DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
-                bool isAfterStart = DateTime.Compare(start, now) <= 0;
-                bool isBeforeEnd = DateTime.Compare(now, end) <= 0;
-                if ( isAfterStart && isBeforeEnd) {
+                if (isInPeriod(now, start, end))
+                {
                     validDateRules.Add(rule);
                 }
             }
@@ -164,10 +173,53 @@ namespace LoveMeHandMake2.Models
                     break;
                 }
             }
-
-            this.DepositRewardPoint = rewardPoint;
             return rewardPoint;
         }
+
+        private int computeAccumulateRewardPoint()
+        {
+            List<DepositRewardRule> rules = db.DepositRewardRule.Where(r => r.AccumulateFlag == true).OrderBy(x => x.DepositAmount).ToList();
+            List<DepositRewardRule> validDateRules = new List<DepositRewardRule>();
+            foreach (DepositRewardRule rule in rules)
+            {
+                DateTime now = DateTime.Now;
+                DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
+                DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
+                if (isInPeriod(now, start, end))
+                {
+                    validDateRules.Add(rule);
+                }
+            }
+
+            int accumulateDeposit = this.Member.AccumulateDeposit + this.TotalDepositMoney;
+            int rewardPoint = 0;
+            foreach (DepositRewardRule rule in validDateRules) {
+                if (accumulateDeposit >= rule.DepositAmount) {
+                    this.AccumulateDepositRewardRule = rule;
+                    rewardPoint = rule.RewardPoint;
+                }
+                else
+                {
+                    break;
+                }
+            }
+                        
+            return rewardPoint;
+        }
+
+        public void ModifyDbMemberPoint()
+        {
+            this.Member = db.Members.Find(this.MemberID);
+            this.Member.Point += this.TotalPoint;
+            this.Member.AccumulateDeposit += this.TotalDepositMoney;
+            if (this.AccumulateDepositRewardRule != null)
+            {
+                this.Member.AccumulateDeposit -= this.AccumulateDepositRewardRule.DepositAmount;
+            }
+            db.Entry(this.Member).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
 
         private bool isInPeriod(DateTime t, DateTime start, DateTime end)
         {
@@ -175,5 +227,6 @@ namespace LoveMeHandMake2.Models
             bool isBeforeEnd = DateTime.Compare(t, end) <= 0;
             return isAfterStart && isBeforeEnd;
         }
+
     }
 }
