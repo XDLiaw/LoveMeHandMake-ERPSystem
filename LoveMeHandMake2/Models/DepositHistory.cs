@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -9,7 +10,6 @@ namespace LoveMeHandMake2.Models
 {
     public class DepositHistory : BaseModel
     {
-        private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         public DepositHistory()
         {
@@ -18,7 +18,10 @@ namespace LoveMeHandMake2.Models
             this.MallCard = 0;
             this.RewardMoney = 0;
             this.RewardPoint = 0;
-            settingPointUnitValue();
+
+            LoveMeHandMakeContext db = new LoveMeHandMakeContext();
+            SysParameter sp = db.SysParameter.Where(r => r.Key.Equals("PointValue")).First();
+            this.PointUnitValue = Convert.ToInt32(sp.Value);
         }
 
 
@@ -58,34 +61,11 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "每\"点\"价值(人民币)")]
         public int PointUnitValue { get; set; }
 
-        private int _TotalDepositMoney;
-
-        // TotalDepositeMoney = Cash + CreditCard + MallCard
-        [Display(Name = "总储值金额")]
         [NotMapped]
-        public int TotalDepositMoney
-        {
-            get
-            {
-                //int cash = this.Cash.GetValueOrDefault(0);
-                //int credit = this.CreditCard.GetValueOrDefault(0);
-                //int mall = this.MallCard.GetValueOrDefault(0);
-                //return cash + credit + mall;
-                return this._TotalDepositMoney;
-            }
-            set
-            {
-                if (this.TotalDepositMoney % this.PointUnitValue == 0)
-                {
-                    this._TotalDepositMoney = value;
-                }
-                else
-                {
-                    int onlyNeedMoney = value - (value % this.PointUnitValue);
-                    throw new Exception("Only need to deposit $" + onlyNeedMoney);
-                }
-            }
-        }
+        public virtual List<DepositRewardRule> DepositRewardRule { get; set; }
+
+        [Display(Name = "总储值金额")]
+        public int TotalDepositMoney { get; set; }
 
         [Display(Name = "储值点数")]
         public int DepositPoint { get; set; }
@@ -93,35 +73,20 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "储值满额送点")]
         public int DepositRewardPoint { get; set; }
 
-
-        // TotalPoint = DepositePoint + RewardPoint + DepositRewardRulePoint
-        [Display(Name = "总新增点数")]
+        // 有使用到的 累計儲值 滿額送點 規則
         [NotMapped]
-        public int TotalPoint { get { return this.DepositPoint + this.RewardPoint.GetValueOrDefault() + this.DepositRewardPoint;  } }
+        public DepositRewardRule AccumulateDepositRewardRule { get; set; }
 
-        // AvgPointCost = ( TotalDepositeMoney - RewardMoney ) / ( DepositePoint + RewardPoint )
+         [Display(Name = "总新增点数")]
+        public int TotalPoint { get; set; }
+
         [Display(Name = "每点平均成本")]
-        public double AvgPointCost
-        {
-            get
-            {
-                try
-                {
-                    int rewardMoney = this.RewardMoney.GetValueOrDefault();
-                    int rewardPoint = this.RewardPoint.GetValueOrDefault();
-                    double avgCost = (this.TotalDepositMoney - rewardMoney) / (this.DepositPoint + rewardPoint + 0.0);
-                    return Double.IsNaN(avgCost) ? 0 : avgCost;
-                }
-                catch (DivideByZeroException e)
-                {
-                    return 0;
-                }
-            }          
-        }
+        public double AvgPointCost { get; set; }
 
         [Display(Name = "储值时间")]
-        [Required]
         public DateTime DepostitDate { get; set; }
+
+        //===========================================================================================================================================================
 
         public override void Create()
         {
@@ -129,51 +94,88 @@ namespace LoveMeHandMake2.Models
             this.DepostitDate = System.DateTime.Now;
         }
 
-        public int settingPointUnitValue()
+        public void computeAll()
         {
-            SysParameter sp = db.SysParameter.Where(r => r.Key.Equals("PointValue")).First();
-            this.PointUnitValue = Convert.ToInt32(sp.Value);
-            return this.PointUnitValue;
+            computeTotalDepositMoney();
+            computeDepositPoint();
+            ComputeDepositRewardPoint();
+            this.TotalPoint = this.DepositPoint + this.RewardPoint.GetValueOrDefault() + this.DepositRewardPoint;
+            computeAvgCost();
         }
 
-        public int computeDepositRewardPoint()
+        private void computeTotalDepositMoney() {
+            int cash = this.Cash.GetValueOrDefault();
+            int credit = this.CreditCard.GetValueOrDefault();
+            int mall = this.MallCard.GetValueOrDefault();
+            this.TotalDepositMoney = cash + credit + mall;
+        }
+
+        private void computeDepositPoint()
         {
-            List<DepositRewardRule> rules = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
-            List<DepositRewardRule> validDateRules = new List<DepositRewardRule>();
-            foreach (DepositRewardRule rule in rules)
+            if (this.TotalDepositMoney % this.PointUnitValue != 0)
+            {
+                int possibleDeposit = TotalDepositMoney - (TotalDepositMoney % this.PointUnitValue);
+                throw new ArgumentException("只可储值可整除金额: " + possibleDeposit);
+            }
+            else
+            {
+                this.DepositPoint = TotalDepositMoney / this.PointUnitValue;
+            }
+        }
+
+        private void ComputeDepositRewardPoint()
+        {
+            int accumulateDeposit = this.Member.AccumulateDeposit + this.TotalDepositMoney;
+            int accumulateRewardPoint = 0;
+            int nonAccumulateRewardPoint = 0;
+            foreach (DepositRewardRule rule in this.DepositRewardRule)
             {
                 DateTime now = DateTime.Now;
                 DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
                 DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
-                bool isAfterStart = DateTime.Compare(start, now) <= 0;
-                bool isBeforeEnd = DateTime.Compare(now, end) <= 0;
-                if ( isAfterStart && isBeforeEnd) {
-                    validDateRules.Add(rule);
+                if (IsInPeriod(now, start, end))
+                {
+                    if (rule.AccumulateFlag)
+                    {
+                        if (accumulateDeposit >= rule.DepositAmount)
+                        {
+                            this.AccumulateDepositRewardRule = rule;
+                            accumulateRewardPoint = rule.RewardPoint;
+                        }
+                    }
+                    else
+                    {
+                        if (this.TotalDepositMoney >= rule.DepositAmount)
+                        {
+                            nonAccumulateRewardPoint = rule.RewardPoint;
+                        }
+                    }
                 }
             }
-
-            int rewardPoint = 0;
-            foreach (DepositRewardRule rule in validDateRules)
-            {
-                if (this.TotalDepositMoney >= rule.DepositAmount)
-                {
-                    rewardPoint = rule.RewardPoint;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            this.DepositRewardPoint = rewardPoint;
-            return rewardPoint;
+            this.DepositRewardPoint = accumulateRewardPoint + nonAccumulateRewardPoint;
         }
 
-        private bool isInPeriod(DateTime t, DateTime start, DateTime end)
+        private bool IsInPeriod(DateTime t, DateTime start, DateTime end)
         {
             bool isAfterStart = DateTime.Compare(start, t) <= 0;
             bool isBeforeEnd = DateTime.Compare(t, end) <= 0;
             return isAfterStart && isBeforeEnd;
         }
+
+        private void computeAvgCost()
+        {
+            try
+            {
+                int rewardMoney = this.RewardMoney.GetValueOrDefault();
+                double avgCost = (this.TotalDepositMoney - rewardMoney) / (this.TotalPoint + 0.0);
+                this.AvgPointCost =  Double.IsNaN(avgCost) ? 0 : avgCost;
+            }
+            catch (DivideByZeroException e)
+            {
+                log.Warn(null, e);
+                this.AvgPointCost = 0;
+            }
+        }
+
     }
 }

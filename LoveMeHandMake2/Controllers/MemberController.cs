@@ -23,6 +23,21 @@ namespace LoveMeHandMake2.Controllers
             return View(members.ToList());
         }
 
+        [HttpPost]
+        public ActionResult Index(FormCollection formCollection)
+        {
+            string searchName = formCollection["searchName"];
+            string searchPhone = formCollection["searchPhone"];
+            string searchCardID = formCollection["searchCardID"];
+
+            var members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher)
+                .Where(x => (String.IsNullOrEmpty(searchName) ? true : x.Name.Contains(searchName)))
+                .Where(x => (String.IsNullOrEmpty(searchPhone) ? true : x.Phone.Equals(searchPhone)))
+                .Where(x => (String.IsNullOrEmpty(searchCardID) ? true : x.CardID.Equals(searchCardID)));
+
+            return View(members.ToList());
+        }
+
         // GET: Member/Details/5
         public ActionResult Details(int? id)
         {
@@ -82,21 +97,40 @@ namespace LoveMeHandMake2.Controllers
             DepositHistory depositHistory = new DepositHistory();
             depositHistory.MemberID = member.ID;
             depositHistory.Member = member;
-            //depositHistory.settingPointUnitValue();
             ViewBag.StoreList = DropDownListHelper.GetStoreList();
             ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
             return View(depositHistory);
         }
 
         [HttpPost]
-        public ActionResult Deposit(DepositHistory depositHistory)
+        public ActionResult Deposit([Bind(Exclude="Member")]DepositHistory depositHistory)
         {
             if (ModelState.IsValid)
             {
                 depositHistory.Create();
+                depositHistory.Member = db.Members.Find(depositHistory.MemberID);
+                depositHistory.DepositRewardRule = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+                depositHistory.computeAll();
+                depositHistory.Member.Point += depositHistory.TotalPoint;
+                depositHistory.Member.AccumulateDeposit += depositHistory.TotalDepositMoney;
+                if (depositHistory.AccumulateDepositRewardRule != null)
+                {
+                    depositHistory.Member.AccumulateDeposit -= depositHistory.AccumulateDepositRewardRule.DepositAmount;
+                }
+                db.Entry(depositHistory.Member).State = EntityState.Modified;
+
                 db.DepositHistory.Add(depositHistory);
                 db.SaveChanges();
+                
+
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+                log.Error(messages);
             }
             ViewBag.StoreList = DropDownListHelper.GetStoreList();
             ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
@@ -107,13 +141,23 @@ namespace LoveMeHandMake2.Controllers
         {
             try
             {
-                depositHistory.computeDepositRewardPoint();
-                //double avgCost = depositHistory.AvgPointCost;
-                return Json(depositHistory);
+                depositHistory.Member = db.Members.Find(depositHistory.MemberID);
+                depositHistory.DepositRewardRule = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+                depositHistory.computeAll();
+
+                var result = new
+                {
+                    MemberID = depositHistory.MemberID,
+                    DepositRewardPoint = depositHistory.DepositRewardPoint,
+                    TotalPoint = depositHistory.TotalPoint,
+                    AvgPointCost = depositHistory.AvgPointCost,
+                };
+                return Json(result);
             }
             catch (Exception e)
             {
                 log.Warn(null, e);
+                var result = new { errorMsg = e.Message };
                 return Json(e.Message);
             }
         }

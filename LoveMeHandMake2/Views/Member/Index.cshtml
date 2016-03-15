@@ -6,9 +6,33 @@
 
 <h2>会员</h2>
 
+
+@using (Html.BeginForm("Index", "Member", FormMethod.Post))
+{
+    <div class="container">
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.Name)
+            <input type="text" name="searchName" class="form-control">
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.Phone)
+            <input type="text" name="searchPhone" class="form-control">
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayNameFor(model => model.CardID)
+            <input type="text" name="searchCardID" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="搜寻" class="btn btn-default" />
+        </div>
+    </div>
+}
+<hr />
+
 <p>
     @Html.ActionLink("新增会员", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
