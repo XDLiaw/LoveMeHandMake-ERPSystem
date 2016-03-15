@@ -82,7 +82,6 @@ namespace LoveMeHandMake2.Controllers
             DepositHistory depositHistory = new DepositHistory();
             depositHistory.MemberID = member.ID;
             depositHistory.Member = member;
-            //depositHistory.settingPointUnitValue();
             ViewBag.StoreList = DropDownListHelper.GetStoreList();
             ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
             return View(depositHistory);
@@ -95,8 +94,8 @@ namespace LoveMeHandMake2.Controllers
             {
                 depositHistory.Create();
                 depositHistory.Member = db.Members.Find(depositHistory.MemberID);
-                depositHistory.ComputeDepositRewardPoint();
-                //depositHistory.ModifyDbMemberPoint();
+                depositHistory.DepositRewardRule = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+                depositHistory.computeAll();
                 depositHistory.Member.Point += depositHistory.TotalPoint;
                 depositHistory.Member.AccumulateDeposit += depositHistory.TotalDepositMoney;
                 if (depositHistory.AccumulateDepositRewardRule != null)
@@ -128,7 +127,8 @@ namespace LoveMeHandMake2.Controllers
             try
             {
                 depositHistory.Member = db.Members.Find(depositHistory.MemberID);
-                depositHistory.ComputeDepositRewardPoint();
+                depositHistory.DepositRewardRule = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+                depositHistory.computeAll();
 
                 var result = new
                 {
