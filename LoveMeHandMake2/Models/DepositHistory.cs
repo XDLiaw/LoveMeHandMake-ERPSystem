@@ -168,5 +168,12 @@ namespace LoveMeHandMake2.Models
             this.DepositRewardPoint = rewardPoint;
             return rewardPoint;
         }
+
+        private bool isInPeriod(DateTime t, DateTime start, DateTime end)
+        {
+            bool isAfterStart = DateTime.Compare(start, t) <= 0;
+            bool isBeforeEnd = DateTime.Compare(t, end) <= 0;
+            return isAfterStart && isBeforeEnd;
+        }
     }
 }
