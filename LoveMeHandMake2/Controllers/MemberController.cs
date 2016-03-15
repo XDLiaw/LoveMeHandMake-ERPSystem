@@ -94,9 +94,20 @@ namespace LoveMeHandMake2.Controllers
             if (ModelState.IsValid)
             {
                 depositHistory.Create();
+                depositHistory.Member = db.Members.Find(depositHistory.MemberID);
+                depositHistory.ComputeDepositRewardPoint();
+                //depositHistory.ModifyDbMemberPoint();
+                depositHistory.Member.Point += depositHistory.TotalPoint;
+                depositHistory.Member.AccumulateDeposit += depositHistory.TotalDepositMoney;
+                if (depositHistory.AccumulateDepositRewardRule != null)
+                {
+                    depositHistory.Member.AccumulateDeposit -= depositHistory.AccumulateDepositRewardRule.DepositAmount;
+                }
+                db.Entry(depositHistory.Member).State = EntityState.Modified;
+
                 db.DepositHistory.Add(depositHistory);
                 db.SaveChanges();
-                depositHistory.ModifyDbMemberPoint();
+                
 
                 return RedirectToAction("Index");
             }
@@ -116,8 +127,8 @@ namespace LoveMeHandMake2.Controllers
         {
             try
             {
-                depositHistory.Member = db.Members.Find(depositHistory.MemberID);               
-                depositHistory.computeDepositRewardPoint();
+                depositHistory.Member = db.Members.Find(depositHistory.MemberID);
+                depositHistory.ComputeDepositRewardPoint();
 
                 var result = new
                 {

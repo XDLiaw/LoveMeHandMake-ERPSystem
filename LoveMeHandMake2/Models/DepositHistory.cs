@@ -19,7 +19,7 @@ namespace LoveMeHandMake2.Models
             this.MallCard = 0;
             this.RewardMoney = 0;
             this.RewardPoint = 0;
-            settingPointUnitValue();
+            SettingPointUnitValue();
         }
 
 
@@ -95,7 +95,8 @@ namespace LoveMeHandMake2.Models
         public int DepositRewardPoint { get; set; }
 
         // 有使用到的 累計儲值 滿額送點 規則
-        private DepositRewardRule AccumulateDepositRewardRule = null;
+        [NotMapped]
+        public DepositRewardRule AccumulateDepositRewardRule { get; set; }
 
         // TotalPoint = DepositePoint + RewardPoint + DepositRewardRulePoint
         [Display(Name = "总新增点数")]
@@ -131,22 +132,22 @@ namespace LoveMeHandMake2.Models
             this.DepostitDate = System.DateTime.Now;
         }
 
-        public int settingPointUnitValue()
+        public int SettingPointUnitValue()
         {
             SysParameter sp = db.SysParameter.Where(r => r.Key.Equals("PointValue")).First();
             this.PointUnitValue = Convert.ToInt32(sp.Value);
             return this.PointUnitValue;
         }
 
-        public int computeDepositRewardPoint()
+        public int ComputeDepositRewardPoint()
         {
-            int rewardPoint = computeNonAccumulateDepositRewardPoint();
-            rewardPoint += computeAccumulateRewardPoint();
+            int rewardPoint = ComputeNonAccumulateDepositRewardPoint();
+            rewardPoint += ComputeAccumulateRewardPoint();
             this.DepositRewardPoint = rewardPoint;
             return rewardPoint;
         }
 
-        private int computeNonAccumulateDepositRewardPoint()
+        private int ComputeNonAccumulateDepositRewardPoint()
         {
             List<DepositRewardRule> rules = db.DepositRewardRule.Where(r => r.AccumulateFlag == false).OrderBy(x => x.DepositAmount).ToList();
             List<DepositRewardRule> validDateRules = new List<DepositRewardRule>();
@@ -155,7 +156,7 @@ namespace LoveMeHandMake2.Models
                 DateTime now = DateTime.Now;
                 DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
                 DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
-                if (isInPeriod(now, start, end))
+                if (IsInPeriod(now, start, end))
                 {
                     validDateRules.Add(rule);
                 }
@@ -176,7 +177,7 @@ namespace LoveMeHandMake2.Models
             return rewardPoint;
         }
 
-        private int computeAccumulateRewardPoint()
+        private int ComputeAccumulateRewardPoint()
         {
             List<DepositRewardRule> rules = db.DepositRewardRule.Where(r => r.AccumulateFlag == true).OrderBy(x => x.DepositAmount).ToList();
             List<DepositRewardRule> validDateRules = new List<DepositRewardRule>();
@@ -185,7 +186,7 @@ namespace LoveMeHandMake2.Models
                 DateTime now = DateTime.Now;
                 DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
                 DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
-                if (isInPeriod(now, start, end))
+                if (IsInPeriod(now, start, end))
                 {
                     validDateRules.Add(rule);
                 }
@@ -221,7 +222,7 @@ namespace LoveMeHandMake2.Models
         }
 
 
-        private bool isInPeriod(DateTime t, DateTime start, DateTime end)
+        private bool IsInPeriod(DateTime t, DateTime start, DateTime end)
         {
             bool isAfterStart = DateTime.Compare(start, t) <= 0;
             bool isBeforeEnd = DateTime.Compare(t, end) <= 0;
