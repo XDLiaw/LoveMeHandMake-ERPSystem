@@ -148,6 +148,8 @@ namespace LoveMeHandMake2.Controllers
                 var result = new
                 {
                     MemberID = depositHistory.MemberID,
+                    TotalDepositMoney = depositHistory.TotalDepositMoney,
+                    DepositPoint = depositHistory.DepositPoint,
                     DepositRewardPoint = depositHistory.DepositRewardPoint,
                     TotalPoint = depositHistory.TotalPoint,
                     AvgPointCost = depositHistory.AvgPointCost,
@@ -177,6 +179,40 @@ namespace LoveMeHandMake2.Controllers
             ViewBag.Member = member;
             List<DepositHistory> history = db.DepositHistory.Where(x => x.MemberID == member.ID).OrderByDescending(x => x.DepostitDateTime).ToList();
             return View(history);           
+        }
+
+        // GET: Member/TradeHistory/5
+        public ActionResult TradeHistory(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Member member = db.Members.Find(id);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Member = member;
+            List<TradeList> history = db.TradeList.Where(x => x.MemberID == member.ID).OrderByDescending(x => x.TradeDateTime).ToList();
+            return View(history);
+        }
+
+        // GET: Member/TradeDetail/5
+        public ActionResult TradeDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TradeList order = db.TradeList.Find(id);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Order = order;
+            List<TradeDetail> details = db.TradeDetail.Where(x => x.OrderID == order.ID).ToList();
+            return View(details);
         }
 
         // GET: Member/Edit/5

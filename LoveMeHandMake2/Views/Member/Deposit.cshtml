@@ -53,7 +53,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Cash, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Cash, new { htmlAttributes = new { id = "Cash", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
+                @Html.EditorFor(model => model.Cash, new { htmlAttributes = new { id = "Cash", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
                 @Html.ValidationMessageFor(model => model.Cash, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CreditCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { id = "CreditCard", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
+                @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { id = "CreditCard", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
                 @Html.ValidationMessageFor(model => model.CreditCard, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,7 +69,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MallCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MallCard, new { htmlAttributes = new { id = "MallCard", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
+                @Html.EditorFor(model => model.MallCard, new { htmlAttributes = new { id = "MallCard", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
                 @Html.ValidationMessageFor(model => model.MallCard, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,7 +77,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RewardMoney, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
+                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
                 @Html.ValidationMessageFor(model => model.RewardMoney, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -85,7 +85,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RewardPoint, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RewardPoint, new { htmlAttributes = new { id = "RewardPoint", @class = "form-control", min = 0 } })
+                @Html.EditorFor(model => model.RewardPoint, new { htmlAttributes = new { id = "RewardPoint", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
                 @Html.ValidationMessageFor(model => model.RewardPoint, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -145,8 +145,8 @@
             </div>
 
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="试算" class="btn btn-default" onclick="trycompute();" />
-                <input type="submit" value="送出" class="btn btn-default" onclick="return btnSubmitClick();" />
+                @*<input type="button" value="试算" class="btn btn-default" onclick="trycompute();" />*@
+                <input type="submit" value="送出" class="btn btn-default" onclick="return tryCompute();" />
                 <input type="button" value="清除" class="btn btn-default" onclick="btnClear();" />
             </div>
         </div>
@@ -161,22 +161,30 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
-        function trycompute() {
-            // 先檢查可儲值金額以及可獲得儲值點數
-            var TotalDepositMoney = $("#TotalDepositMoney").val();
+        function tryCompute() {
+            var Cash = parseInt($("#Cash").val());
+            var CreditCard = parseInt($("#CreditCard").val());
+            var MallCard = parseInt($("#MallCard").val());
+            var RewardMoney = parseInt($("#RewardMoney").val())
+            var TotalDepositMoney = Cash + CreditCard + MallCard + RewardMoney;
+
+            // 檢查可儲值金額以及可獲得儲值點數
             if (TotalDepositMoney <=0 ) {
                 alert("储值金额必须大于0");
                 return false;
             }
-            if (TotalDepositMoney % @Model.PointUnitValue != 0) {
+            var PointUnitValue = @Model.PointUnitValue;
+            if (TotalDepositMoney % PointUnitValue != 0) {
                 var possibleDeposit = TotalDepositMoney - (TotalDepositMoney % @Model.PointUnitValue);
+                if (possibleDeposit < PointUnitValue) {
+                    possibleDeposit = PointUnitValue;
+                }
                 alert("只可储值可整除金额: "+possibleDeposit);
                 return false;
             }
+            $("#TotalDepositMoney").val(TotalDepositMoney);
 
-            $("#DepositPoint").val(TotalDepositMoney/(@Model.PointUnitValue));
-
-            // 計算每點平均成本
+            // 計算
             var data = {
                 MemberID : @Model.MemberID,
                 Cash : parseInt($("#Cash").val()),
@@ -196,6 +204,8 @@
                        alert(res.errorMsg);
                        return false;
                    } else {
+                       $("#TotalDepositMoney").val(parseInt(res.TotalDepositMoney));
+                       $("#DepositPoint").val(parseInt(res.DepositPoint));
                        $("#DepositRewardPoint").val(parseInt(res.DepositRewardPoint));
                        $("#TotalPoint").val(parseInt(res.TotalPoint));
                        $("#AvgPointCost").val(parseFloat(res.AvgPointCost));
@@ -205,14 +215,6 @@
             );
 
             return true;
-        }
-
-        function btnSubmitClick() {
-            if (trycompute()) {
-                $("#DepositForm").submit();
-            } else {
-                return false;
-            }
         }
 
         function btnClear() {
@@ -227,12 +229,5 @@
             $("#AvgPointCost").val(0);
         }
 
-        function computeTotalDepositMoney() {
-            var Cash = parseInt($("#Cash").val());
-            var CreditCard = parseInt($("#CreditCard").val());
-            var MallCard = parseInt($("#MallCard").val());
-            var RewardMoney = parseInt($("#RewardMoney").val())
-            $("#TotalDepositMoney").val(Cash + CreditCard + MallCard + RewardMoney);
-        }
-    </script>
+</script>
 }

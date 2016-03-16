@@ -444,6 +444,7 @@
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Member\Deposit.cshtml" />
     <Content Include="Views\Member\DepositHistory.cshtml" />
+    <Content Include="Views\Member\TradeHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
