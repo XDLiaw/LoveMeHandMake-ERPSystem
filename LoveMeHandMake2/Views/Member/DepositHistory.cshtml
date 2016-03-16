@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LoveMeHandMake2.Models.DepositHistory>
+
+@{
+    ViewBag.Title = "储值纪录";
+}
+
+<h2>储值纪录</h2>
+
+<h4>@ViewBag.Member.Name</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DepostitDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalDepositMoney)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardMoney)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepositPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepositRewardPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvgPointCost)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepostitDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalDepositMoney)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RewardMoney)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepositPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RewardPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepositRewardPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvgPointCost)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

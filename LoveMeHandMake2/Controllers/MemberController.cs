@@ -162,6 +162,23 @@ namespace LoveMeHandMake2.Controllers
             }
         }
 
+        // GET: Member/DepositHistory/5
+        public ActionResult DepositHistory(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Member member = db.Members.Find(id);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Member = member;
+            List<DepositHistory> history = db.DepositHistory.Where(x => x.MemberID == member.ID).OrderBy(x => x.DepostitDate).ToList();
+            return View(history);           
+        }
+
         // GET: Member/Edit/5
         public ActionResult Edit(int? id)
         {
