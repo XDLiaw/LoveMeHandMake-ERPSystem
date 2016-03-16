@@ -6,7 +6,19 @@
 
 <h2>储值纪录</h2>
 
-<h4>@ViewBag.Member.Name</h4>
+
+
+<div class="container">
+    <h4>@ViewBag.Member.Name</h4>
+    <div class="col-md-2">
+        剩余点数: @ViewBag.Member.Point
+    </div>
+    <div class="col-md-2">
+        累计储值金额 : @ViewBag.Member.AccumulateDeposit
+    </div>
+</div>
+
+<hr/>
 
 <table class="table">
     <tr>
