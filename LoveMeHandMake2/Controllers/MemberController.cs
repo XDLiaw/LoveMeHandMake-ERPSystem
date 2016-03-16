@@ -32,9 +32,9 @@ namespace LoveMeHandMake2.Controllers
             string searchCardID = formCollection["searchCardID"];
 
             var members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher)
-                .Where(x => (String.IsNullOrEmpty(searchName) ? true : x.Name.Contains(searchName)))
-                .Where(x => (String.IsNullOrEmpty(searchPhone) ? true : x.Phone.Equals(searchPhone)))
-                .Where(x => (String.IsNullOrEmpty(searchCardID) ? true : x.CardID.Equals(searchCardID)));
+                .Where(x => (String.IsNullOrWhiteSpace(searchName) ? true : x.Name.Contains(searchName)))
+                .Where(x => (String.IsNullOrWhiteSpace(searchPhone) ? true : x.Phone.Equals(searchPhone)))
+                .Where(x => (String.IsNullOrWhiteSpace(searchCardID) ? true : x.CardID.Equals(searchCardID)));
 
             return View(members.ToList());
         }
@@ -196,6 +196,52 @@ namespace LoveMeHandMake2.Controllers
             }
             ViewBag.Member = member;
             List<TradeList> history = db.TradeList.Where(x => x.MemberID == member.ID).OrderByDescending(x => x.TradeDateTime).ToList();
+            return View(history);
+        }
+
+        [HttpPost]
+        public ActionResult TradeHistory(int? id, FormCollection formCollection)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Member member = db.Members.Find(id);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Member = member;
+            DateTime dateStart = DateTime.MinValue;
+            DateTime dateEnd = DateTime.MaxValue;
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(formCollection["dateStart"]))
+                {
+                    dateStart = Convert.ToDateTime(formCollection["dateStart"]);
+                }
+            }
+            catch (FormatException e)
+            {
+                log.Warn(null, e);
+            }
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(formCollection["dateEnd"]))
+                {
+                    dateEnd = Convert.ToDateTime(formCollection["dateEnd"]);
+                }
+            }
+            catch (FormatException e)
+            {
+                log.Warn(null, e);
+            }
+ 
+            List<TradeList> history = db.TradeList
+                .Where(x => x.MemberID == member.ID)
+                .Where(x => (DateTime.Compare(dateStart, x.TradeDateTime) <=0))
+                .Where(x => (DateTime.Compare(x.TradeDateTime, dateEnd) <= 0))
+                .OrderByDescending(x => x.TradeDateTime).ToList();
             return View(history);
         }
 

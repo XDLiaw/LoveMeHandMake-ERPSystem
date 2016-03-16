@@ -5,13 +5,18 @@
 }
 
 <h2>消费纪录</h2>
+<h4>@ViewBag.Member.Name</h4>
 
-<div class="container">
-    <h4>@ViewBag.Member.Name</h4>
-    <div class="col-md-2">
-        剩余点数: @ViewBag.Member.Point
+@using (Html.BeginForm("TradeHistory", "Member", FormMethod.Post))
+{
+    <div class="container">
+        <div class="col-md-1 text-center"><label>日期范围: </label></div>
+        <div class="col-md-2"><input type="text" name="dateStart" class="calendarBox"> </div>
+        <div class="col-md-1 text-center"><label>~</label></div>
+        <div class="col-md-2"><input type="text" name="dateEnd" class="calendarBox"></div>
+        <div class="col-md-2"><input type="submit" value="搜寻" class="btn-default" /></div>
     </div>
-</div>
+}    
 
 <hr />
 
