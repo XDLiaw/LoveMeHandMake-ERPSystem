@@ -84,14 +84,14 @@ namespace LoveMeHandMake2.Models
         public double AvgPointCost { get; set; }
 
         [Display(Name = "储值时间")]
-        public DateTime DepostitDate { get; set; }
+        public DateTime DepostitDateTime { get; set; }
 
         //===========================================================================================================================================================
 
         public override void Create()
         {
             base.Create();
-            this.DepostitDate = System.DateTime.Now;
+            this.DepostitDateTime = System.DateTime.Now;
         }
 
         public void computeAll()
@@ -107,7 +107,8 @@ namespace LoveMeHandMake2.Models
             int cash = this.Cash.GetValueOrDefault();
             int credit = this.CreditCard.GetValueOrDefault();
             int mall = this.MallCard.GetValueOrDefault();
-            this.TotalDepositMoney = cash + credit + mall;
+            int rewardMoney = this.RewardMoney.GetValueOrDefault();
+            this.TotalDepositMoney = cash + credit + mall + rewardMoney;
         }
 
         private void computeDepositPoint()
@@ -133,7 +134,9 @@ namespace LoveMeHandMake2.Models
                 DateTime now = DateTime.Now;
                 DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
                 DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
-                if (IsInPeriod(now, start, end))
+                bool isAfterStart = DateTime.Compare(start, now) <= 0;
+                bool isBeforeEnd = DateTime.Compare(now, end) <= 0;
+                if (isAfterStart && isBeforeEnd)
                 {
                     if (rule.AccumulateFlag)
                     {
@@ -155,19 +158,11 @@ namespace LoveMeHandMake2.Models
             this.DepositRewardPoint = accumulateRewardPoint + nonAccumulateRewardPoint;
         }
 
-        private bool IsInPeriod(DateTime t, DateTime start, DateTime end)
-        {
-            bool isAfterStart = DateTime.Compare(start, t) <= 0;
-            bool isBeforeEnd = DateTime.Compare(t, end) <= 0;
-            return isAfterStart && isBeforeEnd;
-        }
-
         private void computeAvgCost()
         {
             try
             {
-                int rewardMoney = this.RewardMoney.GetValueOrDefault();
-                double avgCost = (this.TotalDepositMoney - rewardMoney) / (this.TotalPoint + 0.0);
+                double avgCost = this.TotalDepositMoney / (this.TotalPoint + 0.0);
                 this.AvgPointCost =  Double.IsNaN(avgCost) ? 0 : avgCost;
             }
             catch (DivideByZeroException e)

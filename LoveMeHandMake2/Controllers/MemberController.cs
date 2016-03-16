@@ -175,7 +175,7 @@ namespace LoveMeHandMake2.Controllers
                 return HttpNotFound();
             }
             ViewBag.Member = member;
-            List<DepositHistory> history = db.DepositHistory.Where(x => x.MemberID == member.ID).OrderBy(x => x.DepostitDate).ToList();
+            List<DepositHistory> history = db.DepositHistory.Where(x => x.MemberID == member.ID).OrderByDescending(x => x.DepostitDateTime).ToList();
             return View(history);           
         }
 

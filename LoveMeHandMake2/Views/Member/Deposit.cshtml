@@ -77,7 +77,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RewardMoney, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0 } })
+                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0, @onchange = "computeTotalDepositMoney();" } })
                 @Html.ValidationMessageFor(model => model.RewardMoney, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -231,7 +231,8 @@
             var Cash = parseInt($("#Cash").val());
             var CreditCard = parseInt($("#CreditCard").val());
             var MallCard = parseInt($("#MallCard").val());
-            $("#TotalDepositMoney").val(Cash + CreditCard + MallCard);
+            var RewardMoney = parseInt($("#RewardMoney").val())
+            $("#TotalDepositMoney").val(Cash + CreditCard + MallCard + RewardMoney);
         }
     </script>
 }
