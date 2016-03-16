@@ -1,0 +1,102 @@
+﻿@model IEnumerable<LoveMeHandMake2.Models.TradeList>
+
+@{
+    ViewBag.Title = "消费纪录";
+}
+
+<h2>消费纪录</h2>
+
+<div class="container">
+    <h4>@ViewBag.Member.Name</h4>
+    <div class="col-md-2">
+        剩余点数: @ViewBag.Member.Point
+    </div>
+</div>
+
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TradeDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Store)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Teacher)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChargeByPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChargeByCash)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChargeByCreditCard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChargeByMallCard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardMoney)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardPoint)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TradeDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Store.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChargeByPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChargeByCash)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChargeByCreditCard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChargeByMallCard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RewardMoney)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RewardPoint)
+            </td>
+            <td>
+                @Html.ActionLink("明细", "TradeDetail", new { id = item.ID }) 
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    @Html.ActionLink("回到会员", "Index")
+</div>

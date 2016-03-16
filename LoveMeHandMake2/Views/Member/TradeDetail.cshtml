@@ -1,0 +1,126 @@
+﻿@model LoveMeHandMake2.ViewModels.MemberTradeDetailViewModel
+
+@{
+    ViewBag.Title = "订单明细";
+}
+
+<h2>订单明细</h2>
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.Member, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.Member.Name, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Order.TradeDateTime, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.TradeDateTime, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.OrderID, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.OrderID, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.Store, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.Store.Name, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.Teacher, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.Teacher.Name, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.TotalPoint, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.TotalPoint, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.ChargeByPoint, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.ChargeByPoint, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.ChargeByCash, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.ChargeByCash, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.ChargeByMallCard, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.ChargeByMallCard, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.RewardMoney, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.RewardMoney, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Order.RewardPoint, new { htmlAttributes = new { @class = "control-label" } })
+            <p />
+            @Html.DisplayFor(model => model.Order.RewardPoint, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail.Product.ProductCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail.Product)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail.UnitPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail.UnitBean)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Detail.Sum)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Details)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductCategory.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitBean)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sum)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="">
+    @Html.ActionLink("回到消费纪录", "TradeHistory", new { id = Model.Order.MemberID })
+</div>
+<div class="">
+    @Html.ActionLink("回到会员", "Index")
+</div>

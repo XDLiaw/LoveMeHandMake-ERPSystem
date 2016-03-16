@@ -315,6 +315,7 @@
     <Compile Include="Models\TradeList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\MemberTradeDetailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -445,6 +446,7 @@
     <Content Include="Views\Member\Deposit.cshtml" />
     <Content Include="Views\Member\DepositHistory.cshtml" />
     <Content Include="Views\Member\TradeHistory.cshtml" />
+    <Content Include="Views\Member\TradeDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

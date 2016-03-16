@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LoveMeHandMake2.Models;
 using log4net;
+using LoveMeHandMake2.ViewModels;
 
 namespace LoveMeHandMake2.Controllers
 {
@@ -209,10 +210,10 @@ namespace LoveMeHandMake2.Controllers
             if (order == null)
             {
                 return HttpNotFound();
-            }
-            ViewBag.Order = order;
+            }           
             List<TradeDetail> details = db.TradeDetail.Where(x => x.OrderID == order.ID).ToList();
-            return View(details);
+            MemberTradeDetailViewModel model = new MemberTradeDetailViewModel { Order = order, Details = details  };
+            return View(model);
         }
 
         // GET: Member/Edit/5
