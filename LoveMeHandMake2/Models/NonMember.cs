@@ -8,15 +8,22 @@ namespace LoveMeHandMake2.Models
 {
     public class NonMember : BaseModel
     {
+        [Display(Name = "姓名")]
         public string Name { get; set; }
 
         // 0 -> female, 1 -> male
+        [Display(Name = "性别")]
         public bool? Gender { get; set; }
 
+        [Display(Name = "生日")]
         public DateTime? Birthday { get; set; }
 
+        [Display(Name = "电话")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
         [Phone]
         public string Phone { get; set; }
+
+        [Display(Name = "累积消费点数")]
+        public int AccumulateConsumePoint { get; set; }
     }
 }
