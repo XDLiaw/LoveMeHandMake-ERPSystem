@@ -36,14 +36,14 @@ namespace LoveMeHandMake2.Models
             return false;
         }
 
-        public override void Update()
-        {
-            base.Update();
-            if (this.StopBusinessDate != null)
-            {
-                this.ValidFlag = false;
-            }
-        }
+        //public override void Update()
+        //{
+        //    base.Update();
+        //    if (this.StopBusinessDate != null)
+        //    {
+        //        this.ValidFlag = false;
+        //    }
+        //}
 
     }
 }

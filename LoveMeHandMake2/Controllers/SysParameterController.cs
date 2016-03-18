@@ -27,7 +27,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SysParameter sysParameter = db.SysParameter.Find(id);
+            SysParameter sysParameter = db.SysParameter.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (sysParameter == null)
             {
                 return HttpNotFound();

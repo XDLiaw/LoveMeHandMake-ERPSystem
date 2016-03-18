@@ -20,7 +20,7 @@ namespace LoveMeHandMake2.Controllers
         // GET: Member
         public ActionResult Index()
         {
-            var members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher);
+            List<Member> members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher).Where(x => x.ValidFlag == true).ToList();
             return View(members.ToList());
         }
 
@@ -31,12 +31,14 @@ namespace LoveMeHandMake2.Controllers
             string searchPhone = formCollection["searchPhone"];
             string searchCardID = formCollection["searchCardID"];
 
-            var members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher)
-                .Where(x => (String.IsNullOrWhiteSpace(searchName) ? true : x.Name.Contains(searchName)))
-                .Where(x => (String.IsNullOrWhiteSpace(searchPhone) ? true : x.Phone.Equals(searchPhone)))
-                .Where(x => (String.IsNullOrWhiteSpace(searchCardID) ? true : x.CardID.Equals(searchCardID)));
+            List<Member> members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher)
+                .Where(x => x.ValidFlag == true)
+                .Where(x => (string.IsNullOrEmpty(searchName) ? true : x.Name.Contains(searchName)))
+                .Where(x => (string.IsNullOrEmpty(searchPhone) ? true : x.Phone.Equals(searchPhone)))
+                .Where(x => (string.IsNullOrEmpty(searchCardID) ? true : x.CardID.Equals(searchCardID)))
+                .ToList();
 
-            return View(members.ToList());
+            return View(members);
         }
 
         // GET: Member/Details/5
@@ -46,7 +48,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.Where(x=> x.ID == id && x.ValidFlag == true).First();
             if (member == null)
             {
                 return HttpNotFound();
@@ -57,9 +59,10 @@ namespace LoveMeHandMake2.Controllers
         // GET: Member/Create
         public ActionResult Create()
         {
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");
-            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
             return View();
         }
 
@@ -77,9 +80,10 @@ namespace LoveMeHandMake2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
-            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
             return View(member);
         }
 
@@ -90,7 +94,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (member == null)
             {
                 return HttpNotFound();
@@ -98,8 +102,10 @@ namespace LoveMeHandMake2.Controllers
             DepositHistory depositHistory = new DepositHistory();
             depositHistory.MemberID = member.ID;
             depositHistory.Member = member;
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
             return View(depositHistory);
         }
 
@@ -109,8 +115,8 @@ namespace LoveMeHandMake2.Controllers
             if (ModelState.IsValid)
             {
                 depositHistory.Create();
-                depositHistory.Member = db.Members.Find(depositHistory.MemberID);
-                depositHistory.DepositRewardRule = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+                depositHistory.Member = db.Members.Where(x => x.ID == depositHistory.MemberID && x.ValidFlag == true).First();
+                depositHistory.DepositRewardRule = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
                 depositHistory.computeAll();
                 depositHistory.Member.Point += depositHistory.TotalPoint;
                 depositHistory.Member.AccumulateDeposit += depositHistory.TotalDepositMoney;
@@ -119,10 +125,8 @@ namespace LoveMeHandMake2.Controllers
                     depositHistory.Member.AccumulateDeposit -= depositHistory.AccumulateDepositRewardRule.DepositAmount;
                 }
                 db.Entry(depositHistory.Member).State = EntityState.Modified;
-
                 db.DepositHistory.Add(depositHistory);
                 db.SaveChanges();
-                
 
                 return RedirectToAction("Index");
             }
@@ -133,8 +137,10 @@ namespace LoveMeHandMake2.Controllers
                                         .Select(x => x.ErrorMessage));
                 log.Error(messages);
             }
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            ViewBag.TeacherList = new SelectList(db.Teachers, "ID", "Name", depositHistory.DepositTeacherID);
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
             return View(depositHistory);
         }
 
@@ -142,8 +148,8 @@ namespace LoveMeHandMake2.Controllers
         {
             try
             {
-                depositHistory.Member = db.Members.Find(depositHistory.MemberID);
-                depositHistory.DepositRewardRule = db.DepositRewardRule.OrderBy(x => x.DepositAmount).ToList();
+                depositHistory.Member = db.Members.Where(x => x.ID == depositHistory.MemberID && x.ValidFlag == true).First();
+                depositHistory.DepositRewardRule = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
                 depositHistory.computeAll();
 
                 var result = new
@@ -172,13 +178,15 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (member == null)
             {
                 return HttpNotFound();
             }
             ViewBag.Member = member;
-            List<DepositHistory> history = db.DepositHistory.Where(x => x.MemberID == member.ID).OrderByDescending(x => x.DepostitDateTime).ToList();
+            List<DepositHistory> history = db.DepositHistory
+                .Where(x => x.MemberID == member.ID && x.ValidFlag == true)
+                .OrderByDescending(x => x.DepostitDateTime).ToList();
             return View(history);           
         }
 
@@ -189,13 +197,15 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (member == null)
             {
                 return HttpNotFound();
             }
             ViewBag.Member = member;
-            List<TradeList> history = db.TradeList.Where(x => x.MemberID == member.ID).OrderByDescending(x => x.TradeDateTime).ToList();
+            List<TradeList> history = db.TradeList
+                .Where(x => x.MemberID == member.ID && x.ValidFlag == true)
+                .OrderByDescending(x => x.TradeDateTime).ToList();
             return View(history);
         }
 
@@ -206,7 +216,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (member == null)
             {
                 return HttpNotFound();
@@ -238,6 +248,7 @@ namespace LoveMeHandMake2.Controllers
             }
  
             List<TradeList> history = db.TradeList
+                .Where(x => x.ValidFlag == true)
                 .Where(x => x.MemberID == member.ID)
                 .Where(x => (DateTime.Compare(dateStart, x.TradeDateTime) <=0))
                 .Where(x => (DateTime.Compare(x.TradeDateTime, dateEnd) <= 0))
@@ -252,12 +263,12 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TradeList order = db.TradeList.Find(id);
+            TradeList order = db.TradeList.Where(x=>x.ID == id && x.ValidFlag == true).First();
             if (order == null)
             {
                 return HttpNotFound();
             }           
-            List<TradeDetail> details = db.TradeDetail.Where(x => x.OrderID == order.ID).ToList();
+            List<TradeDetail> details = db.TradeDetail.Where(x => x.OrderID == order.ID && x.ValidFlag == true).ToList();
             MemberTradeDetailViewModel model = new MemberTradeDetailViewModel { Order = order, Details = details  };
             return View(model);
         }
@@ -269,14 +280,15 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (member == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
-            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
             return View(member);
         }
 
@@ -294,9 +306,10 @@ namespace LoveMeHandMake2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode", member.EnrollStoreID);
-            ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name", member.EnrollTeacherID);
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
             return View(member);
         }
 
@@ -308,7 +321,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (member == null)
             {
                 return HttpNotFound();
@@ -321,8 +334,9 @@ namespace LoveMeHandMake2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Member member = db.Members.Find(id);
-            db.Members.Remove(member);
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
+            member.Delete();
+            db.Entry(member).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

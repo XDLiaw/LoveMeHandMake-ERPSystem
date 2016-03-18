@@ -21,7 +21,7 @@ namespace LoveMeHandMake2.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.ProductCategory);
+            var products = db.Products.Where(x => x.ValidFlag == true).Include(p => p.ProductCategory);
             return View(products.ToList());
         }
 
@@ -32,7 +32,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = db.Products.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (product == null)
             {
                 return HttpNotFound();
@@ -43,7 +43,8 @@ namespace LoveMeHandMake2.Controllers
         // GET: Product/Create
         public ActionResult Create()
         {
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name");
+            //ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name");
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryList();
             return View();
         }
 
@@ -56,14 +57,15 @@ namespace LoveMeHandMake2.Controllers
         {
             if (ModelState.IsValid)
             {
-                product.ProductCategory = db.ProductCategory.Find(product.ProductCategoryID);
+                product.ProductCategory = db.ProductCategory.Where(x => x.ID == product.ProductCategoryID && x.ValidFlag == true).First();
                 product.Create();
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
+            //ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryList();
             return View(product);
         }
 
@@ -74,12 +76,13 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Include(x => x.ProductCategory).FirstOrDefault(r => r.ID == id);
+            Product product = db.Products.Include(x => x.ProductCategory).FirstOrDefault(r => r.ID == id && r.ValidFlag == true);
             if (product == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
+            //ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryList();
             return View(product);
         }
 
@@ -92,13 +95,14 @@ namespace LoveMeHandMake2.Controllers
         {
             if (ModelState.IsValid)
             {
-                product.ProductCategory = db.ProductCategory.Find(product.ProductCategoryID);
+                product.ProductCategory = db.ProductCategory.Where(x => x.ID == product.ProductCategoryID && x.ValidFlag == true).First();
                 product.Update();
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
+            //ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryList();
             return View(product);
         }
 
@@ -110,7 +114,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Find(id);
+            Product product = db.Products.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (product == null)
             {
                 return HttpNotFound();
@@ -123,8 +127,9 @@ namespace LoveMeHandMake2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
+            Product product = db.Products.Where(x => x.ID == id && x.ValidFlag == true).First();
+            product.Delete();
+            db.Entry(product).State = EntityState.Modified;
             db.SaveChanges();
             product.DeleteProductImage();
             return RedirectToAction("Index");

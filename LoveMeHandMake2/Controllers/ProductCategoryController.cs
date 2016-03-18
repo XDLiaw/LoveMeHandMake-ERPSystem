@@ -20,7 +20,7 @@ namespace LoveMeHandMake2.Controllers
 
         public ActionResult Index()
         {
-            return View(db.ProductCategory.ToList());
+            return View(db.ProductCategory.Where(x => x.ValidFlag == true).ToList());
         }
 
         //
@@ -28,7 +28,7 @@ namespace LoveMeHandMake2.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            ProductCategory productcategory = db.ProductCategory.Find(id);
+            ProductCategory productcategory = db.ProductCategory.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (productcategory == null)
             {
                 return HttpNotFound();
@@ -67,7 +67,7 @@ namespace LoveMeHandMake2.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            ProductCategory productcategory = db.ProductCategory.Find(id);
+            ProductCategory productcategory = db.ProductCategory.Where(x=> x.ID == id && x.ValidFlag == true).First();
             if (productcategory == null)
             {
                 return HttpNotFound();
@@ -98,7 +98,7 @@ namespace LoveMeHandMake2.Controllers
         public ActionResult Delete(int id)
         {
             log.Warn("Delete(" + id + ") method is called!");
-            ProductCategory productcategory = db.ProductCategory.Find(id);
+            ProductCategory productcategory = db.ProductCategory.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (productcategory == null)
             {
                 return HttpNotFound();
@@ -106,6 +106,7 @@ namespace LoveMeHandMake2.Controllers
 
             if (HasProductUnderCategory(id))
             {
+                //TODO 傳送訊息(該類別下還有商品無法刪除)
                 return RedirectToAction("Index");
             }
 
@@ -119,20 +120,21 @@ namespace LoveMeHandMake2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ProductCategory productcategory = db.ProductCategory.Find(id);
+            ProductCategory productcategory = db.ProductCategory.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (HasProductUnderCategory(id))
             {
+                //TODO 傳送訊息(該類別下還有商品無法刪除)
                 return RedirectToAction("Index");
             }
-
-            db.ProductCategory.Remove(productcategory);
+            productcategory.Delete();
+            db.Entry(productcategory).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         private bool HasProductUnderCategory(int productCategoryID)
         {
-            int productNum = db.Products.Where(x => x.ProductCategoryID == productCategoryID).Count();
+            int productNum = db.Products.Where(x => x.ProductCategoryID == productCategoryID && x.ValidFlag == true).Count();
             return productNum > 0 ? true : false;
         }
 

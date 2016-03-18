@@ -19,7 +19,7 @@ namespace LoveMeHandMake2.Controllers
         // GET: Teacher
         public ActionResult Index()
         {
-            var teachers = db.Teachers.Include(t => t.BelongStore);
+            var teachers = db.Teachers.Where(x => x.ValidFlag == true).Include(t => t.BelongStore);
             return View(teachers.ToList());
         }
 
@@ -30,7 +30,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Teacher teacher = db.Teachers.Find(id);
+            Teacher teacher = db.Teachers.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (teacher == null)
             {
                 return HttpNotFound();
@@ -42,8 +42,7 @@ namespace LoveMeHandMake2.Controllers
         public ActionResult Create()
         {
             //ViewBag.BelongStoreID = new SelectList(db.Stores, "ID", "Name");
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            //SetStoreDropDownList();
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
             return View();
         }
 
@@ -73,14 +72,13 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Teacher teacher = db.Teachers.Find(id);
+            Teacher teacher = db.Teachers.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (teacher == null)
             {
                 return HttpNotFound();
             }
             //ViewBag.BelongStoreID = new SelectList(db.Stores, "ID", "Name", teacher.BelongStoreID);
-            ViewBag.StoreList = DropDownListHelper.GetStoreList();
-            //SetStoreDropDownList();
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
             return View(teacher);
         }
 
@@ -98,35 +96,8 @@ namespace LoveMeHandMake2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BelongStoreID = new SelectList(db.Stores, "ID", "StoreCode", teacher.BelongStoreID);
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
             return View(teacher);
-        }
-
-        // GET: Teacher/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            log.Warn("Delete(" + id + ") method is called!");
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Teacher teacher = db.Teachers.Find(id);
-            if (teacher == null)
-            {
-                return HttpNotFound();
-            }
-            return View(teacher);
-        }
-
-        // POST: Teacher/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Teacher teacher = db.Teachers.Find(id);
-            db.Teachers.Remove(teacher);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

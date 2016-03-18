@@ -21,31 +21,18 @@ namespace LoveMeHandMake2.Controllers
         public ActionResult Index()
         {
             List<Store> stores = db.Stores
-                .Where(x => x.ValidFlag == true || x.StopBusinessDate != null )
+                .Where(x => x.ValidFlag == true)
                 .Include(x => x.StoreCanSellCategories)
                 .ToList();
             return View(stores);
         }
 
         //
-        // GET: /Store/Details/5
-
-        //public ActionResult Details(int id = 0)
-        //{
-        //    Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id);
-        //    if (store == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(store);
-        //}
-
-        //
         // GET: /Store/Create
 
         public ActionResult Create()
         {
-            ViewBag.categories = db.ProductCategory.ToList();
+            ViewBag.categories = db.ProductCategory.Where(x=> x.ValidFlag == true).ToList();
             return View();
         }
 
@@ -85,8 +72,8 @@ namespace LoveMeHandMake2.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            ViewBag.categories = db.ProductCategory.ToList();
-            Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id);
+            ViewBag.categories = db.ProductCategory.Where(x => x.ValidFlag == true).ToList();
+            Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id && r.ValidFlag == true);
             if (store == null)
             {
                 return HttpNotFound();
@@ -106,8 +93,10 @@ namespace LoveMeHandMake2.Controllers
                 store.Update();
                 db.Entry(store).State = EntityState.Modified;
 
+                // 先刪除該分店所有可販賣分類
                 db.StoreCanSellCategory.RemoveRange(db.StoreCanSellCategory.Where(x => x.StoreID == store.ID));
 
+                // 新增該分點可販賣分類
                 List<StoreCanSellCategory> categories = new List<StoreCanSellCategory>();
                 foreach (string key in formCollection.AllKeys)
                 {
@@ -127,35 +116,6 @@ namespace LoveMeHandMake2.Controllers
             return View(store);
         }
 
-        //
-        // GET: /Store/Delete/5
-
-        public ActionResult Delete(int id = 0)
-        {
-            log.Warn("Delete(" + id + ") method is called!");
-            ViewBag.categories = db.ProductCategory.ToList();
-            //Store store = db.Stores.Find(id);
-            Store store = db.Stores.Include(x => x.StoreCanSellCategories).FirstOrDefault(r => r.ID == id);
-            if (store == null)
-            {
-                return HttpNotFound();
-            }
-            return View(store);
-        }
-
-        //
-        // POST: /Store/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Store store = db.Stores.Find(id);
-            db.Stores.Remove(store);
-            db.StoreCanSellCategory.RemoveRange(db.StoreCanSellCategory.Where(x => x.StoreID == store.ID));
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

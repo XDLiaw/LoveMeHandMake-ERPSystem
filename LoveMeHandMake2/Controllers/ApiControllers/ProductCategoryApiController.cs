@@ -32,6 +32,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                                   on A.ID equals B.ProductCategoryID
                                   where B.StoreID == storeID
                                   && A.ValidFlag == true
+                                  && B.ValidFlag == true
                                   select A
                           ).ToList();
 

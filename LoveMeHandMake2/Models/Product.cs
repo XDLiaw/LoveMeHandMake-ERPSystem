@@ -47,8 +47,10 @@ namespace LoveMeHandMake2.Models
         public override void Update()
         {
             base.Update();
-            DeleteProductImage();
-            SaveImage();
+            if (this.UploadImage != null) {
+                DeleteProductImage();
+                SaveImage();            
+            }
         }
 
         public byte[] GetImage() {

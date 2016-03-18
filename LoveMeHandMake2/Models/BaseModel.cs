@@ -38,5 +38,11 @@ namespace LoveMeHandMake2.Models
             this.UpdateTime = System.DateTime.Now;
         }
 
+        public virtual void Delete()
+        {
+            this.UpdateTime = System.DateTime.Now;
+            this.ValidFlag = false;
+        }
+
     }
 }

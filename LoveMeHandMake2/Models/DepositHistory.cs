@@ -162,7 +162,7 @@ namespace LoveMeHandMake2.Models
         {
             try
             {
-                double avgCost = this.TotalDepositMoney / (this.TotalPoint + 0.0);
+                double avgCost = (this.TotalDepositMoney - this.RewardMoney.GetValueOrDefault()) / (this.TotalPoint + 0.0);
                 this.AvgPointCost =  Double.IsNaN(avgCost) ? 0 : avgCost;
             }
             catch (DivideByZeroException e)

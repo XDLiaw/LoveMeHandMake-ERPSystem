@@ -19,7 +19,7 @@ namespace LoveMeHandMake2.Controllers
         // GET: DepositRewardRule
         public ActionResult Index()
         {
-            return View(db.DepositRewardRule.ToList());
+            return View(db.DepositRewardRule.Where(x => x.ValidFlag == true).ToList());
         }
 
         // GET: DepositRewardRule/Create
@@ -53,7 +53,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DepositRewardRule depositRewardRule = db.DepositRewardRule.Find(id);
+            DepositRewardRule depositRewardRule = db.DepositRewardRule.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (depositRewardRule == null)
             {
                 return HttpNotFound();
@@ -86,7 +86,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DepositRewardRule depositRewardRule = db.DepositRewardRule.Find(id);
+            DepositRewardRule depositRewardRule = db.DepositRewardRule.Where(x => x.ID == id && x.ValidFlag == true).First();
             if (depositRewardRule == null)
             {
                 return HttpNotFound();
@@ -99,8 +99,10 @@ namespace LoveMeHandMake2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            DepositRewardRule depositRewardRule = db.DepositRewardRule.Find(id);
-            db.DepositRewardRule.Remove(depositRewardRule);
+            log.Warn("DeleteConfirmed(" + id + ") method is called!");
+            DepositRewardRule depositRewardRule = db.DepositRewardRule.Where(x => x.ID == id && x.ValidFlag == true).First();
+            depositRewardRule.Delete();
+            db.Entry(depositRewardRule).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
