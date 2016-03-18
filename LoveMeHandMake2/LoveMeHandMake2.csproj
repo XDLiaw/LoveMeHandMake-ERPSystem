@@ -173,8 +173,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApiControllers\DepositRewardRuleApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ProductCategoryApiController.cs" />
     <Compile Include="Controllers\ApiControllers\SampleApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\SysParameterApiController.cs" />
     <Compile Include="Controllers\DepositRewardRuleController.cs" />
     <Compile Include="Controllers\DropDownListHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -310,6 +312,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ApiModels\DepositRewardRuleReturnApiModel.cs" />
     <Compile Include="Models\ApiModels\ProductCategoryReturnApiModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DepositHistory.cs" />
