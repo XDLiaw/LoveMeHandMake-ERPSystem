@@ -37,8 +37,8 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { id = item.ID, @class = "delete", onclick = "HasProductUnderCategory(this);" })
+                <input type="button" value="Edit" id=@item.ID class="edit btn-default" />
+                <input type="button" value="Delete" id=@item.ID class="delete btn-default" />
             </td>
         </tr>
     }
@@ -46,20 +46,31 @@
 </table>
 
 <script>
-    function HasProductUnderCategory(obj) {
+    $(".edit").click(function () {
+        var id = this.id;
+        window.location.href = "ProductCategory/Edit/" + id;
+        return true;
+    });
+
+    $(".delete").click(function () {
+        var id = this.id;
+        //alert(id);
         $.post(
             "@Url.Content("~/ProductCategory/HasProductUnderCategoryAjax")",
-            {productCategoryID : obj.id},
-            function (hasProduct) {
-                if (hasProduct) {
+            {productCategoryID : id},
+            function (res) {
+                //alert(JSON.stringify(res))
+                if (res.HasProduct) {
                     alert("有产品在此类别下，无法删除!");
-                } 
+                    return false;
+                } else {
+                    window.location.href = "/ProductCategory/Delete/" + id;
+                    return true;
+                }
             },
             "json"
         );
-    }
-
-
+    });
 
 </script>
 

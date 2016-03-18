@@ -142,7 +142,8 @@ namespace LoveMeHandMake2.Controllers
         {
             log.Debug("HasProductUnderCategoryAjax("+productCategoryID+")");
             bool hasProduct = HasProductUnderCategory(productCategoryID);
-            return Json(hasProduct);
+            var result = new { HasProduct = hasProduct };
+            return Json(result);
         }
 
         protected override void Dispose(bool disposing)
