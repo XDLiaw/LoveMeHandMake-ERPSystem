@@ -5,14 +5,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace LoveMeHandMake2.ViewModels
+namespace LoveMeHandMake2.Models.ViewModels
 {
     public class MemberTradeDetailViewModel
     {
         [Display(Name = "订单")]
         public TradeList Order { get; set; }
 
-        //This is only used to View's table head, not for data!
+
+        /// <summary>
+        /// This is only used to View's table head, not for data!
+        /// </summary>
         public TradeDetail Detail { get; set; }
 
         [Display(Name = "订单明细")]

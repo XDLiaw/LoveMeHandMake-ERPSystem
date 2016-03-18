@@ -10,13 +10,13 @@ namespace LoveMeHandMake2.Models
     {
         public enum PriceUnit { Point = 1, Bean = 2 }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "产品类别名称")]
         public string Name { get; set; }
 
         private int _Unit;
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "计价单位")]
         public int Unit
         {
@@ -29,7 +29,7 @@ namespace LoveMeHandMake2.Models
                 }
                 else
                 {
-                    throw new ArgumentException("Non exist unit!");
+                    throw new ArgumentException("Non exist unit! (1: Point, 2: Bean) ");
                 }
             }
         }

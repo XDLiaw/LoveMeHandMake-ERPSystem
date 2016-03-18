@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using LoveMeHandMake2.Models;
 using log4net;
-using LoveMeHandMake2.ViewModels;
+using LoveMeHandMake2.Models.ViewModels;
 
 namespace LoveMeHandMake2.Controllers
 {
