@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("新增门市", "Create")
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr class="row">
         <th class="col-md-2">
             @Html.DisplayNameFor(model => model.StoreCode)
@@ -32,33 +32,32 @@
     @foreach (var item in Model)
     {
         <tr class="row">
-            <td class="col-md-2">
+            <td class="col-md-2" valign="baseline">
                 @Html.DisplayFor(modelItem => item.StoreCode)
             </td>
-            <td class="col-md-2">
+            <td class="col-md-2" valign="baseline">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td class="col-md-2">
+            <td class="col-md-2" valign="baseline">
                 @Html.DisplayFor(modelItem => item.OverThresholdBonus)
             </td>
-            <td class="col-md-2">
+            <td class="col-md-2" valign="baseline">
                 @{
-                    string categoryList = "";
                     foreach (var category in item.StoreCanSellCategories)
                     {
-                        //categoryList = categoryList + category.ProductCategory.Name + " ";
                         <p>@category.ProductCategory.Name</p>
                     }
                 }
-                @categoryList
             </td>
-            <td class="col-md-2">
+
+            <td class="col-md-2" valign="baseline">
                 @Html.DisplayFor(modelItem => item.StopBusinessDate)
             </td>
-            <td class="col-md-2">
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+            <td class="col-md-2" valign="baseline">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
             </td>
         </tr>
     }
 
 </table>
+

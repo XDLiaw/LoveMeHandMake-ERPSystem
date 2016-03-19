@@ -175,7 +175,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\DepositRewardRuleApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ProductCategoryApiController.cs" />
-    <Compile Include="Controllers\ApiControllers\SampleApiController.cs" />
+    <Compile Include="Controllers\Test\SampleApiController.cs" />
     <Compile Include="Controllers\ApiControllers\SysParameterApiController.cs" />
     <Compile Include="Controllers\DepositRewardRuleController.cs" />
     <Compile Include="Controllers\DropDownListHelper.cs" />
@@ -187,6 +187,7 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\SysParameterController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Controllers\Test\Vertex.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

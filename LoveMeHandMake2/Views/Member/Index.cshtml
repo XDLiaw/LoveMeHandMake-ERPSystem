@@ -11,16 +11,13 @@
 {
     <div class="container">
         <div class="col-md-3">
-            @Html.DisplayNameFor(model => model.Name)
-            <input type="text" name="searchName" class="form-control">
+            <input type="text" name="searchName" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Name)">
         </div>
         <div class="col-md-3">
-            @Html.DisplayNameFor(model => model.Phone)
-            <input type="text" name="searchPhone" class="form-control">
+            <input type="text" name="searchPhone" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Phone)">
         </div>
         <div class="col-md-3">
-            @Html.DisplayNameFor(model => model.CardID)
-            <input type="text" name="searchCardID" class="form-control">
+            <input type="text" name="searchCardID" class="form-control" placeholder="@Html.DisplayNameFor(model => model.CardID)">
         </div>
         <div class="col-md-3">
             <input type="submit" value="搜寻" class="btn btn-default" />
@@ -33,7 +30,7 @@
     @Html.ActionLink("新增会员", "Create")
 </p>
 
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -62,40 +59,41 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CardID)
-        </td>
-        <td>
-            @Html.Label(item.Gender ? "男" : "女")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Birthday)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPRCard)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Point)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccumulateDeposit)
-        </td>
-        <td>
-            @Html.ActionLink("储值", "Deposit", new { id = item.ID }) |
-            @Html.ActionLink("储值纪录", "DepositHistory", new { id = item.ID }) |
-            @Html.ActionLink("消费纪录", "TradeHistory", new { id = item.ID }) |
-            @Html.ActionLink("修改", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("明细", "Details", new { id = item.ID }) 
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CardID)
+            </td>
+            <td>
+                @Html.Label(item.Gender ? "男" : "女")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPRCard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Point)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccumulateDeposit)
+            </td>
+            <td>
+                @Html.ActionLink("储值", "Deposit", new { id = item.ID }) |
+                @Html.ActionLink("储值纪录", "DepositHistory", new { id = item.ID }) |
+                @Html.ActionLink("消费纪录", "TradeHistory", new { id = item.ID }) |
+                @Html.ActionLink("修改", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("明细", "Details", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
