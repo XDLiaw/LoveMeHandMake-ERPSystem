@@ -53,7 +53,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Cash, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Cash, new { htmlAttributes = new { id = "Cash", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
+                @Html.EditorFor(model => model.Cash, new { htmlAttributes = new { id = "Cash", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
                 @Html.ValidationMessageFor(model => model.Cash, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CreditCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { id = "CreditCard", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
+                @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { id = "CreditCard", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
                 @Html.ValidationMessageFor(model => model.CreditCard, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,7 +69,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MallCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MallCard, new { htmlAttributes = new { id = "MallCard", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
+                @Html.EditorFor(model => model.MallCard, new { htmlAttributes = new { id = "MallCard", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
                 @Html.ValidationMessageFor(model => model.MallCard, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,7 +77,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RewardMoney, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
+                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
                 @Html.ValidationMessageFor(model => model.RewardMoney, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -85,7 +85,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RewardPoint, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RewardPoint, new { htmlAttributes = new { id = "RewardPoint", @class = "form-control", min = 0, @onchange = "tryCompute();" } })
+                @Html.EditorFor(model => model.RewardPoint, new { htmlAttributes = new { id = "RewardPoint", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
                 @Html.ValidationMessageFor(model => model.RewardPoint, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -157,28 +157,13 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
-        function tryCompute() {
+        function tryCompute(obj) {
             var Cash = parseInt($("#Cash").val());
             var CreditCard = parseInt($("#CreditCard").val());
             var MallCard = parseInt($("#MallCard").val());
             var RewardMoney = parseInt($("#RewardMoney").val())
             var TotalDepositMoney = Cash + CreditCard + MallCard + RewardMoney;
-
-            // 檢查可儲值金額以及可獲得儲值點數
-            if (TotalDepositMoney <=0 ) {
-                alert("储值金额必须大于0");
-                return false;
-            }
             var PointUnitValue = @Model.PointUnitValue;
-            if (TotalDepositMoney % PointUnitValue != 0) {
-                var possibleDeposit = TotalDepositMoney - (TotalDepositMoney % @Model.PointUnitValue);
-                if (possibleDeposit < PointUnitValue) {
-                    possibleDeposit = PointUnitValue;
-                }
-                alert("只可储值可整除金额: "+possibleDeposit);
-                return false;
-            }
-            $("#TotalDepositMoney").val(TotalDepositMoney);
 
             // 計算
             var data = {
@@ -198,6 +183,10 @@
                    //alert(JSON.stringify(res));
                    if (typeof(res.errorMsg) != 'undefined') {
                        alert(res.errorMsg);
+                       $(obj).val(0);
+                       $(obj).parent().addClass("has-error");
+                       $(obj).attr("placeholder", res.errorMsg);
+                       tryCompute();
                        return false;
                    } else {
                        $("#TotalDepositMoney").val(parseInt(res.TotalDepositMoney));
@@ -205,6 +194,14 @@
                        $("#DepositRewardPoint").val(parseInt(res.DepositRewardPoint));
                        $("#TotalPoint").val(parseInt(res.TotalPoint));
                        $("#AvgPointCost").val(parseFloat(res.AvgPointCost));
+
+                       if (obj != null) {
+                           $("#Cash").parent().removeClass("has-error");
+                           $("#CreditCard").parent().removeClass("has-error");
+                           $("#MallCard").parent().removeClass("has-error");
+                           $("#RewardMoney").parent().removeClass("has-error");
+                           $("#RewardPoint").parent().removeClass("has-error");
+                       }
                    }
                },
                "json"

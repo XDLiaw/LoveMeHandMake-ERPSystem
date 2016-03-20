@@ -167,7 +167,7 @@ namespace LoveMeHandMake2.Controllers
             {
                 log.Warn(null, e);
                 var result = new { errorMsg = e.Message };
-                return Json(e.Message);
+                return Json(result);
             }
         }
 

@@ -58,7 +58,7 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "送点")]
         public int? RewardPoint { get; set; }
 
-        [Display(Name = "每\"点\"价值(人民币)")]
+        [Display(Name = "每点人民币数")]
         public int PointUnitValue { get; set; }
 
         [NotMapped]
@@ -109,9 +109,9 @@ namespace LoveMeHandMake2.Models
             int mall = this.MallCard.GetValueOrDefault();
             int rewardMoney = this.RewardMoney.GetValueOrDefault();
             this.TotalDepositMoney = cash + credit + mall + rewardMoney;
-            if (this.TotalDepositMoney <= 0)
+            if (this.TotalDepositMoney < this.PointUnitValue)
             {
-                throw new ArgumentException("储值金额必须大于0");
+                throw new ArgumentException("金额至少必须为" + this.PointUnitValue);
             } 
         }
 
@@ -124,7 +124,7 @@ namespace LoveMeHandMake2.Models
                 {
                     possibleDeposit = this.PointUnitValue;
                 }
-                throw new ArgumentException("只可储值可整除金额: " + possibleDeposit);
+                throw new ArgumentException("'总金额'必须可整除'每点人民币数', 建议储值: " + possibleDeposit);
             }
             else
             {
