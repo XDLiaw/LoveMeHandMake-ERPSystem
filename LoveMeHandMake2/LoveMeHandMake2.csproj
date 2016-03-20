@@ -173,9 +173,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApiControllers\DepositApiController.cs" />
     <Compile Include="Controllers\ApiControllers\DepositRewardRuleApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ProductCategoryApiController.cs" />
-    <Compile Include="Controllers\Test\SampleApiController.cs" />
     <Compile Include="Controllers\ApiControllers\SysParameterApiController.cs" />
     <Compile Include="Controllers\DepositRewardRuleController.cs" />
     <Compile Include="Controllers\DropDownListHelper.cs" />
@@ -187,7 +187,6 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\SysParameterController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
-    <Compile Include="Controllers\Test\Vertex.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -313,6 +312,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
+    <Compile Include="Models\ApiModels\DepositReturnApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRewardRuleReturnApiModel.cs" />
     <Compile Include="Models\ApiModels\ProductCategoryReturnApiModel.cs" />
     <Compile Include="Models\BaseModel.cs" />

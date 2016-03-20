@@ -109,13 +109,21 @@ namespace LoveMeHandMake2.Models
             int mall = this.MallCard.GetValueOrDefault();
             int rewardMoney = this.RewardMoney.GetValueOrDefault();
             this.TotalDepositMoney = cash + credit + mall + rewardMoney;
+            if (this.TotalDepositMoney <= 0)
+            {
+                throw new ArgumentException("储值金额必须大于0");
+            } 
         }
 
         private void computeDepositPoint()
         {
             if (this.TotalDepositMoney % this.PointUnitValue != 0)
             {
-                int possibleDeposit = TotalDepositMoney - (TotalDepositMoney % this.PointUnitValue);
+                int possibleDeposit = this.TotalDepositMoney - (this.TotalDepositMoney % this.PointUnitValue);
+                if (possibleDeposit < this.PointUnitValue)
+                {
+                    possibleDeposit = this.PointUnitValue;
+                }
                 throw new ArgumentException("只可储值可整除金额: " + possibleDeposit);
             }
             else

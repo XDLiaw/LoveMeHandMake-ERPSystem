@@ -21,8 +21,8 @@ namespace LoveMeHandMake2.Controllers
             }
             else
             {
-                storeList = db.Stores.Where(x => 
-                    (x.StopBusinessDate > DateTime.Now || x.StopBusinessDate == null) 
+                storeList = db.Stores.Where(x =>
+                    (x.StopBusinessDate == null || x.StopBusinessDate > DateTime.Now) 
                     && x.ValidFlag == true)
                     .ToList();
             }
@@ -65,7 +65,7 @@ namespace LoveMeHandMake2.Controllers
             else
             {
                 teacherList = db.Teachers.Where(
-                    x => (x.ResignDate > DateTime.Now || x.ResignDate == null)
+                    x => (x.ResignDate == null || x.ResignDate > DateTime.Now)
                     && x.ValidFlag).ToList();
             }
 
