@@ -15,7 +15,7 @@ namespace LoveMeHandMake2.Controllers
 {
     public class MemberController : Controller
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(StoreController));
+        private static readonly ILog log = LogManager.GetLogger(typeof(MemberController));
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         // GET: Member

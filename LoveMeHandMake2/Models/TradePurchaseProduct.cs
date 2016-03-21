@@ -8,10 +8,11 @@ namespace LoveMeHandMake2.Models
 {
     public class TradePurchaseProduct : BaseModel
     {
-        [Display(Name = "交易单号")]
+        
         [Required]
         public int OrderID { get; set; }
 
+        [Display(Name = "订单")]
         public virtual TradeOrder Order { get; set; }
        
         [Required]

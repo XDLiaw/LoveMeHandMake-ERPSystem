@@ -29,6 +29,8 @@ namespace LoveMeHandMake2.Models
 
         public DbSet<TradePurchaseProduct> TradePurchaseProduct { get; set; }
 
+        public DbSet<TradePointSource> TradePointSources { get; set; }
+
         public DbSet<NonMemberTradeList> NonMemverTradeList { get; set; }
 
         public DbSet<DepositHistory> DepositHistory { get; set; }

@@ -12,7 +12,8 @@ namespace LoveMeHandMake2.Models
     {
         protected static ILog log = LogManager.GetLogger(typeof(BaseModel));
 
-        [Key()]
+        [Key]
+        [Column(Order = 1)]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
