@@ -25,9 +25,9 @@ namespace LoveMeHandMake2.Models
 
         public DbSet<StoreCanSellCategory> StoreCanSellCategory { get; set; }
 
-        public DbSet<TradeList> TradeList { get; set; }
+        public DbSet<TradeOrder> TradeOrder { get; set; }
 
-        public DbSet<TradeDetail> TradeDetail { get; set; }
+        public DbSet<TradePurchaseProduct> TradePurchaseProduct { get; set; }
 
         public DbSet<NonMemberTradeList> NonMemverTradeList { get; set; }
 

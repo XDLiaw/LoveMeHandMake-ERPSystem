@@ -310,6 +310,14 @@
     <Compile Include="Migrations\201603180151450_Init29.Designer.cs">
       <DependentUpon>201603180151450_Init29.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603210127345_Init30.cs" />
+    <Compile Include="Migrations\201603210127345_Init30.Designer.cs">
+      <DependentUpon>201603210127345_Init30.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603210358203_Init31.cs" />
+    <Compile Include="Migrations\201603210358203_Init31.Designer.cs">
+      <DependentUpon>201603210358203_Init31.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
@@ -331,9 +339,10 @@
     <Compile Include="Models\StoreCanSellCategory.cs" />
     <Compile Include="Models\SysParameter.cs" />
     <Compile Include="Models\Teacher.cs" />
-    <Compile Include="Models\TradeDetail.cs" />
-    <Compile Include="Models\TradeList.cs" />
+    <Compile Include="Models\TradePurchaseProduct.cs" />
+    <Compile Include="Models\TradeOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DepositService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\ViewModels\MemberTradeDetailViewModel.cs" />
   </ItemGroup>
@@ -566,6 +575,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603180151450_Init29.resx">
       <DependentUpon>201603180151450_Init29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603210127345_Init30.resx">
+      <DependentUpon>201603210127345_Init30.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603210358203_Init31.resx">
+      <DependentUpon>201603210358203_Init31.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -6,13 +6,13 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models
 {
-    public class TradeDetail : BaseModel
+    public class TradePurchaseProduct : BaseModel
     {
         [Display(Name = "交易单号")]
         [Required]
         public int OrderID { get; set; }
 
-        public virtual TradeList Order { get; set; }
+        public virtual TradeOrder Order { get; set; }
        
         [Required]
         public int ProductID { get; set; }

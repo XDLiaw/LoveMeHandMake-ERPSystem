@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using LoveMeHandMake2.Models;
 using log4net;
 using LoveMeHandMake2.Models.ViewModels;
+using LoveMeHandMake2.Services;
 
 namespace LoveMeHandMake2.Controllers
 {
@@ -110,23 +111,12 @@ namespace LoveMeHandMake2.Controllers
         }
 
         [HttpPost]
-        public ActionResult Deposit([Bind(Exclude="Member")]DepositHistory depositHistory)
+        public ActionResult Deposit([Bind(Exclude="Member")]DepositHistory dh)
         {
             if (ModelState.IsValid)
             {
-                depositHistory.Create();
-                depositHistory.Member = db.Members.Where(x => x.ID == depositHistory.MemberID && x.ValidFlag == true).First();
-                depositHistory.DepositRewardRule = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
-                depositHistory.computeAll();
-                depositHistory.Member.Point += depositHistory.TotalPoint;
-                depositHistory.Member.AccumulateDeposit += depositHistory.TotalDepositMoney;
-                if (depositHistory.AccumulateDepositRewardRule != null)
-                {
-                    depositHistory.Member.AccumulateDeposit -= depositHistory.AccumulateDepositRewardRule.DepositAmount;
-                }
-                db.Entry(depositHistory.Member).State = EntityState.Modified;
-                db.DepositHistory.Add(depositHistory);
-                db.SaveChanges();
+                dh.DepostitDateTime = System.DateTime.Now;
+                dh = new DepositService().Deposit(dh);
 
                 return RedirectToAction("Index");
             }
@@ -141,16 +131,17 @@ namespace LoveMeHandMake2.Controllers
             //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
             ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
             ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
-            return View(depositHistory);
+            return View(dh);
         }
 
         public ActionResult TryCompute(DepositHistory depositHistory)
         {
             try
             {
-                depositHistory.Member = db.Members.Where(x => x.ID == depositHistory.MemberID && x.ValidFlag == true).First();
-                depositHistory.DepositRewardRule = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
-                depositHistory.computeAll();
+                //depositHistory.Member = db.Members.Where(x => x.ID == depositHistory.MemberID && x.ValidFlag == true).First();
+                //depositHistory.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
+                //depositHistory.computeAll();
+                depositHistory = new DepositService().TryCompute(depositHistory);
 
                 var result = new
                 {
@@ -203,7 +194,7 @@ namespace LoveMeHandMake2.Controllers
                 return HttpNotFound();
             }
             ViewBag.Member = member;
-            List<TradeList> history = db.TradeList
+            List<TradeOrder> history = db.TradeOrder
                 .Where(x => x.MemberID == member.ID && x.ValidFlag == true)
                 .OrderByDescending(x => x.TradeDateTime).ToList();
             return View(history);
@@ -247,7 +238,7 @@ namespace LoveMeHandMake2.Controllers
                 log.Warn(null, e);
             }
  
-            List<TradeList> history = db.TradeList
+            List<TradeOrder> history = db.TradeOrder
                 .Where(x => x.ValidFlag == true)
                 .Where(x => x.MemberID == member.ID)
                 .Where(x => (DateTime.Compare(dateStart, x.TradeDateTime) <=0))
@@ -263,13 +254,13 @@ namespace LoveMeHandMake2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TradeList order = db.TradeList.Where(x=>x.ID == id && x.ValidFlag == true).First();
+            TradeOrder order = db.TradeOrder.Where(x=>x.ID == id && x.ValidFlag == true).First();
             if (order == null)
             {
                 return HttpNotFound();
             }           
-            List<TradeDetail> details = db.TradeDetail.Where(x => x.OrderID == order.ID && x.ValidFlag == true).ToList();
-            MemberTradeDetailViewModel model = new MemberTradeDetailViewModel { Order = order, Details = details  };
+            List<TradePurchaseProduct> details = db.TradePurchaseProduct.Where(x => x.OrderID == order.ID && x.ValidFlag == true).ToList();
+            MemberTradeDetailViewModel model = new MemberTradeDetailViewModel { Order = order, TradePurchaseProducts = details  };
             return View(model);
         }
 

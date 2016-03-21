@@ -62,7 +62,7 @@ namespace LoveMeHandMake2.Models
         public int PointUnitValue { get; set; }
 
         [NotMapped]
-        public virtual List<DepositRewardRule> DepositRewardRule { get; set; }
+        public virtual List<DepositRewardRule> DepositRewardRuleList { get; set; }
 
         [Display(Name = "总储值金额")]
         public int TotalDepositMoney { get; set; }
@@ -73,9 +73,11 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "储值满额送点")]
         public int DepositRewardPoint { get; set; }
 
+        [ScaffoldColumn(false)]
+        public int? AccumulateDepositRewardRuleID { get; set; }
+
         // 有使用到的 累計儲值 滿額送點 規則
-        [NotMapped]
-        public DepositRewardRule AccumulateDepositRewardRule { get; set; }
+        public virtual DepositRewardRule AccumulateDepositRewardRule { get; set; }
 
          [Display(Name = "总新增点数")]
         public int TotalPoint { get; set; }
@@ -87,12 +89,6 @@ namespace LoveMeHandMake2.Models
         public DateTime DepostitDateTime { get; set; }
 
         //===========================================================================================================================================================
-
-        public override void Create()
-        {
-            base.Create();
-            this.DepostitDateTime = System.DateTime.Now;
-        }
 
         public void computeAll()
         {
@@ -137,7 +133,7 @@ namespace LoveMeHandMake2.Models
             int accumulateDeposit = this.Member.AccumulateDeposit + this.TotalDepositMoney;
             int accumulateRewardPoint = 0;
             int nonAccumulateRewardPoint = 0;
-            foreach (DepositRewardRule rule in this.DepositRewardRule)
+            foreach (DepositRewardRule rule in this.DepositRewardRuleList)
             {
                 DateTime now = DateTime.Now;
                 DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
@@ -150,6 +146,7 @@ namespace LoveMeHandMake2.Models
                     {
                         if (accumulateDeposit >= rule.DepositAmount)
                         {
+                            this.AccumulateDepositRewardRuleID = rule.ID;
                             this.AccumulateDepositRewardRule = rule;
                             accumulateRewardPoint = rule.RewardPoint;
                         }

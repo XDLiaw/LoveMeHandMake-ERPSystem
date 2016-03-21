@@ -10,15 +10,9 @@ namespace LoveMeHandMake2.Models.ViewModels
     public class MemberTradeDetailViewModel
     {
         [Display(Name = "订单")]
-        public TradeList Order { get; set; }
-
-
-        /// <summary>
-        /// This is only used to View's table head, not for data!
-        /// </summary>
-        public TradeDetail Detail { get; set; }
+        public TradeOrder Order { get; set; }
 
         [Display(Name = "订单明细")]
-        public List<TradeDetail> Details { get; set; }
+        public List<TradePurchaseProduct> TradePurchaseProducts { get; set; }
     }
 }

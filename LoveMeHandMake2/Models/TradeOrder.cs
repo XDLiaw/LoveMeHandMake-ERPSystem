@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models
 {
-    public class TradeList : BaseModel
+    public class TradeOrder : BaseModel
     {
         [Display(Name = "交易单号")]
         [Required]

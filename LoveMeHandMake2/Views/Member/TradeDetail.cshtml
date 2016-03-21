@@ -73,26 +73,26 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Detail.Product.ProductCategory)
+            @Html.DisplayNameFor(model => model.TradePurchaseProducts.FirstOrDefault().Product.ProductCategory)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Detail.Product)
+            @Html.DisplayNameFor(model => model.TradePurchaseProducts.FirstOrDefault().Product)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Detail.Amount)
+            @Html.DisplayNameFor(model => model.TradePurchaseProducts.FirstOrDefault().Amount)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Detail.UnitPoint)
+            @Html.DisplayNameFor(model => model.TradePurchaseProducts.FirstOrDefault().UnitPoint)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Detail.UnitBean)
+            @Html.DisplayNameFor(model => model.TradePurchaseProducts.FirstOrDefault().UnitBean)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Detail.Sum)
+            @Html.DisplayNameFor(model => model.TradePurchaseProducts.FirstOrDefault().Sum)
         </th>
     </tr>
 
-    @foreach (var item in Model.Details)
+    @foreach (var item in Model.TradePurchaseProducts)
     {
         <tr>
             <td>
