@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,12 +20,15 @@ namespace LoveMeHandMake2.Models
         public int ID { get; set; }
 
         [Required]
+        [JsonIgnore]
         public DateTime CreateTime { get; set; }
 
         [Required]
+        [JsonIgnore]
         public DateTime UpdateTime { get; set; }
 
         [Required]
+        [JsonIgnore]
         public bool ValidFlag { get; set; }
 
         public virtual void Create()

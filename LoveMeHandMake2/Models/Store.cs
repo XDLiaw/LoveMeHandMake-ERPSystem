@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace LoveMeHandMake2.Models
         public int OverThresholdBonus { get; set; }
 
         [Display(Name = "可销售产品分类")]
+        [JsonIgnore]
         public virtual ICollection<StoreCanSellCategory> StoreCanSellCategories { get; set; }
 
         [Display(Name = "歇业日期")]
@@ -35,15 +37,5 @@ namespace LoveMeHandMake2.Models
             }
             return false;
         }
-
-        //public override void Update()
-        //{
-        //    base.Update();
-        //    if (this.StopBusinessDate != null)
-        //    {
-        //        this.ValidFlag = false;
-        //    }
-        //}
-
     }
 }
