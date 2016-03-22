@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class DepositApiModelO
+    public class DepositResultApiModel
     {
         public bool IsDepositSuccess { get; set; }
 
@@ -41,7 +41,7 @@ namespace LoveMeHandMake2.Models.ApiModels
         public double AvgPointCost { get; set; }
 
 
-        public DepositApiModelO()
+        public DepositResultApiModel()
         {
             this.IsDepositSuccess = true;
         }

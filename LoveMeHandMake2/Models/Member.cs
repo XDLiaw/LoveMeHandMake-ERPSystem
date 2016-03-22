@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -41,12 +42,14 @@ namespace LoveMeHandMake2.Models
         public int EnrollTeacherID { get; set; }
 
         [Display(Name = "办卡人员")]
+        [JsonIgnore]
         public virtual Teacher EnrollTeacher { get; set; }
 
         [Required]
         public int EnrollStoreID { get; set; }
 
         [Display(Name = "办卡门市")]
+        [JsonIgnore]
         public virtual Store EnrollStore { get; set; }
 
         [Display(Name = "办卡日期")]

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class DepositApiModelI : BaseApiModelI
+    public class DepositRequestApiModel : BaseRequestApiModel
     {
         public int StoreID { get; set; }
 

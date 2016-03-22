@@ -18,9 +18,9 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         [HttpPost]
-        public DepositApiModelO Deposit(DepositApiModelI arg)
+        public DepositResultApiModel Deposit(DepositRequestApiModel arg)
         {
-            DepositApiModelO res = new DepositApiModelO();
+            DepositResultApiModel res = new DepositResultApiModel();
             if (arg.IsValid() == false)
             {
                 res.ErrMsg = arg.GetInvalidReasons().First();
@@ -45,9 +45,14 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             }
         }
 
-        public DepositApiModelO TryCompute(DepositApiModelI arg)
+        public DepositResultApiModel TryCompute(DepositRequestApiModel arg)
         {
-            DepositApiModelO res = new DepositApiModelO();
+            DepositResultApiModel res = new DepositResultApiModel();
+            if (arg.IsValid() == false)
+            {
+                res.ErrMsg = arg.GetInvalidReasons().First();
+                return res;
+            }
             DepositHistory dh = arg.ToDepositHistory();
             try
             {

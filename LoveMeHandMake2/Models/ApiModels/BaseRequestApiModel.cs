@@ -1,4 +1,5 @@
-﻿using LoveMeHandMake2.Helper;
+﻿using log4net;
+using LoveMeHandMake2.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +7,10 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class BaseApiModelI
+    public class BaseRequestApiModel
     {
+        protected static readonly ILog log = LogManager.GetLogger(typeof(BaseRequestApiModel));
         private static string Token = "LoveMeHandMake";
-        private static string Key = "SYSVIN";
         
         public string EncryptedToken { get; set; }
 
@@ -22,11 +23,12 @@ namespace LoveMeHandMake2.Models.ApiModels
                 this.AddInvalidReason("EncryptedToken can't be null or empty!");
                 return false;
             }
-            string decryptedString = AESEncrypter.Decrypt(this.EncryptedToken, Key);
+            string decryptedString = AESEncrypter.Decrypt(this.EncryptedToken);
             bool isValid = decryptedString.Equals(Token);
             if (isValid == false)
             {
                 InvalidReasons.Add("Token doesn't match!");
+                log.Warn("Token doesn't match!");
             }
             return isValid;
         }

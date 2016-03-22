@@ -5,10 +5,16 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class ProductCategoryApiModelO
+    public class MemberSyncApiModel
     {
         public DateTime ReceiveRequestTime { get; set; }
 
-        public List<ProductCategory> CanCellList { get; set; }
+        public List<Member> NewList { get; set; }
+
+        public List<Member> ChangedList { get; set; }
+
+        public List<Member> RemovedList { get; set; }
+
+
     }
 }

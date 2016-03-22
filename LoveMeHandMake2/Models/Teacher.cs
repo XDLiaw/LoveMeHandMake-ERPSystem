@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace LoveMeHandMake2.Models
         public int BelongStoreID { get; set; }
 
         [Display(Name = "所属门市")]
+        [JsonIgnore]
         public virtual Store BelongStore { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]

@@ -14,18 +14,18 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         [HttpGet]
-        public DepositRewardRuleApiModelO Synchronize(DateTime lastSynchronizeTime)
+        public DepositRewardRuleSyncApiModel Synchronize(DateTime lastSynchronizeTime)
         {
-            DepositRewardRuleApiModelO result = new DepositRewardRuleApiModelO();
+            DepositRewardRuleSyncApiModel result = new DepositRewardRuleSyncApiModel();
             result.ReceiveRequestTime = DateTime.Now;
-            result.NewRules = db.DepositRewardRule
+            result.NewList = db.DepositRewardRule
                 .Where(x => x.CreateTime > lastSynchronizeTime 
                     && x.ValidFlag == true).ToList();
-            result.ChangedRules = db.DepositRewardRule
+            result.ChangedList = db.DepositRewardRule
                 .Where(x => x.CreateTime <= lastSynchronizeTime
                     && x.UpdateTime > lastSynchronizeTime 
                     && x.ValidFlag == true).ToList();
-            result.RemovedRules = db.DepositRewardRule
+            result.RemovedList = db.DepositRewardRule
                 .Where(x => x.CreateTime <= lastSynchronizeTime
                     && x.UpdateTime > lastSynchronizeTime
                     && x.ValidFlag == false).ToList();
