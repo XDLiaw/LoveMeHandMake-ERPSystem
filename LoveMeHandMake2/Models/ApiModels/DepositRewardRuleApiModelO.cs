@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class DepositRewardRuleReturnApiModel
+    public class DepositRewardRuleApiModelO
     {
         public DateTime ReceiveRequestTime { get; set; }
 

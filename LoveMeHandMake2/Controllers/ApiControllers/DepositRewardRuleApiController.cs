@@ -14,9 +14,9 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         [HttpGet]
-        public DepositRewardRuleReturnApiModel Synchronize(DateTime lastSynchronizeTime)
+        public DepositRewardRuleApiModelO Synchronize(DateTime lastSynchronizeTime)
         {
-            DepositRewardRuleReturnApiModel result = new DepositRewardRuleReturnApiModel();
+            DepositRewardRuleApiModelO result = new DepositRewardRuleApiModelO();
             result.ReceiveRequestTime = DateTime.Now;
             result.NewRules = db.DepositRewardRule
                 .Where(x => x.CreateTime > lastSynchronizeTime 

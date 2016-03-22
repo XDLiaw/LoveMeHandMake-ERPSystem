@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class ProductCategoryReturnApiModel
+    public class ProductCategoryApiModelO
     {
         public DateTime ReceiveRequestTime { get; set; }
 

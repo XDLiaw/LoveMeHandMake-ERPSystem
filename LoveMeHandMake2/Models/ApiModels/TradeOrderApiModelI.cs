@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class TradeOrderRequestApiModel
+    public class TradeOrderApiINModel : BaseApiModelI
     {
         [Display(Name = "交易单号")]
         public string OrderID { get; set; }

@@ -16,7 +16,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         [HttpPost]
-        public TradeOrderRequestApiModel NewTradeOrder(TradeOrderRequestApiModel arg)
+        public TradeOrderApiINModel NewTradeOrder(TradeOrderApiINModel arg)
         {
 
 

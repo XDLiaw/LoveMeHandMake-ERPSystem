@@ -23,9 +23,9 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         /// <param name="storeID"></param>
         /// <returns>傳回所有現在可賣的商品分類</returns>
         [HttpGet]
-        public ProductCategoryReturnApiModel Synchronize(int storeID)
+        public ProductCategoryApiModelO Synchronize(int storeID)
         {
-            ProductCategoryReturnApiModel result = new ProductCategoryReturnApiModel();
+            ProductCategoryApiModelO result = new ProductCategoryApiModelO();
             result.ReceiveRequestTime = DateTime.Now;
             result.CanCellList = (from A in db.ProductCategory
                                   join B in db.StoreCanSellCategory

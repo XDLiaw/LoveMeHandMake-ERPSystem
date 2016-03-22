@@ -178,6 +178,7 @@
     <Compile Include="Controllers\ApiControllers\ProductCategoryApiController.cs" />
     <Compile Include="Controllers\ApiControllers\StoreApiController.cs" />
     <Compile Include="Controllers\ApiControllers\SysParameterApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\TeacherApiController.cs" />
     <Compile Include="Controllers\ApiControllers\TradeApiController.cs" />
     <Compile Include="Controllers\DepositRewardRuleController.cs" />
     <Compile Include="Controllers\DropDownListHelper.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\AESEncrypter.cs" />
     <Compile Include="Migrations\201603090616374_Init.cs" />
     <Compile Include="Migrations\201603090616374_Init.Designer.cs">
       <DependentUpon>201603090616374_Init.cs</DependentUpon>
@@ -338,11 +340,13 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
-    <Compile Include="Models\ApiModels\DepositReturnApiModel.cs" />
-    <Compile Include="Models\ApiModels\DepositRewardRuleReturnApiModel.cs" />
-    <Compile Include="Models\ApiModels\ProductCategoryReturnApiModel.cs" />
-    <Compile Include="Models\ApiModels\TradeOrderRequestApiModel.cs" />
+    <Compile Include="Models\ApiModels\BaseApiModelI.cs" />
+    <Compile Include="Models\ApiModels\DepositApiModelI.cs" />
+    <Compile Include="Models\ApiModels\DepositApiModelO.cs" />
+    <Compile Include="Models\ApiModels\DepositRewardRuleApiModelO.cs" />
+    <Compile Include="Models\ApiModels\ProductCategoryApiModelO.cs" />
+    <Compile Include="Models\ApiModels\TeacherApiModelO.cs" />
+    <Compile Include="Models\ApiModels\TradeOrderApiModelI.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\DepositHistory.cs" />
     <Compile Include="Models\DepositRewardRule.cs" />
