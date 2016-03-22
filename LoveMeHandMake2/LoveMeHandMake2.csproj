@@ -339,12 +339,33 @@
     <Compile Include="Migrations\201603210843268_Init35.Designer.cs">
       <DependentUpon>201603210843268_Init35.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603221329517_Init36.cs" />
+    <Compile Include="Migrations\201603221329517_Init36.Designer.cs">
+      <DependentUpon>201603221329517_Init36.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603221343582_Init37.cs" />
+    <Compile Include="Migrations\201603221343582_Init37.Designer.cs">
+      <DependentUpon>201603221343582_Init37.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603221516293_Init38.cs" />
+    <Compile Include="Migrations\201603221516293_Init38.Designer.cs">
+      <DependentUpon>201603221516293_Init38.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603221522025_Init39.cs" />
+    <Compile Include="Migrations\201603221522025_Init39.Designer.cs">
+      <DependentUpon>201603221522025_Init39.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603221530274_Init40.cs" />
+    <Compile Include="Migrations\201603221530274_Init40.Designer.cs">
+      <DependentUpon>201603221530274_Init40.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositResultApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRewardRuleSyncApiModel.cs" />
+    <Compile Include="Models\ApiModels\MemberModifyRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\MemberSyncApiModel.cs" />
     <Compile Include="Models\ApiModels\ProductCategorySyncApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherSyncApiModel.cs" />
@@ -371,6 +392,7 @@
     <Compile Include="Models\TradeOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DepositService.cs" />
+    <Compile Include="Services\MemberService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\ViewModels\MemberTradeDetailViewModel.cs" />
   </ItemGroup>
@@ -621,6 +643,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603210843268_Init35.resx">
       <DependentUpon>201603210843268_Init35.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603221329517_Init36.resx">
+      <DependentUpon>201603221329517_Init36.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603221343582_Init37.resx">
+      <DependentUpon>201603221343582_Init37.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603221516293_Init38.resx">
+      <DependentUpon>201603221516293_Init38.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603221522025_Init39.resx">
+      <DependentUpon>201603221522025_Init39.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603221530274_Init40.resx">
+      <DependentUpon>201603221530274_Init40.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

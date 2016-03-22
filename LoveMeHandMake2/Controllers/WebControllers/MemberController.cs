@@ -74,18 +74,26 @@ namespace LoveMeHandMake2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Member member)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                member.Create();
-                db.Members.Add(member);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+                //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+                ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+                ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+                return View(member);
             }
-            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
-            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
-            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
-            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
-            return View(member);
+            if (new MemberService().IsCardIDExist(member.CardID))
+            {
+                ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+                ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+                ViewBag.ErrMsg = "卡号已存在!";
+                return View(member);
+            }
+
+            member.Create();
+            db.Members.Add(member);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Member/Deposite
@@ -138,9 +146,6 @@ namespace LoveMeHandMake2.Controllers
         {
             try
             {
-                //depositHistory.Member = db.Members.Where(x => x.ID == depositHistory.MemberID && x.ValidFlag == true).First();
-                //depositHistory.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
-                //depositHistory.computeAll();
                 depositHistory = new DepositService().TryCompute(depositHistory);
 
                 var result = new
@@ -290,18 +295,25 @@ namespace LoveMeHandMake2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Member member)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                member.Update();
-                db.Entry(member).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+                //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+                ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+                ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+                return View(member);
             }
-            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
-            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
-            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
-            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
-            return View(member);
+            if (new MemberService().IsCardIDExistExceptCurrent(member.ID, member.CardID))
+            {
+                ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+                ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+                ViewBag.ErrMsg = "卡号已存在!";
+                return View(member);
+            }
+            member.Update();
+            db.Entry(member).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Member/Delete/5

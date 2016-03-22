@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -9,6 +10,9 @@ namespace LoveMeHandMake2.Models
 {
     public class Member : BaseModel
     {
+        [Required]
+        public Guid CommunicateGuid { get; set; }
+
         [Display(Name = "姓名")]
         [Required(AllowEmptyStrings = false)]
         [StringLength(50)]
@@ -66,6 +70,15 @@ namespace LoveMeHandMake2.Models
         public override void Create()
         {
             base.Create();
+            //if (string.IsNullOrEmpty(this.CommunicateGuid))
+            //{
+            //    this.CommunicateGuid = Guid.NewGuid().ToString();
+            //}
+            if (this.CommunicateGuid == null || this.CommunicateGuid.Equals(Guid.Empty))
+            {
+                this.CommunicateGuid = Guid.NewGuid();
+                log.Debug("Create a CommunicateGuid=" + CommunicateGuid);
+            }
             this.Point = 0;
             this.AccumulateDeposit = 0;
         }
