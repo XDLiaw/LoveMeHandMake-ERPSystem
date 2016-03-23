@@ -13,8 +13,11 @@ namespace LoveMeHandMake2.Services
 
         public DepositHistory TryCompute(DepositHistory dh)
         {
-            dh.Member = db.Members.Where(x => x.ID == dh.MemberID && x.ValidFlag == true).First();
-            dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
+            dh.Member = db.Members
+                .Where(x => (x.ID == dh.MemberID || x.CommunicateGuid == dh.CommunicateGuid) 
+                    && x.ValidFlag == true).FirstOrDefault();
+            dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true)
+                .OrderBy(x => x.DepositAmount).ToList();
             dh.computeAll();
             return dh;
         }

@@ -11,6 +11,13 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        @if (ViewBag.ErrMsg != null)
+        {
+            <div class="alert alert-dismissible alert-danger">
+                <strong>@ViewBag.ErrMsg</strong>
+            </div>
+        }
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text=danger" })
         @Html.HiddenFor(model => model.MemberID)
@@ -53,7 +60,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Cash, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Cash, new { htmlAttributes = new { id = "Cash", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
+                @Html.EditorFor(model => model.Cash, new { htmlAttributes = new { id = "Cash", @class = "form-control", min = 0 } })
                 @Html.ValidationMessageFor(model => model.Cash, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,7 +68,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CreditCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { id = "CreditCard", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
+                @Html.EditorFor(model => model.CreditCard, new { htmlAttributes = new { id = "CreditCard", @class = "form-control", min = 0 } })
                 @Html.ValidationMessageFor(model => model.CreditCard, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,7 +76,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MallCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MallCard, new { htmlAttributes = new { id = "MallCard", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
+                @Html.EditorFor(model => model.MallCard, new { htmlAttributes = new { id = "MallCard", @class = "form-control", min = 0 } })
                 @Html.ValidationMessageFor(model => model.MallCard, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,7 +84,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RewardMoney, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
+                @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0 } })
                 @Html.ValidationMessageFor(model => model.RewardMoney, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -85,7 +92,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RewardPoint, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RewardPoint, new { htmlAttributes = new { id = "RewardPoint", @class = "form-control", min = 0, @onchange = "tryCompute(this);" } })
+                @Html.EditorFor(model => model.RewardPoint, new { htmlAttributes = new { id = "RewardPoint", @class = "form-control", min = 0 } })
                 @Html.ValidationMessageFor(model => model.RewardPoint, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -164,6 +171,10 @@
             var RewardMoney = parseInt($("#RewardMoney").val())
             var TotalDepositMoney = Cash + CreditCard + MallCard + RewardMoney;
             var PointUnitValue = @Model.PointUnitValue;
+            if (TotalDepositMoney < PointUnitValue) {
+                alert("金额至少必须为" + PointUnitValue);
+                return false;
+            }
 
             // 計算
             var data = {
@@ -186,7 +197,7 @@
                        $(obj).val(0);
                        $(obj).parent().addClass("has-error");
                        $(obj).attr("placeholder", res.errorMsg);
-                       tryCompute();
+                       //tryCompute();
                        return false;
                    } else {
                        $("#TotalDepositMoney").val(parseInt(res.TotalDepositMoney));
@@ -221,6 +232,25 @@
             $("#TotalPoint").val(0);
             $("#AvgPointCost").val(0);
         }
+
+        $( document ).ready(function() {
+            $("#Cash").on("change", function(){
+                tryCompute(this);
+            });
+            $("#CreditCard").change(function() {
+                tryCompute(this);
+            });
+            $("#MallCard").change(function() {
+                tryCompute(this);
+            });
+            $("#RewardMoney").change(function() {
+                tryCompute(this);
+            });
+            $("#RewardPoint").change(function() {
+                tryCompute(this);
+            });
+        
+        });
 
 </script>
 }

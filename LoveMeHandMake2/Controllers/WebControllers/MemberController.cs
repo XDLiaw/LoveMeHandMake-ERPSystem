@@ -123,17 +123,26 @@ namespace LoveMeHandMake2.Controllers
         {
             if (ModelState.IsValid)
             {
-                dh.DepostitDateTime = System.DateTime.Now;
-                dh = new DepositService().Deposit(dh);
+                try
+                {
+                    dh.DepostitDateTime = System.DateTime.Now;
+                    dh = new DepositService().Deposit(dh);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    log.Warn(e.Message);
+                    ViewBag.ErrMsg = e.Message;
+                }
             }
             else
             {
                 string messages = string.Join("; ", ModelState.Values
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
-                log.Error(messages);
+                log.Warn(messages);
+                ViewBag.ErrMsg = messages;
             }
             //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
             //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");

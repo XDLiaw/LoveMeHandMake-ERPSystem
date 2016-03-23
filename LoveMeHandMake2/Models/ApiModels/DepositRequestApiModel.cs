@@ -11,7 +11,7 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public int TeacherID { get; set; }
 
-        public int MemberID { get; set; }
+        public Guid CommunicateGuid { get; set; }
 
         public int Cash { get; set; }
 
@@ -33,7 +33,7 @@ namespace LoveMeHandMake2.Models.ApiModels
             dh.Create();
             dh.DepositStoreID = this.StoreID;
             dh.DepositTeacherID = this.TeacherID;
-            dh.MemberID = this.MemberID;
+            dh.CommunicateGuid = this.CommunicateGuid;
             dh.Cash = this.Cash;
             dh.CreditCard = this.CreditCard;
             dh.MallCard = this.MallCard;

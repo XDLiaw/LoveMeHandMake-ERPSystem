@@ -24,6 +24,7 @@ namespace LoveMeHandMake2.Models
             this.PointUnitValue = Convert.ToInt32(sp.Value);
         }
 
+        public Guid CommunicateGuid { get; set; }
 
         [Required]
         public int MemberID { get; set; }
