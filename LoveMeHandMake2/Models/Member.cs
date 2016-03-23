@@ -62,7 +62,7 @@ namespace LoveMeHandMake2.Models
         public DateTime EnrollDate { get; set; }
 
         [Display(Name = "剩余点数")]
-        public int Point { get; set; }
+        public double Point { get; set; }
 
         [Display(Name = "累计储值金额")]
         public int AccumulateDeposit { get; set; }
