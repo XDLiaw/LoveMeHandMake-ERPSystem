@@ -23,20 +23,25 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         /// <param name="storeID"></param>
         /// <returns>傳回所有現在可賣的商品分類</returns>
         [HttpGet]
-        public ProductCategorySyncApiModel Synchronize(int storeID)
+        public Object Synchronize(int storeID)
         {
-            ProductCategorySyncApiModel result = new ProductCategorySyncApiModel();
-            result.ReceiveRequestTime = DateTime.Now;
-            result.CanCellList = (from A in db.ProductCategory
-                                  join B in db.StoreCanSellCategory
-                                  on A.ID equals B.ProductCategoryID
-                                  where B.StoreID == storeID
-                                  && A.ValidFlag == true
-                                  && B.ValidFlag == true
-                                  select A
-                          ).ToList();
+            DateTime receiveRequestTime = DateTime.Now;
+            List<ProductCategory> canSellList =
+                (from A in db.ProductCategory
+                 join B in db.StoreCanSellCategory
+                 on A.ID equals B.ProductCategoryID
+                 where B.StoreID == storeID
+                 && A.ValidFlag == true
+                 && B.ValidFlag == true
+                 select A
+                ).ToList();
 
-            return result;
+            var res = new { 
+                ReceiveRequestTime = receiveRequestTime,
+                CanSellCategories = canSellList
+            };
+
+            return res;
         }
     }
 }

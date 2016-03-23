@@ -368,11 +368,7 @@
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositResultApiModel.cs" />
-    <Compile Include="Models\ApiModels\DepositRewardRuleSyncApiModel.cs" />
     <Compile Include="Models\ApiModels\MemberModifyRequestApiModel.cs" />
-    <Compile Include="Models\ApiModels\MemberSyncApiModel.cs" />
-    <Compile Include="Models\ApiModels\ProductCategorySyncApiModel.cs" />
-    <Compile Include="Models\ApiModels\TeacherSyncApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyResultApiModel.cs" />
     <Compile Include="Models\ApiModels\TradeOrderRequestApiModel.cs" />

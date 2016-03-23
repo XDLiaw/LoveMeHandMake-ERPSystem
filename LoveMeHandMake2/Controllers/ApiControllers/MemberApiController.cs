@@ -14,24 +14,30 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         [HttpGet]
-        public MemberSyncApiModel Synchronize(DateTime lastSynchronizeTime)
+        public Object Synchronize(DateTime lastSynchronizeTime)
         {
-            MemberSyncApiModel res = new MemberSyncApiModel();
-            res.ReceiveRequestTime = DateTime.Now;
-            res.NewList = db.Members
+            DateTime receiveRequestTime = DateTime.Now;
+            List<Member> newMembers = db.Members
                 .Where(x => x.CreateTime > lastSynchronizeTime
                     && x.ValidFlag == true).ToList();
-            res.ChangedList = db.Members
+            List<Member> changedMembers = db.Members
                 .Where(x => x.CreateTime <= lastSynchronizeTime
                     && x.UpdateTime > lastSynchronizeTime
                     && x.ValidFlag == true).ToList();
-            res.RemovedList = db.Members
+            List<Member> removedMembers = db.Members
                 .Where(x => x.CreateTime <= lastSynchronizeTime
                     && x.UpdateTime > lastSynchronizeTime
                     && x.ValidFlag == false).ToList();
 
+            var res = new
+            {
+                ReceiveRequestTime = receiveRequestTime,
+                NewMembers = newMembers,
+                ChangedMembers = changedMembers,
+                RemovedMembers = removedMembers
+            };
+
             return res;
         }
-
     }
 }
