@@ -19,5 +19,16 @@ namespace LoveMeHandMake2.Services
         {
             return db.Members.Where(x => x.ID != currentMemberID && x.CardID == cardId).Count() > 0;
         }
+
+        public bool IsCardIDExistExceptCurrent(Guid currentMemberGuid, string cardId)
+        {
+            return db.Members.Where(x => x.MemberGuid != currentMemberGuid && x.CardID == cardId).Count() > 0;
+        }
+
+        public bool IsGuidExist(Guid guid)
+        {
+            return db.Members.Where(x => x.MemberGuid == guid).Count() > 0;
+        }
+
     }
 }

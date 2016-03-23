@@ -83,7 +83,18 @@ namespace LoveMeHandMake2.Models
             this.AccumulateDeposit = 0;
         }
 
-
+        public void SetBy(Member m)
+        {
+            this.Name = m.Name;
+            this.CardID = m.CardID;
+            this.Gender = m.Gender;
+            this.Birthday = m.Birthday;
+            this.Phone = m.Phone;
+            this.IsPRCard = m.IsPRCard;
+            this.EnrollTeacherID = m.EnrollTeacherID;
+            this.EnrollStoreID = m.EnrollStoreID;
+            this.EnrollDate = m.EnrollDate;
+        }
 
     }
 }

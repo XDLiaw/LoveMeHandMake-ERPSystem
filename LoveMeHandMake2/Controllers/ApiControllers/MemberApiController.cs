@@ -1,7 +1,11 @@
-﻿using LoveMeHandMake2.Models;
+﻿using log4net;
+using LoveMeHandMake2.Models;
 using LoveMeHandMake2.Models.ApiModels;
+using LoveMeHandMake2.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,6 +15,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 {
     public class MemberApiController : ApiController
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MemberApiController));
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         [HttpGet]
@@ -38,6 +43,118 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             };
 
             return res;
+        }
+
+        [HttpPost]
+        public MemberResultApiModel Create(MemberRequestApiModel arg)
+        {
+            log.Debug(JsonConvert.SerializeObject(arg.member));
+            MemberResultApiModel res = new MemberResultApiModel();
+            res.ReceiveRequestTime = DateTime.Now;
+            res.IsRequestSuccess = false;
+            try
+            {
+                if (arg.IsValid() == false)
+                {
+                    log.Error(arg.GetInvalidReasons());
+                    res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                    return res;
+                }
+                if (new MemberService().IsGuidExist(arg.member.MemberGuid))
+                {
+                    string errMsg = "Guid: '" + arg.member.MemberGuid + "' already exist!";
+                    log.Error(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                    return res;
+                }
+                if (new StoreService().IsStoreExist(arg.member.EnrollStoreID) == false)
+                {
+                    string errMsg = "EnrollStoreID: " + arg.member.EnrollStoreID + " doesn't exist!";
+                    log.Warn(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                }
+                if (new TeacherService().IsTeacherExist(arg.member.EnrollTeacherID) == false)
+                {
+                    string errMsg = "EnrollTeacherID: " + arg.member.EnrollTeacherID + " doesn't exist!";
+                    log.Warn(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                }
+                if (new MemberService().IsCardIDExist(arg.member.CardID))
+                {
+                    string errMsg = "CardID: " + arg.member.CardID + " already exist!";
+                    log.Warn(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                }
+                arg.member.Create();
+                db.Members.Add(arg.member);
+                db.SaveChanges();
+                res.IsRequestSuccess = true;
+                return res;
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+                res.ErrMsgs.Add(e.Message);
+                res.IsRequestSuccess = false;
+                return res;
+            }
+        }
+
+        public MemberResultApiModel Update(MemberRequestApiModel arg)
+        {
+            log.Debug(JsonConvert.SerializeObject(arg.member));
+            MemberResultApiModel res = new MemberResultApiModel();
+            res.ReceiveRequestTime = DateTime.Now;
+            res.IsRequestSuccess = false;
+            try
+            {
+                if (arg.IsValid() == false)
+                {
+                    log.Error(arg.GetInvalidReasons());
+                    res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                    return res;
+                }
+                if (new MemberService().IsGuidExist(arg.member.MemberGuid) == false)
+                {
+                    string errMsg = "Guid: '" + arg.member.MemberGuid + "' doesn't exist!";
+                    log.Error(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                    return res;
+                }
+                if (new StoreService().IsStoreExist(arg.member.EnrollStoreID) == false)
+                {
+                    string errMsg = "EnrollStoreID: " + arg.member.EnrollStoreID + " doesn't exist!";
+                    log.Warn(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                }
+                if (new TeacherService().IsTeacherExist(arg.member.EnrollTeacherID) == false)
+                {
+                    string errMsg = "EnrollTeacherID: " + arg.member.EnrollTeacherID + " doesn't exist!";
+                    log.Warn(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                }
+                if (new MemberService().IsCardIDExistExceptCurrent(arg.member.MemberGuid, arg.member.CardID))
+                {
+                    string errMsg = "CardID: " + arg.member.CardID + " already exist!";
+                    log.Warn(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                }
+                Member newMember = db.Members
+                    .Where(x => x.MemberGuid == arg.member.MemberGuid 
+                        && x.ValidFlag == true).FirstOrDefault();
+                newMember.Update();
+                newMember.SetBy(arg.member);                
+                db.Entry(newMember).State = EntityState.Modified;
+                db.SaveChanges();
+                res.IsRequestSuccess = true;
+                return res;
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                res.ErrMsgs.Add(e.Message);
+                return res;
+            }
         }
     }
 }
