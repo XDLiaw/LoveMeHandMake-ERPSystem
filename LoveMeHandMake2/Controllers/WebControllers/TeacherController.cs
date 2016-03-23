@@ -56,6 +56,7 @@ namespace LoveMeHandMake2.Controllers
             if (ModelState.IsValid)
             {
                 teacher.Create();
+                teacher.AccountID = db.Teachers.Select(x => x.AccountID).Max()+1;
                 db.Teachers.Add(teacher);
                 db.SaveChanges();
                 return RedirectToAction("Index");

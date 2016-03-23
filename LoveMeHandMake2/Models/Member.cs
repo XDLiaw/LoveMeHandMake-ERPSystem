@@ -11,7 +11,7 @@ namespace LoveMeHandMake2.Models
     public class Member : BaseModel
     {
         [Required]
-        public Guid CommunicateGuid { get; set; }
+        public Guid MemberGuid { get; set; }
 
         [Display(Name = "姓名")]
         [Required(AllowEmptyStrings = false)]
@@ -74,10 +74,10 @@ namespace LoveMeHandMake2.Models
             //{
             //    this.CommunicateGuid = Guid.NewGuid().ToString();
             //}
-            if (this.CommunicateGuid == null || this.CommunicateGuid.Equals(Guid.Empty))
+            if (this.MemberGuid == null || this.MemberGuid.Equals(Guid.Empty))
             {
-                this.CommunicateGuid = Guid.NewGuid();
-                log.Debug("Create a CommunicateGuid=" + CommunicateGuid);
+                this.MemberGuid = Guid.NewGuid();
+                log.Debug("Create a CommunicateGuid=" + MemberGuid);
             }
             this.Point = 0;
             this.AccumulateDeposit = 0;

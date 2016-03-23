@@ -367,12 +367,32 @@
     <Compile Include="Migrations\201603230225302_Init42.Designer.cs">
       <DependentUpon>201603230225302_Init42.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603230319161_Init43.cs" />
+    <Compile Include="Migrations\201603230319161_Init43.Designer.cs">
+      <DependentUpon>201603230319161_Init43.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603230323048_Init44.cs" />
+    <Compile Include="Migrations\201603230323048_Init44.Designer.cs">
+      <DependentUpon>201603230323048_Init44.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603230323389_Init45.cs" />
+    <Compile Include="Migrations\201603230323389_Init45.Designer.cs">
+      <DependentUpon>201603230323389_Init45.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603230328058_Init46.cs" />
+    <Compile Include="Migrations\201603230328058_Init46.Designer.cs">
+      <DependentUpon>201603230328058_Init46.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603230352410_Init47.cs" />
+    <Compile Include="Migrations\201603230352410_Init47.Designer.cs">
+      <DependentUpon>201603230352410_Init47.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositResultApiModel.cs" />
-    <Compile Include="Models\ApiModels\MemberModifyRequestApiModel.cs" />
+    <Compile Include="Models\ApiModels\MemberRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyResultApiModel.cs" />
     <Compile Include="Models\ApiModels\TradeOrderRequestApiModel.cs" />
@@ -668,6 +688,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603230225302_Init42.resx">
       <DependentUpon>201603230225302_Init42.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603230319161_Init43.resx">
+      <DependentUpon>201603230319161_Init43.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603230323048_Init44.resx">
+      <DependentUpon>201603230323048_Init44.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603230323389_Init45.resx">
+      <DependentUpon>201603230323389_Init45.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603230328058_Init46.resx">
+      <DependentUpon>201603230328058_Init46.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603230352410_Init47.resx">
+      <DependentUpon>201603230352410_Init47.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

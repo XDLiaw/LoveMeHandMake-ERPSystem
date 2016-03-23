@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -11,6 +12,7 @@ namespace LoveMeHandMake2.Models
     {
         [Required]
         [Display(Name = "门市代码")]
+        [StringLength(4)]
         public string StoreCode { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]

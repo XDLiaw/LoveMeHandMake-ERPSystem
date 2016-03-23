@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -14,9 +15,9 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "姓名")]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
         [Display(Name = "帐号/员工编号")]
-        public string AccountID { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0000}")]
+        public int AccountID { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "密码长度必须在{2} 和{1}之间")]
@@ -29,7 +30,7 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "旧密码")]
         public string PreviousPassword { get; set; }
 
-        [Required(AllowEmptyStrings = false)]
+        [Required]
         [Display(Name = "是否可发公关卡")]
         public bool CanPublishPRCard { get; set; }
 
