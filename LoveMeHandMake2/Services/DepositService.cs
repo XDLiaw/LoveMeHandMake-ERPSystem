@@ -11,11 +11,18 @@ namespace LoveMeHandMake2.Services
     {
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
+        public bool IsOrderIDExist(string orderID)
+        {
+            return db.DepositHistory.Where(x => x.OrderID == orderID && x.ValidFlag == true).Count() > 0;
+        }
+
+
         public DepositHistory TryCompute(DepositHistory dh)
         {
             dh.Member = db.Members
-                .Where(x => (x.ID == dh.MemberID || x.MemberGuid == dh.CommunicateGuid) 
+                .Where(x => (x.ID == dh.MemberID || x.MemberGuid == dh.MemberGuid) 
                     && x.ValidFlag == true).FirstOrDefault();
+            dh.MemberGuid = dh.Member.MemberGuid;
             dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true)
                 .OrderBy(x => x.DepositAmount).ToList();
             dh.computeAll();

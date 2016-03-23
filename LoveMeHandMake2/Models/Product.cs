@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,7 @@ namespace LoveMeHandMake2.Models
         public int ProductCategoryID { get; set; }
 
         [Display(Name = "产品類別")]
+        [JsonIgnore]
         public virtual ProductCategory ProductCategory { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
@@ -27,10 +29,15 @@ namespace LoveMeHandMake2.Models
         public int Price { get; set; }
 
         [Display(Name = "图片")]
+        [JsonIgnore]
         public string ImagePath { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public HttpPostedFileBase UploadImage { get; set; }
+
+        [NotMapped]
+        public byte[] ImageByteArray { get; set; }
 
         [Display(Name = "已下架")]
         public bool IsPullFromShelves { get; set; }

@@ -7,11 +7,13 @@ namespace LoveMeHandMake2.Models.ApiModels
 {
     public class DepositRequestApiModel : BaseRequestApiModel
     {
+        public string OrderID { get; set; }
+
         public int StoreID { get; set; }
 
         public int TeacherID { get; set; }
 
-        public Guid CommunicateGuid { get; set; }
+        public Guid MemberGuid { get; set; }
 
         public int Cash { get; set; }
 
@@ -31,9 +33,10 @@ namespace LoveMeHandMake2.Models.ApiModels
         {
             DepositHistory dh = new DepositHistory();
             dh.Create();
+            dh.OrderID = this.OrderID;
             dh.DepositStoreID = this.StoreID;
             dh.DepositTeacherID = this.TeacherID;
-            dh.CommunicateGuid = this.CommunicateGuid;
+            dh.MemberGuid = this.MemberGuid;
             dh.Cash = this.Cash;
             dh.CreditCard = this.CreditCard;
             dh.MallCard = this.MallCard;

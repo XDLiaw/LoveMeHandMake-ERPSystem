@@ -28,6 +28,10 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             }
             try
             {
+                if (new DepositService().IsOrderIDExist(arg.OrderID))
+                {
+                    throw new ArgumentException("OrderID already exist! Can't deposit twice.");
+                }
                 DepositHistory dh = arg.ToDepositHistory();
                 dh = new DepositService().Deposit(dh);
                 res.TotalDepositMoney = dh.TotalDepositMoney;
