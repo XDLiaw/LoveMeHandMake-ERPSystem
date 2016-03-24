@@ -65,9 +65,16 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "每豆人民币数")]
         public int BeanUnitValue { get; set; }
 
+        /// <summary>
+        ///     TotalValue = ChargeByCash + ChargeByCreditCard + ChargeByMallCard + (Value of ChargeByPoint)
+        /// </summary>
+        [Display(Name = "实际收入总金额")]
+        public double TotalIncomeMoney { get; set; }
+
         [Display(Name = "销售时间")]
         [Required]
         public DateTime TradeDateTime { get; set; }
+
 
     }
 }

@@ -35,23 +35,7 @@ namespace LoveMeHandMake2.Models
         // How many beans for each one of this product
         public int? UnitBean { get; set; }
 
-        [Display(Name = "总价")]
-        [Required]
-        // Sum = Amount * (UnitPoint or UnitBean)
-        public int Sum
-        {
-            get
-            {
-                if (UnitPoint != null)
-                {
-                    return this.Amount * this.UnitPoint.GetValueOrDefault();
-                }
-                if (UnitBean != null)
-                {
-                    return this.Amount * this.UnitBean.GetValueOrDefault();
-                }
-                return 0;
-            }
-        }
+        [Display(Name = "总价(人民币)")]       
+        public double Sum { get; set; }
     }
 }

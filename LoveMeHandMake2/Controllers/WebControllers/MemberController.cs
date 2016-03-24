@@ -148,6 +148,9 @@ namespace LoveMeHandMake2.Controllers
             //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
             ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
             ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+            dh.Member = db.Members
+                .Where(x => (x.ID == dh.MemberID || x.MemberGuid == dh.MemberGuid)
+                    && x.ValidFlag == true).FirstOrDefault();
             return View(dh);
         }
 

@@ -37,7 +37,7 @@ namespace LoveMeHandMake2.Models
 
         public DbSet<SysParameter> SysParameter { get; set; }
 
-        public DbSet<PointUsage> PointUsage { get; set; }
+        public DbSet<HalfPointUsage> HalfPointUsage { get; set; }
 
         // Remove 's' from DB table's name. 
         // Example: Members -> Member

@@ -13,7 +13,12 @@ namespace LoveMeHandMake2.Services
 
         public bool IsOrderIDExist(string orderID)
         {
-            return db.DepositHistory.Where(x => x.OrderID == orderID && x.ValidFlag == true).Count() > 0;
+            return db.DepositHistory
+                .Where(x => x.OrderID == orderID 
+                    && x.OrderID != null
+                    && x.ValidFlag == true)
+                
+                .Count() > 0;
         }
 
 
@@ -71,20 +76,21 @@ namespace LoveMeHandMake2.Services
             db.DepositHistory.Add(dh);
             db.SaveChanges();
 
-            List<PointUsage> pointUsageList = new List<PointUsage>();
-            for (int i = 0; i < dh.TotalPoint; i++)
+            List<HalfPointUsage> pointUsageList = new List<HalfPointUsage>();
+            // because sometime it will only use 0.5 point, so each instance of this represent 0.5 point
+            for (int i = 0; i < dh.TotalPoint * 2 ; i++)
             {
-                PointUsage pu = new PointUsage()
+                HalfPointUsage pu = new HalfPointUsage()
                 {
                     MemberID = dh.Member.ID,
                     DepositOrderID = dh.ID,
-                    PointValue = dh.AvgPointCost,
+                    HalfPointValue = dh.AvgPointCost/2,
                     DepositTime = dh.DepostitDateTime
                 };
                 pointUsageList.Add(pu);
                 
             }
-            db.PointUsage.AddRange(pointUsageList);
+            db.HalfPointUsage.AddRange(pointUsageList);
             db.SaveChanges();
 
             return dh;

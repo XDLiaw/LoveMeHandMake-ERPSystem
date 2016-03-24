@@ -69,6 +69,26 @@ namespace LoveMeHandMake2.Models.ApiModels
             res.TradeDateTime = this.TradeDateTime;
             return res;
         }
+
+        /// <summary>
+        ///     return sum point according to each product's UnitPoint or UnitBean
+        /// </summary>
+        public double TotalProductsPoint()
+        {
+            double sum = 0;
+            foreach (PurchaseProductApiModel p in this.ProductList)
+            {
+                if (p.UnitPoint != null && p.UnitPoint != 0)
+                {
+                    sum += p.UnitPoint.GetValueOrDefault() * p.Amount;
+                }
+                else if (p.UnitBean != null && p.UnitBean != 0)
+                {
+                    sum += p.UnitBean.GetValueOrDefault() * p.Amount / 2;
+                }
+            }
+            return sum;
+        }
     }
 
     public class PurchaseProductApiModel
@@ -110,11 +130,11 @@ namespace LoveMeHandMake2.Models.ApiModels
             {
                 throw new ArgumentException("UnitBean and UnitPoint can't be both zero!");
             }
-            else if (UnitPoint != null)
+            else if (UnitPoint != null && UnitPoint != 0)
             {
                 return this.Amount * this.UnitPoint.GetValueOrDefault();
             }
-            else if (UnitBean != null)
+            else if (UnitBean != null && UnitBean != 0)
             {
                 return this.Amount * this.UnitBean.GetValueOrDefault();
             }
