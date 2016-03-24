@@ -2,6 +2,7 @@
 using LoveMeHandMake2.Models;
 using LoveMeHandMake2.Models.ApiModels;
 using LoveMeHandMake2.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,18 +21,16 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         [HttpPost]
         public DepositResultApiModel Deposit(DepositRequestApiModel arg)
         {
+            log.Info(JsonConvert.SerializeObject(arg));
             DepositResultApiModel res = new DepositResultApiModel();
             if (arg.IsValid() == false)
             {
+                log.Warn(arg.GetInvalidReasons());
                 res.ErrMsg = arg.GetInvalidReasons().First();
                 return res;
             }
             try
             {
-                if (new DepositService().IsOrderIDExist(arg.OrderID))
-                {
-                    throw new ArgumentException("OrderID already exist! Can't deposit twice.");
-                }
                 DepositHistory dh = arg.ToDepositHistory();
                 dh = new DepositService().Deposit(dh);
                 res.TotalDepositMoney = dh.TotalDepositMoney;
@@ -44,6 +43,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             }
             catch (Exception e)
             {
+                log.Error(null, e);
                 res.ErrMsg = e.Message;
                 return res;
             }
@@ -51,9 +51,11 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 
         public DepositResultApiModel TryCompute(DepositRequestApiModel arg)
         {
+            log.Info(JsonConvert.SerializeObject(arg));
             DepositResultApiModel res = new DepositResultApiModel();
             if (arg.IsValid() == false)
             {
+                log.Warn(arg.GetInvalidReasons());
                 res.ErrMsg = arg.GetInvalidReasons().First();
                 return res;
             }
@@ -73,6 +75,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             }
             catch (Exception e)
             {
+                log.Error(null, e);
                 res.ErrMsg = e.Message;
                 return res;
             }

@@ -1,5 +1,7 @@
-﻿using LoveMeHandMake2.Models;
+﻿using log4net;
+using LoveMeHandMake2.Models;
 using LoveMeHandMake2.Models.ApiModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,6 +14,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 {
     public class TeacherApiController : ApiController
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(TeacherApiController));
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
         [HttpGet]
@@ -42,6 +45,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 
         public TeacherModifyResultApiModel ModifyPassword(TeacherModifyRequestApiModel arg)
         {
+            log.Info(JsonConvert.SerializeObject(arg));
             TeacherModifyResultApiModel res = new TeacherModifyResultApiModel();
             if (arg.IsValid() == false)
             {

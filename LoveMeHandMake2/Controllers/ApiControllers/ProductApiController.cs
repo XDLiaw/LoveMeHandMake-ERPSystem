@@ -30,11 +30,11 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 
             foreach (Product p in newProducts)
             {
-                p.ImageByteArray = p.GetImage();
+                p.ImageByteArray = p.GetImageIfExist();
             }
             foreach (Product p in changedProducts)
             {
-                p.ImageByteArray = p.GetImage();
+                p.ImageByteArray = p.GetImageIfExist();
             }
 
             var res = new

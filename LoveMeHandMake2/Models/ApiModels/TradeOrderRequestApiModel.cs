@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class TradeOrderApiINModel : BaseRequestApiModel
+    public class TradeOrderRequestApiModel : BaseRequestApiModel
     {
         [Display(Name = "交易单号")]
         public string OrderID { get; set; }
@@ -18,7 +18,7 @@ namespace LoveMeHandMake2.Models.ApiModels
         public int TeacherID { get; set; }
 
         // if MemberID is null means this trade is not sell to a member
-        public int? MemberID { get; set; }
+        public Guid? MemberGuid { get; set; }
 
         [Display(Name = "扣除点数")]
         public int ChargeByPoint { get; set; }
@@ -41,6 +41,9 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Display(Name = "每点人民币数")]
         public int PointUnitValue { get; set; }
 
+        [Display(Name = "每豆人民币数")]
+        public int BeanUnitValue { get; set; }
+
         [Display(Name = "销售时间")]
         [Required]
         public DateTime TradeDateTime { get; set; }
@@ -54,27 +57,23 @@ namespace LoveMeHandMake2.Models.ApiModels
             res.OrderID = this.OrderID;
             res.StoreID = this.StoreID;
             res.TeacherID = this.TeacherID;
-            res.MemberID = this.MemberID;
+//            res.MemberGuid = this.MemberGuid;
             res.ChargeByPoint = this.ChargeByPoint;
             res.ChargeByCash = this.ChargeByCash;
             res.ChargeByCreditCard = this.ChargeByCreditCard;
             res.ChargeByMallCard = this.ChargeByMallCard;
             res.RewardMoney = this.RewardMoney;
             res.RewardPoint = this.RewardPoint;
+            res.PointUnitValue = this.PointUnitValue;
+            res.BeanUnitValue = this.BeanUnitValue;
+            res.TradeDateTime = this.TradeDateTime;
             return res;
-        }
-
-        
-        public bool CheckPoint()
-        {
-            //TODO
-
-            return true;
         }
     }
 
     public class PurchaseProductApiModel
     {
+        [Required]
         public int ProductID { get; set; }
 
         [Display(Name = "数量")]
@@ -91,6 +90,10 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public TradePurchaseProduct ToTradePurchaseProduct(int orderID)
         {
+            if (this.UnitBean == null && this.UnitPoint == null)
+            {
+                throw new ArgumentException("UnitBean and UnitPoint can't be both zero!");
+            }
             TradePurchaseProduct res = new TradePurchaseProduct();
             res.Create();
             res.OrderID = orderID;
@@ -101,6 +104,21 @@ namespace LoveMeHandMake2.Models.ApiModels
             return res;
         }
 
-
+        public int Sum()
+        {
+            if (this.UnitBean == null && this.UnitPoint == null)
+            {
+                throw new ArgumentException("UnitBean and UnitPoint can't be both zero!");
+            }
+            else if (UnitPoint != null)
+            {
+                return this.Amount * this.UnitPoint.GetValueOrDefault();
+            }
+            else if (UnitBean != null)
+            {
+                return this.Amount * this.UnitBean.GetValueOrDefault();
+            }
+            return 0;
+        }
     }
 }

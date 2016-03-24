@@ -19,15 +19,18 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             DateTime receiveRequestTime = DateTime.Now;
             List<DepositRewardRule> newRules = db.DepositRewardRule
                 .Where(x => x.CreateTime > lastSynchronizeTime 
-                    && x.ValidFlag == true).ToList();
+                    && x.ValidFlag == true 
+                    && x.AccumulateFlag == false).ToList();
             List<DepositRewardRule> changedRules = db.DepositRewardRule
                 .Where(x => x.CreateTime <= lastSynchronizeTime
-                    && x.UpdateTime > lastSynchronizeTime 
-                    && x.ValidFlag == true).ToList();
+                    && x.UpdateTime > lastSynchronizeTime
+                    && x.ValidFlag == true
+                    && x.AccumulateFlag == false).ToList();
             List<DepositRewardRule> removedRules = db.DepositRewardRule
                 .Where(x => x.CreateTime <= lastSynchronizeTime
                     && x.UpdateTime > lastSynchronizeTime
-                    && x.ValidFlag == false).ToList();
+                    && x.ValidFlag == false
+                    && x.AccumulateFlag == false).ToList();
 
             var res = new
             {

@@ -30,7 +30,7 @@ namespace LoveMeHandMake2.Models
 
         [Display(Name = "图片")]
         [JsonIgnore]
-        public string ImagePath { get; set; }
+        public string ImageName { get; set; }
 
         [NotMapped]
         [JsonIgnore]
@@ -60,19 +60,31 @@ namespace LoveMeHandMake2.Models
             }
         }
 
+        public byte[] GetImageIfExist()
+        {
+            Bitmap img = null;
+            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
+            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
+            if (System.IO.File.Exists(imgPath) == false)
+            {
+                return null;
+            }
+            img = (Bitmap)Image.FromFile(imgPath, true);
+            ImageConverter converter = new ImageConverter();
+            byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
+            img.Dispose();
+            return imgByte;
+        }
+
         public byte[] GetImage() {
             Bitmap img = null;
-            if (System.IO.File.Exists(this.ImagePath))
+            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
+            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
+            if (System.IO.File.Exists(imgPath) == false)
             {
-                img = (Bitmap)Image.FromFile(this.ImagePath, true);
+                imgPath = System.IO.Path.Combine(folder, "logo.jpg");
             }
-            else
-            {
-                string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-                string fileName = "logo.jpg";
-                string imgPath = System.IO.Path.Combine(folder, fileName);
-                img = (Bitmap)Image.FromFile(imgPath, true);
-            }
+            img = (Bitmap)Image.FromFile(imgPath, true);
             ImageConverter converter = new ImageConverter();
             byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
             img.Dispose();
@@ -89,13 +101,12 @@ namespace LoveMeHandMake2.Models
             if (this.UploadImage == null) return;
             //===========================================================================
             string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            string fileName = this.ProductCategory.Name + "_" + this.Name + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + "_" + this.UploadImage.FileName;
-            this.ImagePath = System.IO.Path.Combine(folder, fileName);
+            this.ImageName = this.ProductCategory.Name + "_" + this.Name + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + "_" + this.UploadImage.FileName;
             //this.UploadImage.SaveAs(this.ImagePath);
 
             Image img = Image.FromStream(this.UploadImage.InputStream, true, true);
             Image thumbnails = ScaleImage(img, 100, 100);
-            thumbnails.Save(this.ImagePath);
+            thumbnails.Save(System.IO.Path.Combine(folder, this.ImageName));
 
         }
 
@@ -120,7 +131,8 @@ namespace LoveMeHandMake2.Models
         {
             try
             {
-                System.IO.File.Delete(this.ImagePath);
+                string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
+                System.IO.File.Delete(System.IO.Path.Combine(folder, this.ImageName));
             }
             catch (Exception e)
             {

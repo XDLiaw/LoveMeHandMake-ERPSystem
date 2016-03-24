@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,18 +21,21 @@ namespace LoveMeHandMake2.Models
         public int StoreID { get; set; }
 
         [Display(Name = "銷售門市")]
+        [JsonIgnore]
         public virtual Store Store { get; set; }
 
         [Required]
         public int TeacherID { get; set; }
 
         [Display(Name = "销售人员")]
+        [JsonIgnore]
         public virtual Teacher Teacher { get; set; }
 
         // if MemberID is null means this trade is not sell to a member
         public int? MemberID { get; set; }
 
         [Display(Name = "会员")]
+        [JsonIgnore]
         public virtual Member Member { get; set; }
 
         [Display(Name = "扣除点数")]
@@ -53,18 +57,13 @@ namespace LoveMeHandMake2.Models
         public int RewardPoint { get; set; }
 
         /// <summary>
-        ///     交易點數 = 扣除点数 + 送點 + (現金 + 刷卡 + 商城卡 + 送金)所對應點數
-        /// </summary>
-        [Display(Name = "总交易点数")]
-        [Required]
-        public int TotalPoint { get; set; }
-
-        /// <summary>
         ///     系統所設定之每點價值，因為前台POS機可能斷線，因此需告知後台當時使用的每點價值
         /// </summary>
+        [Display(Name = "每点人民币数")]
         public int PointUnitValue { get; set; }
 
-        public int CostPerPoint { get; set; }
+        [Display(Name = "每豆人民币数")]
+        public int BeanUnitValue { get; set; }
 
         [Display(Name = "销售时间")]
         [Required]

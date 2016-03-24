@@ -48,7 +48,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         [HttpPost]
         public MemberResultApiModel Create(MemberRequestApiModel arg)
         {
-            log.Debug(JsonConvert.SerializeObject(arg.member));
+            log.Info(JsonConvert.SerializeObject(arg));
             MemberResultApiModel res = new MemberResultApiModel();
             res.ReceiveRequestTime = DateTime.Now;
             res.IsRequestSuccess = false;
@@ -102,7 +102,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 
         public MemberResultApiModel Update(MemberRequestApiModel arg)
         {
-            log.Debug(JsonConvert.SerializeObject(arg.member));
+            log.Info(JsonConvert.SerializeObject(arg));
             MemberResultApiModel res = new MemberResultApiModel();
             res.ReceiveRequestTime = DateTime.Now;
             res.IsRequestSuccess = false;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace LoveMeHandMake2.Models
         public int ProductID { get; set; }
 
         [Display(Name = "商品")]
+        [JsonIgnore]
         public virtual Product Product { get; set; }
 
         [Display(Name = "数量")]
@@ -36,6 +38,20 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "总价")]
         [Required]
         // Sum = Amount * (UnitPoint or UnitBean)
-        public int Sum { get; set; }
+        public int Sum
+        {
+            get
+            {
+                if (UnitPoint != null)
+                {
+                    return this.Amount * this.UnitPoint.GetValueOrDefault();
+                }
+                if (UnitBean != null)
+                {
+                    return this.Amount * this.UnitBean.GetValueOrDefault();
+                }
+                return 0;
+            }
+        }
     }
 }

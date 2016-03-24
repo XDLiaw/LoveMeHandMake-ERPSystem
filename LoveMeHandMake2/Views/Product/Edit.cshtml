@@ -19,7 +19,7 @@
         @Html.HiddenFor(model => model.CreateTime)
         @Html.HiddenFor(model => model.UpdateTime)
         @Html.HiddenFor(model => model.ValidFlag)
-        @Html.HiddenFor(model => model.ImagePath)
+        @Html.HiddenFor(model => model.ImageName)
 
         <div class="form-group">
             @Html.LabelFor(model => model.ProductCategory, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -46,7 +46,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ImageName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <img id="productImage" src="data:image;base64,@Model.GetImageBase64String()" style="max-width:100px; max-height:100px;" />
                 <p>

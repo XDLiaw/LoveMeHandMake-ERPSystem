@@ -29,8 +29,6 @@ namespace LoveMeHandMake2.Models
 
         public DbSet<TradePurchaseProduct> TradePurchaseProduct { get; set; }
 
-        public DbSet<TradePointSource> TradePointSources { get; set; }
-
         public DbSet<NonMemberTradeList> NonMemverTradeList { get; set; }
 
         public DbSet<DepositHistory> DepositHistory { get; set; }
@@ -38,6 +36,8 @@ namespace LoveMeHandMake2.Models
         public DbSet<DepositRewardRule> DepositRewardRule { get; set; }
 
         public DbSet<SysParameter> SysParameter { get; set; }
+
+        public DbSet<PointUsage> PointUsage { get; set; }
 
         // Remove 's' from DB table's name. 
         // Example: Members -> Member

@@ -35,11 +35,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
+            @Html.DisplayNameFor(model => model.ImageName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ImagePath)
+            <img id="productImage" src="data:image;base64,@Model.GetImageBase64String()" style="max-width:100px; max-height:100px;" />
         </dd>
 
         <dt>
@@ -57,31 +57,6 @@
         <dd>
             @Html.DisplayFor(model => model.Remark)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreateTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdateTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ValidFlag)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ValidFlag)
-        </dd>
-
     </dl>
 </div>
 <p>
