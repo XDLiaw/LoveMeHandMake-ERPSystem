@@ -37,6 +37,10 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 {
                     throw new ArgumentException("OrderID: [" + arg.OrderID + "] already exist!");
                 }  
+
+                // TODO: check charge is corrected or not
+
+
                 TradeOrder tradeOrder = arg.ToTradeOrder();
                 Member member = db.Members.Where(x => x.MemberGuid == arg.MemberGuid && x.ValidFlag == true).FirstOrDefault();
                 if (member == null && arg.ChargeByPoint != 0) {
@@ -46,10 +50,11 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 tradeOrder.TotalIncomeMoney = tradeOrder.ChargeByCash + tradeOrder.ChargeByCreditCard;
                 if (member != null)
                 {                  
+                    // asign member to TradeOrder
                     tradeOrder.MemberID = member.ID;
-
-                    // deduction point from member
                     tradeOrder.Member = member;
+
+                    // deduction point from member                    
                     tradeOrder.Member.Point -= tradeOrder.ChargeByPoint;
                     db.Entry(tradeOrder.Member).State = EntityState.Modified;
 
@@ -75,34 +80,60 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 List<TradePurchaseProduct> products = new List<TradePurchaseProduct>();
                 foreach (PurchaseProductApiModel p in arg.ProductList)
                 {
-                    TradePurchaseProduct temp = p.ToTradePurchaseProduct(tradeOrder.ID);
-                    if (temp.UnitPoint != null && temp.UnitPoint != 0)
+                    TradePurchaseProduct product = p.ToTradePurchaseProduct(tradeOrder.ID);
+                    if (product.UnitPoint != null && product.UnitPoint != 0)
                     {
-                        temp.Sum = temp.Amount * temp.UnitPoint.GetValueOrDefault() * pricePerPoint;
+                        product.Sum = product.Amount * product.UnitPoint.GetValueOrDefault() * pricePerPoint;
                     }
-                    else if (temp.UnitBean != null && temp.UnitBean != 0)
+                    else if (product.UnitBean != null && product.UnitBean != 0)
                     {
-                        temp.Sum = temp.Amount * temp.UnitBean.GetValueOrDefault() * pricePerPoint / 2;
+                        product.Sum = product.Amount * product.UnitBean.GetValueOrDefault() * pricePerPoint / 2;
                     }
-                    products.Add(temp);
+                    products.Add(product);
                 }
                 db.TradePurchaseProduct.AddRange(products);
 
                 // finish whole process so save changes to DB
                 db.SaveChanges();
                 res.IsRequestSuccess = true;
-                return res;
             }
             catch (Exception e)
             {
                 log.Error(null, e);
                 res.ErrMsgs.Add(e.Message);
                 res.IsRequestSuccess = false;
-                return res;
             }
+            return res;
         }
 
-        
+        [HttpPost]
+        public TradeOrderResultApiModel CancelTradeOrder(TradeOrderCancelRequestApiModel arg)
+        {
+            log.Info("CancelTradeOrder: " + arg.orderID);
+            TradeOrderResultApiModel res = new TradeOrderResultApiModel();
+            res.ReceiveRequestTime = DateTime.Now;
+            res.IsRequestSuccess = false;
+
+            try
+            {
+                if (arg.IsValid() == false)
+                {
+                    log.Error(arg.GetInvalidReasons());
+                    res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                    return res;
+                }
+
+                new TradeOrderService().CancelTradeOrder(arg.orderID);
+                res.IsRequestSuccess = true;
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                res.ErrMsgs.Add(e.Message);
+                res.IsRequestSuccess = false;
+            }
+            return res;
+        }
 
 
 

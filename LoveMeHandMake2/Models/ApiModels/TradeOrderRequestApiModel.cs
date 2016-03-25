@@ -11,13 +11,16 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Display(Name = "交易单号")]
         public string OrderID { get; set; }
 
+        [Display(Name = "销售门市")]
         [Required]
         public int StoreID { get; set; }
 
+        [Display(Name = "销售人员")]
         [Required]
         public int TeacherID { get; set; }
 
         // if MemberID is null means this trade is not sell to a member
+        [Display(Name = "会员")]
         public Guid? MemberGuid { get; set; }
 
         [Display(Name = "扣除点数")]
@@ -50,6 +53,29 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public List<PurchaseProductApiModel> ProductList { get; set; }
 
+        public TradeOrderRequestApiModel() { }
+
+        public TradeOrderRequestApiModel(TradeOrder order) 
+        {
+            this.OrderID = order.OrderID;
+            this.StoreID = order.StoreID;
+            this.TeacherID = order.TeacherID;
+            this.MemberGuid = order.MemberGuid;
+            this.ChargeByPoint = order.ChargeByPoint;
+            this.ChargeByCash = order.ChargeByCash;
+            this.ChargeByCreditCard = order.ChargeByCreditCard;
+            this.ChargeByMallCard = order.ChargeByMallCard;
+            this.RewardMoney = order.RewardMoney;
+            this.RewardPoint = order.RewardPoint;
+            this.PointUnitValue = order.PointUnitValue;
+            this.BeanUnitValue = order.BeanUnitValue;
+            this.TradeDateTime = order.TradeDateTime;
+        }
+
+        /// <summary>
+        ///     p.s. the return TradeOrder instance hasn't set it's memberID yet
+        /// </summary>
+        /// <returns></returns>
         public TradeOrder ToTradeOrder()
         {
             TradeOrder res = new TradeOrder();
@@ -57,7 +83,7 @@ namespace LoveMeHandMake2.Models.ApiModels
             res.OrderID = this.OrderID;
             res.StoreID = this.StoreID;
             res.TeacherID = this.TeacherID;
-//            res.MemberGuid = this.MemberGuid;
+            res.MemberGuid = this.MemberGuid;
             res.ChargeByPoint = this.ChargeByPoint;
             res.ChargeByCash = this.ChargeByCash;
             res.ChargeByCreditCard = this.ChargeByCreditCard;
@@ -107,6 +133,16 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Display(Name = "单价(豆)")]
         // How many beans for each one of this product
         public int? UnitBean { get; set; }
+
+        public PurchaseProductApiModel() {}
+
+        public PurchaseProductApiModel(TradePurchaseProduct arg)
+        {
+            this.ProductID = arg.ProductID;
+            this.Amount = arg.Amount;
+            this.UnitPoint = arg.UnitPoint;
+            this.UnitBean = arg.UnitBean;
+        }
 
         public TradePurchaseProduct ToTradePurchaseProduct(int orderID)
         {

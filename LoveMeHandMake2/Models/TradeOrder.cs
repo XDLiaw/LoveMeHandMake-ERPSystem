@@ -20,7 +20,7 @@ namespace LoveMeHandMake2.Models
         [Required]
         public int StoreID { get; set; }
 
-        [Display(Name = "銷售門市")]
+        [Display(Name = "销售门市")]
         [JsonIgnore]
         public virtual Store Store { get; set; }
 
@@ -30,6 +30,8 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "销售人员")]
         [JsonIgnore]
         public virtual Teacher Teacher { get; set; }
+
+        public Guid? MemberGuid { get; set; }
 
         // if MemberID is null means this trade is not sell to a member
         public int? MemberID { get; set; }

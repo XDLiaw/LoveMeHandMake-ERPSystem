@@ -1,4 +1,5 @@
 ﻿using log4net;
+using LoveMeHandMake2.Helper;
 using LoveMeHandMake2.Models;
 using LoveMeHandMake2.Models.ApiModels;
 using Newtonsoft.Json;
@@ -33,6 +34,13 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     && x.UpdateTime > lastSynchronizeTime
                     && x.ValidFlag == false).ToList();
 
+            foreach (Teacher t in newTeachers)
+            {
+                t.Password = AESEncrypter.Encrypt(t.Password);
+                t.PreviousPassword = AESEncrypter.Encrypt(t.PreviousPassword);
+            }
+
+
             var res = new { 
                 ReceiveRequestTime = receiveRequestTime,
                 NewTeachers = newTeachers,
@@ -59,7 +67,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 return res;
             }
             t.PreviousPassword = t.Password;
-            t.Password = arg.Password;
+            t.Password = AESEncrypter.Decrypt(arg.Password);
             t.Update();
             db.Entry(t).State = EntityState.Modified;
             db.SaveChanges();

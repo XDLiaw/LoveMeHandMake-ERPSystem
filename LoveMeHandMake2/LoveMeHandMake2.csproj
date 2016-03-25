@@ -448,6 +448,10 @@
     <Compile Include="Migrations\201603240950191_Init62.Designer.cs">
       <DependentUpon>201603240950191_Init62.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603250405330_Init63.cs" />
+    <Compile Include="Migrations\201603250405330_Init63.Designer.cs">
+      <DependentUpon>201603250405330_Init63.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
@@ -457,6 +461,7 @@
     <Compile Include="Models\ApiModels\MemberResultApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyResultApiModel.cs" />
+    <Compile Include="Models\ApiModels\TradeOrderCancelRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TradeOrderRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TradeOrderResultApiModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -531,7 +536,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="log4net.config" />
-    <None Include="Properties\PublishProfiles\Default.pubxml" />
+    <None Include="Properties\PublishProfiles\MyDefault.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\calendarBox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -815,6 +820,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603240950191_Init62.resx">
       <DependentUpon>201603240950191_Init62.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603250405330_Init63.resx">
+      <DependentUpon>201603250405330_Init63.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
