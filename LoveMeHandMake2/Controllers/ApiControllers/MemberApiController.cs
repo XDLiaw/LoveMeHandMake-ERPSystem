@@ -87,42 +87,9 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     res.ErrMsgs.Add(errMsg);
                     return res;
                 }
-                if (new MemberService().IsCardIDExist(arg.member.CardID))
-                {
-                    string errMsg = "CardID: " + arg.member.CardID + " already exist!";
-                    log.Warn(errMsg);
-                    res.ErrMsgs.Add(errMsg);
-                    return res;
-                }
-                if (new StoreService().IsStoreExist(arg.member.EnrollStoreID) == false)
-                {
-                    string errMsg = "EnrollStoreID: " + arg.member.EnrollStoreID + " doesn't exist!";
-                    log.Warn(errMsg);
-                    res.ErrMsgs.Add(errMsg);
-                }
-                if (new TeacherService().IsTeacherExist(arg.member.EnrollTeacherID) == false)
-                {
-                    string errMsg = "EnrollTeacherID: " + arg.member.EnrollTeacherID + " doesn't exist!";
-                    log.Warn(errMsg);
-                    res.ErrMsgs.Add(errMsg);
-                }
 
-                Member newMember = new Member();
-                newMember.CreateBy(arg.member);
-                db.Members.Add(newMember);
-                db.SaveChanges();
-
-                // if it is PR card then deposit point for this new member
-                if (arg.member.IsPRCard && arg.member.Point > 0) {
-                    DepositHistory depositHistory = new DepositHistory() { 
-                        DepositStoreID = newMember.EnrollStoreID,
-                        DepositTeacherID = newMember.EnrollTeacherID,
-                        MemberGuid = newMember.MemberGuid,
-                        RewardPoint = (int) arg.member.Point,
-                        DepostitDateTime = newMember.EnrollDate
-                    };
-                    new DepositService().Deposit(depositHistory);
-                }
+                List<string> errMsgs = new MemberService().Create(arg.member);
+                res.ErrMsgs.AddRange(errMsgs);
 
                 res.IsRequestSuccess = true;
                 return res;

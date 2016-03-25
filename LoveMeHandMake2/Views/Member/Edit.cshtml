@@ -75,8 +75,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsPRCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IsPRCard)
-                @Html.ValidationMessageFor(model => model.IsPRCard, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.IsPRCard, new { htmlAttributes = new { @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.IsPRCard, "", new { @class = "text-danger"})
             </div>
         </div>
 

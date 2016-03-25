@@ -67,8 +67,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsPRCard, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IsPRCard)
+                @Html.EditorFor(model => model.IsPRCard, new { htmlAttributes = new { id = "chb_isPRCard" } })
                 @Html.ValidationMessageFor(model => model.IsPRCard, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Point, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Point, new { htmlAttributes = new { id = "txtBox_PRPoint", @class = "form-control", @disabled = "disabled", @Value = "0" } })
+                @Html.ValidationMessageFor(model => model.Point, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -110,4 +118,19 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
+    <script type="text/javascript">
+
+        $( document ).ready(function() {
+            $("#chb_isPRCard").click(function () {
+                if ($(this).is(':checked')) {
+                    $('#txtBox_PRPoint').removeAttr("disabled");
+                } else {
+                    $('#txtBox_PRPoint').val(0);
+                    $('#txtBox_PRPoint').attr("disabled", "disabled");
+                }
+            });
+       
+        });
+    </script>
 }

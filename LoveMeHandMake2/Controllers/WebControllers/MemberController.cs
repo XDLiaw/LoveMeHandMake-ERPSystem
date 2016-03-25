@@ -82,18 +82,20 @@ namespace LoveMeHandMake2.Controllers
                 ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
                 return View(member);
             }
-            if (new MemberService().IsCardIDExist(member.CardID))
+
+            try
             {
+                List<string> errMsgs = new MemberService().Create(member);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrMsg = e.Message;
                 ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
                 ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
-                ViewBag.ErrMsg = "卡号已存在!";
                 return View(member);
             }
 
-            member.Create();
-            db.Members.Add(member);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         // GET: Member/Deposite
