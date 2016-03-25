@@ -109,10 +109,10 @@ namespace LoveMeHandMake2.Models
             int mall = this.MallCard.GetValueOrDefault();
             int rewardMoney = this.RewardMoney.GetValueOrDefault();
             this.TotalDepositMoney = cash + credit + mall + rewardMoney;
-            if (this.TotalDepositMoney < this.PointUnitValue)
-            {
-                throw new ArgumentException("金额至少必须为" + this.PointUnitValue);
-            } 
+            //if (this.TotalDepositMoney < this.PointUnitValue)
+            //{
+            //    throw new ArgumentException("金额至少必须为" + this.PointUnitValue);
+            //} 
         }
 
         private void computeDepositPoint()

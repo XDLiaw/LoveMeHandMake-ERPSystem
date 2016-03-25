@@ -70,10 +70,6 @@ namespace LoveMeHandMake2.Models
         public override void Create()
         {
             base.Create();
-            //if (string.IsNullOrEmpty(this.CommunicateGuid))
-            //{
-            //    this.CommunicateGuid = Guid.NewGuid().ToString();
-            //}
             if (this.MemberGuid == null || this.MemberGuid.Equals(Guid.Empty))
             {
                 this.MemberGuid = Guid.NewGuid();
@@ -83,7 +79,25 @@ namespace LoveMeHandMake2.Models
             this.AccumulateDeposit = 0;
         }
 
-        public void SetBy(Member m)
+        public void CreateBy(Member m)
+        {           
+            this.MemberGuid = m.MemberGuid;
+            this.Name = m.Name;
+            this.CardID = m.CardID;
+            this.Gender = m.Gender;
+            this.Birthday = m.Birthday;
+            this.Phone = m.Phone;
+            this.IsPRCard = m.IsPRCard;
+            this.EnrollStoreID = m.EnrollStoreID;
+            this.EnrollTeacherID = m.EnrollTeacherID;
+            this.EnrollDate = m.EnrollDate;
+            this.Create();
+        }
+
+        /// <summary>
+        ///     Shouldn't update MemberGuid & Point & AccumulateDeposit
+        /// </summary>
+        public void UpdateBy(Member m)
         {
             this.Name = m.Name;
             this.CardID = m.CardID;

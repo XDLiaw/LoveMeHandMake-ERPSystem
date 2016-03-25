@@ -87,6 +87,13 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     res.ErrMsgs.Add(errMsg);
                     return res;
                 }
+                if (new MemberService().IsCardIDExist(arg.member.CardID))
+                {
+                    string errMsg = "CardID: " + arg.member.CardID + " already exist!";
+                    log.Warn(errMsg);
+                    res.ErrMsgs.Add(errMsg);
+                    return res;
+                }
                 if (new StoreService().IsStoreExist(arg.member.EnrollStoreID) == false)
                 {
                     string errMsg = "EnrollStoreID: " + arg.member.EnrollStoreID + " doesn't exist!";
@@ -99,21 +106,30 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     log.Warn(errMsg);
                     res.ErrMsgs.Add(errMsg);
                 }
-                if (new MemberService().IsCardIDExist(arg.member.CardID))
-                {
-                    string errMsg = "CardID: " + arg.member.CardID + " already exist!";
-                    log.Warn(errMsg);
-                    res.ErrMsgs.Add(errMsg);
-                }
-                arg.member.Create();
-                db.Members.Add(arg.member);
+
+                Member newMember = new Member();
+                newMember.CreateBy(arg.member);
+                db.Members.Add(newMember);
                 db.SaveChanges();
+
+                // if it is PR card then deposit point for this new member
+                if (arg.member.IsPRCard && arg.member.Point > 0) {
+                    DepositHistory depositHistory = new DepositHistory() { 
+                        DepositStoreID = newMember.EnrollStoreID,
+                        DepositTeacherID = newMember.EnrollTeacherID,
+                        MemberGuid = newMember.MemberGuid,
+                        RewardPoint = (int) arg.member.Point,
+                        DepostitDateTime = newMember.EnrollDate
+                    };
+                    new DepositService().Deposit(depositHistory);
+                }
+
                 res.IsRequestSuccess = true;
                 return res;
             }
             catch (Exception e)
             {
-                log.Error(e.Message);
+                log.Error(null, e);
                 res.ErrMsgs.Add(e.Message);
                 res.IsRequestSuccess = false;
                 return res;
@@ -163,7 +179,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     .Where(x => x.MemberGuid == arg.member.MemberGuid 
                         && x.ValidFlag == true).FirstOrDefault();
                 newMember.Update();
-                newMember.SetBy(arg.member);                
+                newMember.UpdateBy(arg.member);
                 db.Entry(newMember).State = EntityState.Modified;
                 db.SaveChanges();
                 res.IsRequestSuccess = true;
