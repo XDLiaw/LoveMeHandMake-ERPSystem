@@ -457,6 +457,7 @@
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositResultApiModel.cs" />
+    <Compile Include="Models\ApiModels\MemberPointResultApiModel.cs" />
     <Compile Include="Models\ApiModels\MemberRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\MemberResultApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyRequestApiModel.cs" />

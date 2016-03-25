@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class TradeOrderResultApiModel
+    public class MemberPointResultApiModel
     {
         public DateTime ReceiveRequestTime { get; set; }
 
@@ -13,8 +13,11 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public List<string> ErrMsgs { get; private set; }
 
-        public TradeOrderResultApiModel()
+        public double Point { get; set; }
+
+        public MemberPointResultApiModel()
         {
+            this.IsRequestSuccess = true;
             this.ErrMsgs = new List<string>();
         }
     }

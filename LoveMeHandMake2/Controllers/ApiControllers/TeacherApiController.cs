@@ -57,13 +57,13 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             TeacherModifyResultApiModel res = new TeacherModifyResultApiModel();
             if (arg.IsValid() == false)
             {
-                res.ErrMsg  = arg.GetInvalidReasons().First();
+                res.ErrMsgs.AddRange(arg.GetInvalidReasons());
                 return res;
             }
             Teacher t = db.Teachers.Where(x => x.ID == arg.ID && x.ValidFlag == true).FirstOrDefault();
             if (t == null)
             {
-                res.ErrMsg = "Teacher doesn't exist!";
+                res.ErrMsgs.Add("Teacher doesn't exist!");
                 return res;
             }
             t.PreviousPassword = t.Password;

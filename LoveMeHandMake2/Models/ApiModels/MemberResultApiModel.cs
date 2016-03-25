@@ -11,10 +11,11 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public bool IsRequestSuccess { get; set; }
 
-        public List<string> ErrMsgs { get; set; }
+        public List<string> ErrMsgs { get; private set; }
 
         public MemberResultApiModel()
         {
+            this.IsRequestSuccess = true;
             this.ErrMsgs = new List<string>();
         }
 

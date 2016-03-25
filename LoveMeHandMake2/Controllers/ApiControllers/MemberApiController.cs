@@ -45,6 +45,26 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             return res;
         }
 
+        [HttpGet]
+        public MemberPointResultApiModel GetPoint(Guid memberGuid)
+        {
+            MemberPointResultApiModel res = new MemberPointResultApiModel();
+            res.ReceiveRequestTime = DateTime.Now;
+            Member m = db.Members.Where(x => x.MemberGuid == memberGuid && x.ValidFlag == true).FirstOrDefault();
+            if (m == null)
+            {
+                log.Warn("MemberGuid: [" + memberGuid + "] doesn't exist!");
+                res.ErrMsgs.Add("MemberGuid: [" + memberGuid + "] doesn't exist!");
+                res.IsRequestSuccess = false;
+            }
+            else
+            {
+                res.Point = m.Point;
+                res.IsRequestSuccess = true;
+            }
+            return res;
+        }
+
         [HttpPost]
         public MemberResultApiModel Create(MemberRequestApiModel arg)
         {

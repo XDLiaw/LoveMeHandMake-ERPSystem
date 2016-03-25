@@ -9,24 +9,12 @@ namespace LoveMeHandMake2.Models.ApiModels
     {
         public bool IsModifySuccess { get; set; }
 
-        private string _ErrMsg;
-
-        public string ErrMsg
-        {
-            get
-            {
-                return this._ErrMsg;
-            }
-            set
-            {
-                this._ErrMsg = value;
-                this.IsModifySuccess = false;
-            }
-        }
+        public List<string> ErrMsgs { get; private set; }
 
         public TeacherModifyResultApiModel()
         {
             this.IsModifySuccess = true;
+            this.ErrMsgs = new List<string>();
         }
     }
 }
