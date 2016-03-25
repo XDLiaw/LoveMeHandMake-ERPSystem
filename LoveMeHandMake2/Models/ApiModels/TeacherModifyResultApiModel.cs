@@ -13,7 +13,6 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public TeacherModifyResultApiModel()
         {
-            this.IsModifySuccess = true;
             this.ErrMsgs = new List<string>();
         }
     }

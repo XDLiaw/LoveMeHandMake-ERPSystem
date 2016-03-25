@@ -58,21 +58,32 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             if (arg.IsValid() == false)
             {
                 res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                res.IsModifySuccess = false;
                 return res;
             }
-            Teacher t = db.Teachers.Where(x => x.ID == arg.ID && x.ValidFlag == true).FirstOrDefault();
-            if (t == null)
+            try {
+                Teacher t = db.Teachers.Where(x => x.ID == arg.ID && x.ValidFlag == true).FirstOrDefault();
+                if (t == null)
+                {
+                    res.ErrMsgs.Add("Teacher doesn't exist!");
+                    return res;
+                }
+                t.PreviousPassword = t.Password;
+                t.Password = AESEncrypter.Decrypt(arg.Password);
+                t.Update();
+                db.Entry(t).State = EntityState.Modified;
+                db.SaveChanges();
+                res.IsModifySuccess = true;
+                return res;
+            }
+            catch (Exception e)
             {
-                res.ErrMsgs.Add("Teacher doesn't exist!");
+                log.Error(null, e);
+                res.ErrMsgs.Add(e.Message);
+                res.IsModifySuccess = false;
                 return res;
             }
-            t.PreviousPassword = t.Password;
-            t.Password = AESEncrypter.Decrypt(arg.Password);
-            t.Update();
-            db.Entry(t).State = EntityState.Modified;
-            db.SaveChanges();
 
-            return res;
         }
     }
 }

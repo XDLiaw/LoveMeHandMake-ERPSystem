@@ -10,20 +10,7 @@ namespace LoveMeHandMake2.Models.ApiModels
     {
         public bool IsDepositSuccess { get; set; }
 
-        private string _ErrMsg;
-
-        public string ErrMsg
-        {
-            get
-            {
-                return this._ErrMsg;
-            }
-            set
-            {
-                this._ErrMsg = value;
-                this.IsDepositSuccess = false;
-            }
-        }
+        public List<string> ErrMsgs { get; private set; }
 
         [Display(Name = "总储值金额")]
         public int TotalDepositMoney { get; set; }
@@ -43,7 +30,7 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public DepositResultApiModel()
         {
-            this.IsDepositSuccess = true;
+            this.ErrMsgs = new List<string>();
         }
 
 

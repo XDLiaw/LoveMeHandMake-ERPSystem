@@ -26,7 +26,8 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             if (arg.IsValid() == false)
             {
                 log.Warn(arg.GetInvalidReasons());
-                res.ErrMsg = arg.GetInvalidReasons().First();
+                res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                res.IsDepositSuccess = false;
                 return res;
             }
             try
@@ -39,12 +40,14 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 res.DepositRewardPoint = dh.DepositRewardPoint;
                 res.AvgPointCost = dh.AvgPointCost;
 
+                res.IsDepositSuccess = true;
                 return res;
             }
             catch (Exception e)
             {
                 log.Error(null, e);
-                res.ErrMsg = e.Message;
+                res.ErrMsgs.Add(e.Message);
+                res.IsDepositSuccess = false;
                 return res;
             }
         }
@@ -56,7 +59,8 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             if (arg.IsValid() == false)
             {
                 log.Warn(arg.GetInvalidReasons());
-                res.ErrMsg = arg.GetInvalidReasons().First();
+                res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                res.IsDepositSuccess = false;
                 return res;
             }
             DepositHistory dh = arg.ToDepositHistory();
@@ -76,7 +80,8 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             catch (Exception e)
             {
                 log.Error(null, e);
-                res.ErrMsg = e.Message;
+                res.ErrMsgs.Add(e.Message);
+                res.IsDepositSuccess = false;
                 return res;
             }
         }

@@ -15,7 +15,6 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public MemberResultApiModel()
         {
-            this.IsRequestSuccess = true;
             this.ErrMsgs = new List<string>();
         }
 

@@ -78,6 +78,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 {
                     log.Error(arg.GetInvalidReasons());
                     res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                    res.IsRequestSuccess = false;
                     return res;
                 }
                 if (new MemberService().IsGuidExist(arg.member.MemberGuid))
@@ -85,6 +86,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     string errMsg = "Guid: '" + arg.member.MemberGuid + "' already exist!";
                     log.Error(errMsg);
                     res.ErrMsgs.Add(errMsg);
+                    res.IsRequestSuccess = false;
                     return res;
                 }
 
