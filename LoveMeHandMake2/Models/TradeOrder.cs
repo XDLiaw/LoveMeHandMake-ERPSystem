@@ -41,7 +41,7 @@ namespace LoveMeHandMake2.Models
         public virtual Member Member { get; set; }
 
         [Display(Name = "扣除点数")]
-        public int ChargeByPoint { get; set; }
+        public double ChargeByPoint { get; set; }
 
         [Display(Name = "付现金额")]
         public int ChargeByCash { get; set; }
@@ -56,7 +56,7 @@ namespace LoveMeHandMake2.Models
         public int RewardMoney { get; set; }
 
         [Display(Name = "送點")]        
-        public int RewardPoint { get; set; }
+        public double RewardPoint { get; set; }
 
         /// <summary>
         ///     系統所設定之每點價值，因為前台POS機可能斷線，因此需告知後台當時使用的每點價值

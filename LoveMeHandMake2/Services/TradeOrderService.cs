@@ -56,7 +56,7 @@ namespace LoveMeHandMake2.Services
                 List<HalfPointUsage> pointUsageList = db.HalfPointUsage
                     .Where(x => x.MemberID == tradeOrder.MemberID && x.TradeOrderID == null)
                     .OrderBy(x => x.DepositTime)
-                    .Take(tradeOrder.ChargeByPoint * 2)
+                    .Take((int)(tradeOrder.ChargeByPoint * 2))
                     .ToList();
                 pointUsageList.ForEach(x => x.TradeOrderID = tradeOrder.ID);
 

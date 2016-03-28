@@ -24,7 +24,7 @@ namespace LoveMeHandMake2.Models.ApiModels
         public Guid? MemberGuid { get; set; }
 
         [Display(Name = "扣除点数")]
-        public int ChargeByPoint { get; set; }
+        public double ChargeByPoint { get; set; }
 
         [Display(Name = "付现金额")]
         public int ChargeByCash { get; set; }
@@ -39,7 +39,7 @@ namespace LoveMeHandMake2.Models.ApiModels
         public int RewardMoney { get; set; }
 
         [Display(Name = "送點")]
-        public int RewardPoint { get; set; }
+        public double RewardPoint { get; set; }
 
         [Display(Name = "每点人民币数")]
         public int PointUnitValue { get; set; }

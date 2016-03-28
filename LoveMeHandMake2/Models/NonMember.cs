@@ -19,11 +19,11 @@ namespace LoveMeHandMake2.Models
         public DateTime? Birthday { get; set; }
 
         [Display(Name = "电话")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "不能为空")]
+        [Required(AllowEmptyStrings = false)]
         [Phone]
         public string Phone { get; set; }
 
         [Display(Name = "累积消费点数")]
-        public int AccumulateConsumePoint { get; set; }
+        public double AccumulateConsumePoint { get; set; }
     }
 }
