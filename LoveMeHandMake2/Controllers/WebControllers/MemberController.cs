@@ -127,7 +127,9 @@ namespace LoveMeHandMake2.Controllers
             {
                 try
                 {
+                    string storeCode = db.Stores.Where(x => x.ID == dh.DepositStoreID).Select(x => x.StoreCode).FirstOrDefault();
                     dh.DepostitDateTime = System.DateTime.Now;
+                    dh.OrderID = string.Format("{0}{1:yyMMddHHmmss}", storeCode, dh.DepostitDateTime);
                     dh = new DepositService().Deposit(dh);
 
                     return RedirectToAction("Index");
@@ -198,6 +200,34 @@ namespace LoveMeHandMake2.Controllers
                 .Where(x => x.MemberID == member.ID && x.ValidFlag == true)
                 .OrderByDescending(x => x.DepostitDateTime).ToList();
             return View(history);           
+        }
+
+        public ActionResult CancelDeposit(int id)
+        {
+            DepositService service = new DepositService(db);
+            if (service.IsOrderIDExist(id) == false)
+            {
+                return HttpNotFound();
+            }
+            DepositHistory dh = db.DepositHistory.Find(id);
+            return View(dh);
+        }
+
+        [HttpPost]
+        public ActionResult CancelDepositConfirmed(int id)
+        {
+            try 
+            {
+                int memberID = db.DepositHistory.Where(x => x.ID == id).Select(x => x.MemberID).FirstOrDefault();
+                new DepositService(db).Cancel(id);
+                return RedirectToAction("DepositHistory", new { id = memberID });
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                ViewBag.ErrMsg = e.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Member/TradeHistory/5

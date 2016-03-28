@@ -13,6 +13,14 @@
 
     <div class="form-horizontal">
         <h4>门市</h4>
+
+        @if (ViewBag.ErrMsg != null)
+        {
+            <div class="alert alert-dismissible alert-danger">
+                <strong>@ViewBag.ErrMsg</strong>
+            </div>
+        }
+        
         <hr />
         <div class="form-group">
             @Html.LabelFor(model => model.StoreCode, htmlAttributes: new { @class = "control-label col-md-2" })

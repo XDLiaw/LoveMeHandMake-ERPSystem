@@ -59,6 +59,9 @@
         <th>
             @Html.DisplayNameFor(model => model.RewardPoint)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalIncomeMoney)
+        </th>
         <th></th>
     </tr>
 
@@ -94,6 +97,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RewardPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalIncomeMoney)
             </td>
             <td>
                 @Html.ActionLink("明细", "TradeDetail", new { id = item.ID }) 

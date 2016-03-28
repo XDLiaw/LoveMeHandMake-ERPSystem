@@ -19,5 +19,10 @@ namespace LoveMeHandMake2.Services
         {
             return IsStoreExist(store.ID);
         }
+
+        public bool IsStoreCodeExist(string storeCode)
+        {
+            return db.Stores.Where(x => x.StoreCode == storeCode && x.ValidFlag == true).Count() > 0;
+        }
     }
 }

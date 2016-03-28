@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using LoveMeHandMake2.Models;
 using log4net;
+using LoveMeHandMake2.Services;
 
 namespace LoveMeHandMake2.Controllers
 {
@@ -38,18 +39,27 @@ namespace LoveMeHandMake2.Controllers
 
         //
         // POST: /Store/Create
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Store store, FormCollection formCollection)
         {
-            if (ModelState.IsValid)
-            {
+            try {
+                if (ModelState.IsValid == false)
+                {
+                    throw new ArgumentException("ModelState is invalid!");
+                }
+
+                if (new StoreService().IsStoreCodeExist(store.StoreCode))
+                {
+                    throw new ArgumentException(String.Format("门市代码 [{0}] 已存在", store.StoreCode));
+                }
+
                 store.Create();
                 db.Stores.Add(store);
-                
+
                 List<StoreCanSellCategory> categories = new List<StoreCanSellCategory>();
-                foreach (string key in formCollection.AllKeys) {                    
+                foreach (string key in formCollection.AllKeys)
+                {
                     if (key.StartsWith("category_"))
                     {
                         int categoryID = Convert.ToInt32(formCollection[key]);
@@ -59,12 +69,16 @@ namespace LoveMeHandMake2.Controllers
                     }
                 }
                 db.StoreCanSellCategory.AddRange(categories);
-                
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(store);
+            catch (Exception e)
+            {
+                ViewBag.categories = db.ProductCategory.Where(x => x.ValidFlag == true).ToList();
+                ViewBag.ErrMsg = e.Message;
+                return View(store);
+            }
         }
 
         //

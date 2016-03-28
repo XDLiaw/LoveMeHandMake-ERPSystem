@@ -627,6 +627,7 @@
     <Content Include="Views\Member\DepositHistory.cshtml" />
     <Content Include="Views\Member\TradeHistory.cshtml" />
     <Content Include="Views\Member\TradeDetail.cshtml" />
+    <Content Include="Views\Member\CancelDeposit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

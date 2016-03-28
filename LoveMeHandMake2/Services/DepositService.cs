@@ -10,15 +10,27 @@ namespace LoveMeHandMake2.Services
 {
     public class DepositService
     {
-        private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
+        private LoveMeHandMakeContext db;
+
+        public DepositService() { 
+            this.db = new LoveMeHandMakeContext();
+        }
+
+        public DepositService(LoveMeHandMakeContext db)
+        {
+            this.db = db;
+        }
+
+        public bool IsOrderIDExist(int id)
+        {
+            return db.DepositHistory.Where(x => x.ID == id).Count() > 0;
+        }
 
         public bool IsOrderIDExist(string orderID)
         {
             return db.DepositHistory
                 .Where(x => x.OrderID == orderID 
-                    && x.OrderID != null
-                    && x.ValidFlag == true)
-                
+                    && x.OrderID != null)                
                 .Count() > 0;
         }
 

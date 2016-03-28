@@ -26,6 +26,9 @@
             @Html.DisplayNameFor(model => model.DepostitDateTime)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.OrderID)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.TotalDepositMoney)
         </th>
         <th>
@@ -51,6 +54,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DepostitDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalDepositMoney)
