@@ -11,7 +11,7 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public bool IsRequestSuccess { get; set; }
 
-        public List<string> ErrMsgs { get; private set; }
+        public List<string> ErrMsgs { get; set; }
 
         public double Point { get; set; }
 

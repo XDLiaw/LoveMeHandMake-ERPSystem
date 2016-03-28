@@ -10,7 +10,7 @@ namespace LoveMeHandMake2.Models.ApiModels
     {
         public bool IsDepositSuccess { get; set; }
 
-        public List<string> ErrMsgs { get; private set; }
+        public List<string> ErrMsgs { get; set; }
 
         [Display(Name = "总储值金额")]
         public int TotalDepositMoney { get; set; }

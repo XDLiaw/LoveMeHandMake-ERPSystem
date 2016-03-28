@@ -85,5 +85,34 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 return res;
             }
         }
+
+        [HttpPost]
+        public DepositCancelResultApiModel CancelDeposit(DepositCancelRequestApiModel arg)
+        {
+            log.Info(JsonConvert.SerializeObject(arg));
+            DepositCancelResultApiModel res = new DepositCancelResultApiModel();
+            res.ReceiveRequestTime = DateTime.Now;
+            if (arg.IsValid() == false)
+            {
+                log.Warn(arg.GetInvalidReasons());
+                res.ErrMsgs.AddRange(arg.GetInvalidReasons());
+                res.IsRequestSuccess = false;
+                return res;
+            }
+
+            try
+            {
+                int DepositHistoryID = db.DepositHistory.Where(x => x.OrderID == arg.OrderID && x.ValidFlag == true).Select(x => x.ID).FirstOrDefault();
+                res.Point = new DepositService().Cancel(DepositHistoryID);
+                res.IsRequestSuccess = true;
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                res.ErrMsgs.Add(e.Message);
+                res.IsRequestSuccess = false;
+            }
+            return res;
+        }
     }
 }

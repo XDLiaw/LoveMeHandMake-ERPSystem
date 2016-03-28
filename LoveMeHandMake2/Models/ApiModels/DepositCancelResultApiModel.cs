@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class MemberResultApiModel
+    public class DepositCancelResultApiModel
     {
         public DateTime ReceiveRequestTime { get; set; }
 
@@ -13,10 +13,11 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public List<string> ErrMsgs { get; set; }
 
-        public MemberResultApiModel()
+        public double Point { get; set; }
+
+        public DepositCancelResultApiModel()
         {
             this.ErrMsgs = new List<string>();
         }
-
     }
 }

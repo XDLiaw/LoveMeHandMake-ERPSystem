@@ -459,6 +459,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
+    <Compile Include="Models\ApiModels\DepositCancelRequestApiModel.cs" />
+    <Compile Include="Models\ApiModels\DepositCancelResultApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositResultApiModel.cs" />
     <Compile Include="Models\ApiModels\MemberPointResultApiModel.cs" />

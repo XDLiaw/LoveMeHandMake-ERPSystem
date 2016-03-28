@@ -9,7 +9,7 @@ namespace LoveMeHandMake2.Models.ApiModels
     {
         public bool IsModifySuccess { get; set; }
 
-        public List<string> ErrMsgs { get; private set; }
+        public List<string> ErrMsgs { get; set; }
 
         public TeacherModifyResultApiModel()
         {

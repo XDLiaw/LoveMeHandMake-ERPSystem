@@ -10,7 +10,15 @@ namespace LoveMeHandMake2.Services
 {
     public class TradeOrderService
     {
-        private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
+        private LoveMeHandMakeContext db;
+
+        public TradeOrderService() { 
+            db = new LoveMeHandMakeContext();
+        }
+
+        public TradeOrderService(LoveMeHandMakeContext db) {
+            this.db = db;
+        }
 
         /// <summary>
         ///     find out is the order exist or not no matter it is marked as invalid or not
@@ -18,6 +26,69 @@ namespace LoveMeHandMake2.Services
         public bool IsOrderIDExist(string orderID)
         {
             return db.TradeOrder.Where(x => x.OrderID == orderID).Count() > 0;
+        }
+
+        public void NewTradeOrder(TradeOrderRequestApiModel arg, bool checkIsOrderIdExist)
+        {
+            if (new TradeOrderService().IsOrderIDExist(arg.OrderID) && checkIsOrderIdExist)
+            {
+                throw new ArgumentException("OrderID: [" + arg.OrderID + "] already exist!");
+            }  
+            TradeOrder tradeOrder = arg.ToTradeOrder();
+            Member member = db.Members.Where(x => x.MemberGuid == arg.MemberGuid && x.ValidFlag == true).FirstOrDefault();
+            if (member == null && arg.ChargeByPoint != 0)
+            {
+                throw new ArgumentException("Can't charge point from non-member!");
+            }
+
+            tradeOrder.TotalIncomeMoney = tradeOrder.ChargeByCash + tradeOrder.ChargeByCreditCard;
+            if (member != null)
+            {
+                // asign member to TradeOrder
+                tradeOrder.MemberID = member.ID;
+                tradeOrder.Member = member;
+
+                // deduction point from member                    
+                tradeOrder.Member.Point -= tradeOrder.ChargeByPoint;
+                db.Entry(tradeOrder.Member).State = EntityState.Modified;
+
+                // modify PointUsage 
+                List<HalfPointUsage> pointUsageList = db.HalfPointUsage
+                    .Where(x => x.MemberID == tradeOrder.MemberID && x.TradeOrderID == null)
+                    .OrderBy(x => x.DepositTime)
+                    .Take(tradeOrder.ChargeByPoint * 2)
+                    .ToList();
+                pointUsageList.ForEach(x => x.TradeOrderID = tradeOrder.ID);
+
+                // re-compute Total Income Money
+                foreach (HalfPointUsage hpu in pointUsageList)
+                {
+                    tradeOrder.TotalIncomeMoney += hpu.HalfPointValue;
+                }
+            }
+
+            db.TradeOrder.Add(tradeOrder);
+
+            // insert TradePurchaseProducts to DB
+            double pricePerPoint = tradeOrder.TotalIncomeMoney / arg.TotalProductsPoint();
+            List<TradePurchaseProduct> products = new List<TradePurchaseProduct>();
+            foreach (PurchaseProductApiModel p in arg.ProductList)
+            {
+                TradePurchaseProduct product = p.ToTradePurchaseProduct(tradeOrder.ID);
+                if (product.UnitPoint != null && product.UnitPoint != 0)
+                {
+                    product.Sum = product.Amount * product.UnitPoint.GetValueOrDefault() * pricePerPoint;
+                }
+                else if (product.UnitBean != null && product.UnitBean != 0)
+                {
+                    product.Sum = product.Amount * product.UnitBean.GetValueOrDefault() * pricePerPoint / 2;
+                }
+                products.Add(product);
+            }
+            db.TradePurchaseProduct.AddRange(products);
+
+            // finish whole process so save changes to DB
+            db.SaveChanges();
         }
 
         public void CancelTradeOrder(string orderID)

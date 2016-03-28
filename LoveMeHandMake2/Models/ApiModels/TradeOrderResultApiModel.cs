@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public bool IsRequestSuccess { get; set; }
 
-        public List<string> ErrMsgs { get; private set; }
+        public List<string> ErrMsgs { get; set; }
 
         public TradeOrderResultApiModel()
         {

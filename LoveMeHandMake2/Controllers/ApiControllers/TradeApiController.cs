@@ -33,68 +33,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     res.ErrMsgs.AddRange(arg.GetInvalidReasons());
                     return res;
                 }
-                if (new TradeOrderService().IsOrderIDExist(arg.OrderID))
-                {
-                    throw new ArgumentException("OrderID: [" + arg.OrderID + "] already exist!");
-                }  
-
-                // TODO: check charge is corrected or not
-
-
-                TradeOrder tradeOrder = arg.ToTradeOrder();
-                Member member = db.Members.Where(x => x.MemberGuid == arg.MemberGuid && x.ValidFlag == true).FirstOrDefault();
-                if (member == null && arg.ChargeByPoint != 0) {
-                    throw new ArgumentException("Can't charge point from non-member!");
-                }
-
-                tradeOrder.TotalIncomeMoney = tradeOrder.ChargeByCash + tradeOrder.ChargeByCreditCard;
-                if (member != null)
-                {                  
-                    // asign member to TradeOrder
-                    tradeOrder.MemberID = member.ID;
-                    tradeOrder.Member = member;
-
-                    // deduction point from member                    
-                    tradeOrder.Member.Point -= tradeOrder.ChargeByPoint;
-                    db.Entry(tradeOrder.Member).State = EntityState.Modified;
-
-                    // modify PointUsage 
-                    List<HalfPointUsage> pointUsageList = db.HalfPointUsage
-                        .Where(x => x.MemberID == tradeOrder.MemberID && x.TradeOrderID == null)
-                        .OrderBy(x => x.DepositTime)
-                        .Take(tradeOrder.ChargeByPoint * 2)
-                        .ToList();
-                    pointUsageList.ForEach(x => x.TradeOrderID = tradeOrder.ID);
-
-                    // re-compute Total Income Money
-                    foreach (HalfPointUsage hpu in pointUsageList)
-                    {
-                        tradeOrder.TotalIncomeMoney += hpu.HalfPointValue;
-                    }
-                }
-
-                db.TradeOrder.Add(tradeOrder);
-
-                // insert TradePurchaseProducts to DB
-                double pricePerPoint = tradeOrder.TotalIncomeMoney / arg.TotalProductsPoint();
-                List<TradePurchaseProduct> products = new List<TradePurchaseProduct>();
-                foreach (PurchaseProductApiModel p in arg.ProductList)
-                {
-                    TradePurchaseProduct product = p.ToTradePurchaseProduct(tradeOrder.ID);
-                    if (product.UnitPoint != null && product.UnitPoint != 0)
-                    {
-                        product.Sum = product.Amount * product.UnitPoint.GetValueOrDefault() * pricePerPoint;
-                    }
-                    else if (product.UnitBean != null && product.UnitBean != 0)
-                    {
-                        product.Sum = product.Amount * product.UnitBean.GetValueOrDefault() * pricePerPoint / 2;
-                    }
-                    products.Add(product);
-                }
-                db.TradePurchaseProduct.AddRange(products);
-
-                // finish whole process so save changes to DB
-                db.SaveChanges();
+                new TradeOrderService().NewTradeOrder(arg, true);
                 res.IsRequestSuccess = true;
             }
             catch (Exception e)
@@ -109,7 +48,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         [HttpPost]
         public TradeOrderResultApiModel CancelTradeOrder(TradeOrderCancelRequestApiModel arg)
         {
-            log.Info("CancelTradeOrder: " + arg.orderID);
+            log.Info(JsonConvert.SerializeObject(arg));
             TradeOrderResultApiModel res = new TradeOrderResultApiModel();
             res.ReceiveRequestTime = DateTime.Now;
             res.IsRequestSuccess = false;

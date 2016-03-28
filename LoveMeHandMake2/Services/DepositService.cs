@@ -1,4 +1,5 @@
 ﻿using LoveMeHandMake2.Models;
+using LoveMeHandMake2.Models.ApiModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -94,6 +95,80 @@ namespace LoveMeHandMake2.Services
             db.SaveChanges();
 
             return dh;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns>Points that member have after cancel this deposit</returns>
+        public double Cancel(int orderID)
+        {
+            DepositHistory dh = db.DepositHistory.Where(x => x.ID == orderID && x.ValidFlag == true).FirstOrDefault();
+            if (dh == null)
+            {
+                throw new ArgumentException("DepositOrder doesn't exist!");
+            }
+            // DON'T check if cancelling this deposit will make member's point become negative or not
+
+            // find all tradeOrder who had used points from this deposit and cancel these order first
+            List<int?> TradeOrderIDList = db.HalfPointUsage
+                .Where(x => x.MemberID == dh.MemberID 
+                    && x.DepositOrderID == dh.ID 
+                    && x.TradeOrderID != null)
+                .Select(x => x.TradeOrderID)
+                .Distinct().ToList();
+          
+            List<TradeOrderRequestApiModel> tradeOrderRequestList = new List<TradeOrderRequestApiModel>();
+            TradeOrderService tradeOrderService = new TradeOrderService(db);
+            foreach (int tradeOrderID in TradeOrderIDList)
+            {
+                TradeOrder tradeOrder = db.TradeOrder
+                    .Where(x => x.ID == tradeOrderID && x.ValidFlag == true)
+                    .FirstOrDefault();
+                TradeOrderRequestApiModel order = new TradeOrderRequestApiModel(tradeOrder);
+                List<TradePurchaseProduct> products = db.TradePurchaseProduct
+                    .Where(x => x.OrderID == tradeOrder.ID && x.ValidFlag == true)
+                    .ToList();
+                order.ProductList = new List<PurchaseProductApiModel>();
+                foreach (TradePurchaseProduct p in products)
+                {
+                    order.ProductList.Add(new PurchaseProductApiModel(p));
+                }
+                tradeOrderRequestList.Add(order);
+
+                tradeOrderService.CancelTradeOrder(tradeOrder.OrderID);          
+            }
+
+            // mark this deposit's validValg to false as cancel
+            dh.ValidFlag = false;
+            db.Entry(dh).State = EntityState.Modified;
+
+            // update [point] and [AccumulateDeposit] from member
+            Member member = db.Members.Where(x => x.ID == dh.MemberID).FirstOrDefault();
+            member.Point -= dh.TotalPoint;
+            if (member.AccumulateDeposit - dh.TotalDepositMoney < 0 && dh.AccumulateDepositRewardRuleID != null)
+            {
+                member.AccumulateDeposit = member.AccumulateDeposit + dh.AccumulateDepositRewardRule.DepositAmount - dh.TotalDepositMoney;
+            }
+            else
+            {
+                member.AccumulateDeposit -= dh.TotalDepositMoney;
+            }
+            db.Entry(member).State = EntityState.Modified;
+
+            // remove halfPointUsage those created because of this deposit
+            db.HalfPointUsage.RemoveRange(db.HalfPointUsage.Where(x => x.DepositOrderID == orderID));
+            db.SaveChanges();
+
+            // re-create new tradeOrder which is cancelled before
+            foreach (TradeOrderRequestApiModel newTradeOrder in tradeOrderRequestList)
+            {
+                tradeOrderService.NewTradeOrder(newTradeOrder, false);
+            }
+
+            
+            return member.Point;
         }
 
     }
