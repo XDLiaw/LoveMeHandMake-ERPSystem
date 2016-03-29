@@ -91,7 +91,7 @@ namespace LoveMeHandMake2.Services
             db.SaveChanges();
         }
 
-        public void CancelTradeOrder(string orderID)
+        public TradeOrder CancelTradeOrder(string orderID)
         {
             // find tradeOrder and mark as invalid
             TradeOrder tradeOrder = db.TradeOrder.Where(x => x.OrderID == orderID && x.ValidFlag == true).FirstOrDefault();
@@ -118,6 +118,7 @@ namespace LoveMeHandMake2.Services
             }
 
             db.SaveChanges();
+            return tradeOrder;
         }
 
         public TradeOrderRequestApiModel GetCanceledOrder(string orderID)

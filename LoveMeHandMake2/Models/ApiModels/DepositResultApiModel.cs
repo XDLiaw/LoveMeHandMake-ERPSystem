@@ -6,12 +6,8 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class DepositResultApiModel
+    public class DepositResultApiModel : BaseResultApiModel
     {
-        public bool IsDepositSuccess { get; set; }
-
-        public List<string> ErrMsgs { get; set; }
-
         [Display(Name = "总储值金额")]
         public int TotalDepositMoney { get; set; }
 
@@ -27,15 +23,7 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Display(Name = "每点平均成本")]
         public double AvgPointCost { get; set; }
 
-
-        public DepositResultApiModel()
-        {
-            this.ErrMsgs = new List<string>();
-        }
-
-
-
-
-
+        [Display(Name = "会员现有点数")]
+        public double CurrentPoint { get; set; }
     }
 }

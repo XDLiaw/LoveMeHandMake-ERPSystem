@@ -58,7 +58,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
             if (arg.IsValid() == false)
             {
                 res.ErrMsgs.AddRange(arg.GetInvalidReasons());
-                res.IsModifySuccess = false;
+                res.IsRequestSuccess = false;
                 return res;
             }
             try {
@@ -73,14 +73,14 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 t.Update();
                 db.Entry(t).State = EntityState.Modified;
                 db.SaveChanges();
-                res.IsModifySuccess = true;
+                res.IsRequestSuccess = true;
                 return res;
             }
             catch (Exception e)
             {
                 log.Error(null, e);
                 res.ErrMsgs.Add(e.Message);
-                res.IsModifySuccess = false;
+                res.IsRequestSuccess = false;
                 return res;
             }
 

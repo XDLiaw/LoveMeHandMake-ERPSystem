@@ -1,22 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class TradeOrderResultApiModel
+    public class TradeOrderResultApiModel : BaseResultApiModel
     {
-        public DateTime ReceiveRequestTime { get; set; }
-
-        public bool IsRequestSuccess { get; set; }
-
-        public List<string> ErrMsgs { get; set; }
-
-        public TradeOrderResultApiModel()
-        {
-            this.ErrMsgs = new List<string>();
-        }
+        [Display(Name = "会员现有点数")]
+        public double CurrentPoint { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace LoveMeHandMake2.Models.ApiModels
 {
-    public class TeacherModifyResultApiModel : BaseResultApiModel
+    public class NonMemberTradeResultApiModel : BaseResultApiModel
     {
     }
 }

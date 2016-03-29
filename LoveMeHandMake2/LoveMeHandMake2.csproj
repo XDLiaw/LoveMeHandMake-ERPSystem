@@ -172,6 +172,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ApiControllers\NonMemberTradeApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ProductApiController.cs" />
     <Compile Include="Controllers\WebControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\DepositApiController.cs" />
@@ -476,9 +477,26 @@
     <Compile Include="Migrations\201603281005181_Init69.Designer.cs">
       <DependentUpon>201603281005181_Init69.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603290137360_Init70.cs" />
+    <Compile Include="Migrations\201603290137360_Init70.Designer.cs">
+      <DependentUpon>201603290137360_Init70.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603290140219_Init71.cs" />
+    <Compile Include="Migrations\201603290140219_Init71.Designer.cs">
+      <DependentUpon>201603290140219_Init71.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603290208021_Init72.cs" />
+    <Compile Include="Migrations\201603290208021_Init72.Designer.cs">
+      <DependentUpon>201603290208021_Init72.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603290239442_Init73.cs" />
+    <Compile Include="Migrations\201603290239442_Init73.Designer.cs">
+      <DependentUpon>201603290239442_Init73.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
+    <Compile Include="Models\ApiModels\BaseResultApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositCancelRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositCancelResultApiModel.cs" />
     <Compile Include="Models\ApiModels\DepositRequestApiModel.cs" />
@@ -486,6 +504,8 @@
     <Compile Include="Models\ApiModels\MemberPointResultApiModel.cs" />
     <Compile Include="Models\ApiModels\MemberRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\MemberResultApiModel.cs" />
+    <Compile Include="Models\ApiModels\NonMemberTradeApiModel.cs" />
+    <Compile Include="Models\ApiModels\NonMemberTradeResultApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyResultApiModel.cs" />
     <Compile Include="Models\ApiModels\TradeOrderCancelRequestApiModel.cs" />
@@ -869,6 +889,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603281005181_Init69.resx">
       <DependentUpon>201603281005181_Init69.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603290137360_Init70.resx">
+      <DependentUpon>201603290137360_Init70.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603290140219_Init71.resx">
+      <DependentUpon>201603290140219_Init71.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603290208021_Init72.resx">
+      <DependentUpon>201603290208021_Init72.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603290239442_Init73.resx">
+      <DependentUpon>201603290239442_Init73.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

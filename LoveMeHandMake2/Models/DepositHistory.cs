@@ -25,6 +25,7 @@ namespace LoveMeHandMake2.Models
         }
 
         [Display(Name = "交易单号")]
+        [Key, Column(Order = 1)]
         public string OrderID { get; set; }
 
         public Guid MemberGuid { get; set; }

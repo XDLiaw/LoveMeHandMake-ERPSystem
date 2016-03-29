@@ -10,8 +10,8 @@ namespace LoveMeHandMake2.Models
 {
     public class Store : BaseModel
     {
-        [Required]
         [Display(Name = "门市代码")]
+        [Required]    
         [StringLength(4)]
         public string StoreCode { get; set; }
 
