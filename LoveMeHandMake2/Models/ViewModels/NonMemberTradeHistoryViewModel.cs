@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace LoveMeHandMake2.Models.ApiModels
+namespace LoveMeHandMake2.Models.ViewModels
 {
-    public class NonMemberTradeApiModel : BaseRequestApiModel
+    public class NonMemberTradeHistoryViewModel
     {
         [Display(Name = "姓名")]
         public string Name { get; set; }
@@ -24,11 +24,17 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Phone]
         public string Phone { get; set; }
 
-        [Display(Name = "销售门市")]
+        [Required]
         public int StoreID { get; set; }
 
-        [Display(Name = "销售人员")]
+        [Display(Name = "销售门市")]
+        public Store store { get; set; }
+
+        [Required]
         public int TeacherID { get; set; }
+
+        [Display(Name = "销售人员")]
+        public Teacher teacher { get; set; }
 
         [Display(Name = "消费点数")]
         [Required]
@@ -38,5 +44,23 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime TradeDateTime { get; set; }
+
+        public void SetNonMember(NonMember arg)
+        {
+            this.Name = arg.Name;
+            this.Gender = arg.Gender;
+            this.Birthday = arg.Birthday;
+            this.Phone = arg.Phone;
+        }
+
+        public void SetTrade(NonMemberTradeList arg)
+        {
+            this.StoreID = arg.StoreID;
+            this.store = arg.Store;
+            this.TeacherID = arg.TeacherID;
+            this.teacher = arg.Teacher;
+            this.Point = arg.Point;
+            this.TradeDateTime = arg.TradeDateTime;
+        }
     }
 }

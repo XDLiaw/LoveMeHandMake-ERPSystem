@@ -1,0 +1,64 @@
+﻿@model IEnumerable<LoveMeHandMake2.Models.ViewModels.NonMemberTradeHistoryViewModel>
+
+@{
+    ViewBag.Title = "非会员消费纪录";
+}
+
+<h2>非会员消费纪录</h2>
+
+@using (Html.BeginForm("Index", "NonMember", FormMethod.Post))
+{
+    <div class="container">
+        <div class="col-md-3">
+            <input type="text" name="searchPhone" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Phone)">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="dateStart" class="form-control calendarBox" placeholder="日期(起)">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="dateEnd" class="form-control calendarBox" placeholder="日期(讫)">
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="搜寻" class="btn btn-default" />
+        </div>
+    </div>
+}
+<hr />
+
+<table class="table table-striped">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.TradeDateTime)</th>
+        <th>@Html.DisplayNameFor(model => model.Name)</th>
+        <th>@Html.DisplayNameFor(model => model.Gender)</th>
+        <th>@Html.DisplayNameFor(model => model.Birthday)</th>
+        <th>@Html.DisplayNameFor(model => model.Phone)</th>
+        <th>@Html.DisplayNameFor(model => model.store)</th>
+        <th>@Html.DisplayNameFor(model => model.teacher)</th>
+        <th>@Html.DisplayNameFor(model => model.Point)</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.TradeDateTime)</td>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            @if (item.Gender == false)
+            {
+                <td>女</td>
+            }
+            else if (item.Gender == true)
+            {
+                <td>男</td>
+            }
+            else
+            {
+                <td></td>
+            }
+            <td>@Html.DisplayFor(modelItem => item.Birthday)</td>
+            <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+            <td>@Html.DisplayFor(modelItem => item.store.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.teacher.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Point)</td>
+        </tr>
+    }
+</table>
