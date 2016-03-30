@@ -24,43 +24,13 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection formCollection)
+        public ActionResult Index(ProductSaleReportViewModel model)
         {
-            string SearchStoreID = formCollection["SearchStoreID"];
-            int? storeID = null;
-            if (String.IsNullOrEmpty(SearchStoreID) == false)
-            {
-                storeID = Convert.ToInt32(SearchStoreID);
-            }
+            int? storeID = model.SearchStoreID;
+            DateTime? dateStart = model.SearchDateStart;
+            DateTime? dateEnd = model.SearchDateEnd;
 
-            DateTime? dateStart = null;
-            DateTime? dateEnd = null;
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(formCollection["SearchDateStart"]))
-                {
-                    dateStart = Convert.ToDateTime(formCollection["SearchDateStart"]);
-                }
-            }
-            catch (FormatException e)
-            {
-                log.Warn(null, e);
-            }
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(formCollection["SearchDateEnd"]))
-                {
-                    dateEnd = Convert.ToDateTime(formCollection["SearchDateEnd"]);
-                }
-            }
-            catch (FormatException e)
-            {
-                log.Warn(null, e);
-            }
-            // ==============================================================================================
-
-
-            ProductSaleReportViewModel model = Index(storeID, dateStart, dateEnd);
+            model = Index(storeID, dateStart, dateEnd);
             model.SearchStoreID = storeID;
             model.SearchDateStart = dateStart;
             model.SearchDateEnd = dateEnd;
@@ -107,12 +77,12 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         }
 
         [HttpGet]
-        public ActionResult DownloadReport(int? storeID, DateTime? dateStart, DateTime? dateEnd)
+        public ActionResult DownloadReport(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
-            DateTime start = dateStart == null ? DateTime.MinValue : dateStart.GetValueOrDefault();
-            DateTime end = dateEnd == null ? DateTime.MaxValue : dateEnd.GetValueOrDefault();
+            DateTime start = SearchDateStart == null ? DateTime.MinValue : SearchDateStart.GetValueOrDefault();
+            DateTime end = SearchDateEnd == null ? DateTime.MaxValue : SearchDateEnd.GetValueOrDefault();
 
-            ProductSaleReportViewModel model = Index(storeID, start, end);
+            ProductSaleReportViewModel model = Index(SearchStoreID, start, end);
             MemoryStream memoryStream = new MemoryStream();            
             try
             {
