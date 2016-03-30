@@ -38,6 +38,38 @@ namespace LoveMeHandMake2.Controllers
             return items;
         }
 
+        public static List<SelectListItem> GetStoreListWithEmpty(bool includeStopBusiness)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem()
+            {
+                Text = "All",
+                Value = ""
+            });
+            List<Store> storeList;
+            if (includeStopBusiness)
+            {
+                storeList = db.Stores.Where(x => x.ValidFlag == true).ToList();
+            }
+            else
+            {
+                storeList = db.Stores.Where(x =>
+                    (x.StopBusinessDate == null || x.StopBusinessDate > DateTime.Now)
+                    && x.ValidFlag == true)
+                    .ToList();
+            }
+            foreach (Store store in storeList)
+            {
+                items.Add(new SelectListItem()
+                {
+                    Text = store.StoreCode + " - " + store.Name,
+                    Value = store.ID.ToString()
+                });
+            }
+
+            return items;
+        }
+
         public static List<SelectListItem> GetProductCategoryList()
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -54,9 +86,62 @@ namespace LoveMeHandMake2.Controllers
             return items;
         }
 
+        public static List<SelectListItem> GetProductCategoryListWithEmpty()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem()
+            {
+                Text = "All",
+                Value = ""
+            });
+            List<ProductCategory> categoryList = db.ProductCategory.Where(x => x.ValidFlag == true).ToList();
+            foreach (ProductCategory pc in categoryList)
+            {
+                items.Add(new SelectListItem()
+                {
+                    Text = pc.Name,
+                    Value = pc.ID.ToString()
+                });
+            }
+
+            return items;
+        }
+
         public static List<SelectListItem> GetTeacherList(bool includeResign)
         {
             List<SelectListItem> items = new List<SelectListItem>();
+            List<Teacher> teacherList;
+            if (includeResign)
+            {
+                teacherList = db.Teachers.Where(x => x.ValidFlag).ToList();
+            }
+            else
+            {
+                teacherList = db.Teachers.Where(
+                    x => (x.ResignDate == null || x.ResignDate > DateTime.Now)
+                    && x.ValidFlag).ToList();
+            }
+
+            foreach (Teacher t in teacherList)
+            {
+                items.Add(new SelectListItem()
+                {
+                    Text = t.Name,
+                    Value = t.ID.ToString()
+                });
+            }
+
+            return items;
+        }
+
+        public static List<SelectListItem> GetTeacherListWithEmpty(bool includeResign)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem()
+            {
+                Text = "All",
+                Value = ""
+            });
             List<Teacher> teacherList;
             if (includeResign)
             {

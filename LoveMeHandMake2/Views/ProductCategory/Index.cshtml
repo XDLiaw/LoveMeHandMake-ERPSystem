@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("新增产品类别", "Create")
 </p>
-<table class="table">
+<table class="table table-striped table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -28,11 +28,11 @@
             </td>
             <td>
                 @if (item.Unit == 1)
-                { 
+                {
                     @Html.Label("点");
                 }
                 else if (item.Unit == 2)
-                { 
+                {
                     @Html.Label("豆");
                 }
             </td>

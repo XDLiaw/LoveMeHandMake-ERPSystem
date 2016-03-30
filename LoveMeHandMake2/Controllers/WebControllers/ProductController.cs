@@ -21,9 +21,30 @@ namespace LoveMeHandMake2.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            var products = db.Products.Where(x => x.ValidFlag == true).Include(p => p.ProductCategory);
-            return View(products.ToList());
+            List<Product> products = db.Products.Where(x => x.ValidFlag == true).Include(p => p.ProductCategory).ToList();
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
+            return View(products);
         }
+
+        [HttpPost]
+        public ActionResult Index(FormCollection formCollection)
+        {
+            string SearchProductCategoryID = formCollection["SearchProductCategoryID"];
+            List<Product> res;
+            if (String.IsNullOrEmpty(SearchProductCategoryID) == false)
+            {
+                int productCategoryID = Convert.ToInt32(SearchProductCategoryID);
+                res = db.Products.Where(x => x.ProductCategoryID == productCategoryID && x.ValidFlag == true).ToList();
+            }
+            else
+            {
+                res = db.Products.Where(x => x.ValidFlag == true).Include(p => p.ProductCategory).ToList();
+            }
+
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
+            return View(res);
+        }
+
 
         // GET: Product/Details/5
         public ActionResult Details(int? id)

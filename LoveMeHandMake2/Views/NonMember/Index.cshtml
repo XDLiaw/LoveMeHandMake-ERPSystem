@@ -25,7 +25,7 @@
 }
 <hr />
 
-<table class="table table-striped">
+<table class="table table-striped table-hover">
     <tr>
         <th>@Html.DisplayNameFor(model => model.TradeDateTime)</th>
         <th>@Html.DisplayNameFor(model => model.Name)</th>
@@ -42,18 +42,7 @@
         <tr>
             <td>@Html.DisplayFor(modelItem => item.TradeDateTime)</td>
             <td>@Html.DisplayFor(modelItem => item.Name)</td>
-            @if (item.Gender == false)
-            {
-                <td>女</td>
-            }
-            else if (item.Gender == true)
-            {
-                <td>男</td>
-            }
-            else
-            {
-                <td></td>
-            }
+            <td>@(item.Gender == null ? "" : (item.Gender == true ? "男" : "女"))</td>
             <td>@Html.DisplayFor(modelItem => item.Birthday)</td>
             <td>@Html.DisplayFor(modelItem => item.Phone)</td>
             <td>@Html.DisplayFor(modelItem => item.store.Name)</td>

@@ -74,6 +74,7 @@ namespace LoveMeHandMake2.Services
                     RewardPoint = (int)m.Point,
                     DepostitDateTime = newMember.EnrollDate
                 };
+                depositHistory.OrderID = string.Format("{0}{1:yyMMddHHmmss}", newMember.EnrollStore.StoreCode, depositHistory.DepostitDateTime);
                 new DepositService().Deposit(depositHistory);
             }
 

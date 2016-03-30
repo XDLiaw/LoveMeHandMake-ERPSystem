@@ -20,7 +20,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 
         [HttpGet]
         public Object Synchronize(DateTime lastSynchronizeTime)
-        {
+        {           
             DateTime receiveRequestTime = DateTime.Now;
             List<Member> newMembers = db.Members
                 .Where(x => x.CreateTime > lastSynchronizeTime
@@ -48,6 +48,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
         [HttpGet]
         public MemberPointResultApiModel GetPoint(Guid memberGuid)
         {
+            log.Info(JsonConvert.SerializeObject(memberGuid));
             MemberPointResultApiModel res = new MemberPointResultApiModel();
             res.ReceiveRequestTime = DateTime.Now;
             Member m = db.Members.Where(x => x.MemberGuid == memberGuid && x.ValidFlag == true).FirstOrDefault();
