@@ -40,6 +40,18 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 t.PreviousPassword = AESEncrypter.Encrypt(t.PreviousPassword);
             }
 
+            foreach (Teacher t in changedTeachers)
+            {
+                t.Password = AESEncrypter.Encrypt(t.Password);
+                t.PreviousPassword = AESEncrypter.Encrypt(t.PreviousPassword);
+            }
+
+            foreach (Teacher t in removedTeachers)
+            {
+                t.Password = AESEncrypter.Encrypt(t.Password);
+                t.PreviousPassword = AESEncrypter.Encrypt(t.PreviousPassword);
+            }
+
 
             var res = new { 
                 ReceiveRequestTime = receiveRequestTime,
