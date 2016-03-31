@@ -17,11 +17,6 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Display(Name = "密码")]
         public string Password { get; set; }
 
-        public void Decrypt()
-        {
-            this.Password = AESEncrypter.Decrypt(this.Password);
-        }
-
         public override bool IsValid()
         {
             if(base.IsValid() == false) {                
@@ -29,7 +24,7 @@ namespace LoveMeHandMake2.Models.ApiModels
             }
             try
             {
-                Decrypt();
+                this.Password = AESEncrypter.Decrypt(this.Password);
             }
             catch (Exception e)
             {

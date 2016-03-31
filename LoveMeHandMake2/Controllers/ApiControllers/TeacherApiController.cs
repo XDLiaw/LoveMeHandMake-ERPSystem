@@ -81,7 +81,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     return res;
                 }
                 t.PreviousPassword = t.Password;
-                t.Password = AESEncrypter.Decrypt(arg.Password);
+                t.Password = arg.Password;
                 t.Update();
                 db.Entry(t).State = EntityState.Modified;
                 db.SaveChanges();

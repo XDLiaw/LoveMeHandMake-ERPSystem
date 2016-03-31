@@ -26,12 +26,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpPost]
         public ActionResult Index(ProductSaleReportViewModel model)
         {
-            int? storeID = model.SearchStoreID;
-            DateTime? dateStart = model.SearchDateStart;
-            DateTime? dateEnd = model.SearchDateEnd;
-
-            model = GetModelData(storeID, dateStart, dateEnd);
-            
+            model = GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
             return View(model);
         }
