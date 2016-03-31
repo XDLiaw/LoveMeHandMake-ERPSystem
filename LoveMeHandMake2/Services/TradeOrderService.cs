@@ -41,7 +41,7 @@ namespace LoveMeHandMake2.Services
                 throw new ArgumentException("Can't charge point from non-member!");
             }
 
-            tradeOrder.TotalIncomeMoney = tradeOrder.ChargeByCash + tradeOrder.ChargeByCreditCard;
+            tradeOrder.TotalIncomeMoney = tradeOrder.ChargeByCash + tradeOrder.ChargeByCreditCard + tradeOrder.ChargeByMallCard;
             if (member != null)
             {
                 // asign member to TradeOrder
