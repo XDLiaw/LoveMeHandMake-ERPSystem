@@ -8,7 +8,7 @@ namespace LoveMeHandMake2.Models.ViewModels
 {
     public class ProductSaleReportViewModel
     {
-        [Display(Name = "分店")]
+        [Display(Name = "门市")]
         public int? SearchStoreID { get; set; }
 
         [Display(Name = "日期(起)")]

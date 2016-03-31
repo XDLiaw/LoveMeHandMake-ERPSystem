@@ -212,6 +212,7 @@
     <Compile Include="Controllers\WebControllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\WebControllers\ProductController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\ByteArrayOutputStream.cs" />
+    <Compile Include="Controllers\WebControllers\Reports\DepositReportController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\ProductSaleReportController.cs" />
     <Compile Include="Controllers\WebControllers\StoreController.cs" />
     <Compile Include="Controllers\WebControllers\SysParameterController.cs" />
@@ -220,7 +221,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\AESEncrypter.cs" />
-    <Compile Include="Helper\ExcelReport\ProductSaleReport.cs" />
+    <Compile Include="Helper\ExcelReport\BaseExcelReport.cs" />
+    <Compile Include="Helper\ExcelReport\DepositExcelReport.cs" />
+    <Compile Include="Helper\ExcelReport\ProductSaleExcelReport.cs" />
     <Compile Include="Migrations\201603090616374_Init.cs" />
     <Compile Include="Migrations\201603090616374_Init.Designer.cs">
       <DependentUpon>201603090616374_Init.cs</DependentUpon>
@@ -553,6 +556,7 @@
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TradePurchaseProduct.cs" />
     <Compile Include="Models\TradeOrder.cs" />
+    <Compile Include="Models\ViewModels\DepositReportViewModel.cs" />
     <Compile Include="Models\ViewModels\NonMemberTradeHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductSaleReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -696,6 +700,7 @@
     <Content Include="Views\Member\CancelDeposit.cshtml" />
     <Content Include="Views\NonMember\Index.cshtml" />
     <Content Include="Views\ProductSaleReport\Index.cshtml" />
+    <Content Include="Views\DepositReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

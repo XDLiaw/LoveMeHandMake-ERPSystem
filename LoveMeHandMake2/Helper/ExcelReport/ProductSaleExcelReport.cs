@@ -11,61 +11,47 @@ using System.Web;
 
 namespace LoveMeHandMake2.Helper.ExcelReport
 {
-    public class ProductSaleExcelReport
+    public class ProductSaleExcelReport : BaseExcelReport
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ProductSaleExcelReport));
-
-        private IWorkbook wb;
-        private ICellStyle defaultCellStyle_Center;
-
-        private void Init()
-        {
-            this.wb = new XSSFWorkbook();
-            defaultCellStyle_Center = this.wb.CreateCellStyle();
-            defaultCellStyle_Center.Alignment = HorizontalAlignment.Center;
-            defaultCellStyle_Center.VerticalAlignment = VerticalAlignment.Center;
-        }
-
         public IWorkbook Create(ProductSaleReportViewModel arg)
         {
-            Init();
+            base.Init();
             //IFont font_15 = wb.CreateFont();
             //font_15.FontHeightInPoints = 15;
             //font_15.FontName = "新細明體";
 
             //detail sheet
-            ISheet detailSheet = this.wb.CreateSheet("明細");
+            ISheet detailSheet = this.workbook.CreateSheet("明細");
             int rowCount = 0;
-            rowCount = createTitlePart(detailSheet, rowCount, 
-                arg.SearchDateStart.GetValueOrDefault(DateTime.MinValue), 
-                arg.SearchDateEnd.GetValueOrDefault(DateTime.MaxValue));
+            rowCount = createTitlePart(detailSheet, rowCount, arg.SearchDateStart, arg.SearchDateEnd);
             rowCount = createDataPart(detailSheet, rowCount, arg);
             for (int i = 0; i < 8; i++)
             {
                 detailSheet.AutoSizeColumn(i);
             }
+            detailSheet.SetColumnWidth(0, 30 * 256);
 
             // summary sheet 
             createSummerySheet(arg);
 
-            return this.wb;
+            return this.workbook;
         }
 
 
-        private int createTitlePart(ISheet sheet, int rowCount, DateTime startTime, DateTime endTime)
+        private int createTitlePart(ISheet sheet, int rowCount, DateTime? startTime, DateTime? endTime)
         {
             {
                 IRow firstRow = sheet.CreateRow(rowCount++);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 7));
                 ICell cell = firstRow.CreateCell(0);
-                cell.SetCellValue("國貿360 - 巧樂思");
+                cell.SetCellValue("国贸360 - 巧乐思");
                 cell.CellStyle = this.defaultCellStyle_Center;
             }
             {
                 IRow secondRow = sheet.CreateRow(rowCount++);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(1, 3, 0, 7));
                 ICell cell = secondRow.CreateCell(0);
-                cell.SetCellValue(String.Format("商品銷售表（{0:yyyy/MM/dd}~{1:yyyy/MM/dd}）", startTime, endTime));
+                cell.SetCellValue(String.Format("商品销售表（{0:yyyy/MM/dd}~{1:yyyy/MM/dd}）", startTime, endTime));
                 cell.CellStyle = this.defaultCellStyle_Center;
                 rowCount = 4;
             }
@@ -81,11 +67,11 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 productCell.CellStyle = this.defaultCellStyle_Center;
 
                 ICell pointCell = titleRow.CreateCell(colCount++);
-                pointCell.SetCellValue("点");
+                pointCell.SetCellValue("点数");
                 pointCell.CellStyle = this.defaultCellStyle_Center;
 
                 ICell beanCell = titleRow.CreateCell(colCount++);
-                beanCell.SetCellValue("豆");
+                beanCell.SetCellValue("豆数");
                 beanCell.CellStyle = this.defaultCellStyle_Center;
 
                 ICell memberCardCell = titleRow.CreateCell(colCount++);
@@ -109,19 +95,16 @@ namespace LoveMeHandMake2.Helper.ExcelReport
 
         private int createDataPart(ISheet sheet, int rowCount, ProductSaleReportViewModel arg)
         {
-            ICellStyle cellStyle_Date = this.wb.CreateCellStyle();
-            IDataFormat format = this.wb.CreateDataFormat();
-            cellStyle_Date.DataFormat = format.GetFormat("yyyy/MM/dd (dddd)");
-            cellStyle_Date.Alignment = HorizontalAlignment.Center;
             foreach (ProductSaleRecord psr in arg.saleList)
             {
                 for (int i = 0; i < psr.Amount; i++)
                 {
                     int colCount = 0;
                     IRow row = sheet.CreateRow(rowCount++);
+
                     ICell tradeDateCell = row.CreateCell(colCount++);
                     tradeDateCell.SetCellValue(psr.TradeDateTime);
-                    tradeDateCell.CellStyle = cellStyle_Date;
+                    tradeDateCell.CellStyle = this.defaultCellStyle_Date;
 
 
                     ICell productCell = row.CreateCell(colCount++);
@@ -158,7 +141,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
 
         private void createSummerySheet(ProductSaleReportViewModel arg)
         {
-            ISheet summarySheet = this.wb.CreateSheet("總計");
+            ISheet summarySheet = this.workbook.CreateSheet("總計");
             object[,] summary = new object[,] 
                 { 
                     { "总消费点数", arg.TotalPoint }, 

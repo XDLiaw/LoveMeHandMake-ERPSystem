@@ -92,7 +92,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                 log.Error(null, e);
             }
 
-            return File(memoryStream.ToArray(), "application/vnd.ms-excel", "商品銷售表.xlsx");
+            return File(memoryStream.ToArray(), "application/vnd.ms-excel", "商品销售表.xlsx");
         }
 
 

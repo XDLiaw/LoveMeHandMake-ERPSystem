@@ -117,18 +117,17 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
-    function btnDownload() {
-        try {
-            var storeID = $("#SearchStoreID").val();
-            var start = $("#SearchDateStart").val();
-            var end = $("#SearchDateEnd").val();
-            window.location.href = "/ProductSaleReport/DownloadReport?SearchStoreID=" + storeID + "&SearchDateStart=" + start + "&SearchDateEnd=" + end;
-            return true;
+        function btnDownload() {
+            try {
+                var storeID = $("#SearchStoreID").val();
+                var start = $("#SearchDateStart").val();
+                var end = $("#SearchDateEnd").val();
+                window.location.href = "/ProductSaleReport/DownloadReport?SearchStoreID=" + storeID + "&SearchDateStart=" + start + "&SearchDateEnd=" + end;
+                return true;
+            }
+            catch(e) {
+                return false;
+            }
         }
-        catch(e) {
-            return false;
-        }
-    }
-
     </script>
 }
