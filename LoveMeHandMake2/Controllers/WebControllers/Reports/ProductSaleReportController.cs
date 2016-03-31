@@ -30,18 +30,18 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
             DateTime? dateStart = model.SearchDateStart;
             DateTime? dateEnd = model.SearchDateEnd;
 
-            model = Index(storeID, dateStart, dateEnd);
-            model.SearchStoreID = storeID;
-            model.SearchDateStart = dateStart;
-            model.SearchDateEnd = dateEnd;
+            model = GetModelData(storeID, dateStart, dateEnd);
             
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
             return View(model);
         }
 
-        private ProductSaleReportViewModel Index(int? storeID, DateTime? dateStart, DateTime? dateEnd)
+        private ProductSaleReportViewModel GetModelData(int? storeID, DateTime? dateStart, DateTime? dateEnd)
         {
             ProductSaleReportViewModel model = new ProductSaleReportViewModel();
+            model.SearchStoreID = storeID;
+            model.SearchDateStart = dateStart;
+            model.SearchDateEnd = dateEnd;
             model.saleList =
             (
                 from tpp in db.TradePurchaseProduct
@@ -79,15 +79,12 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpGet]
         public ActionResult DownloadReport(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
-            DateTime start = SearchDateStart == null ? DateTime.MinValue : SearchDateStart.GetValueOrDefault();
-            DateTime end = SearchDateEnd == null ? DateTime.MaxValue : SearchDateEnd.GetValueOrDefault();
-
-            ProductSaleReportViewModel model = Index(SearchStoreID, start, end);
+            ProductSaleReportViewModel model = GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);
             MemoryStream memoryStream = new MemoryStream();            
             try
             {
-                ProductSaleReport report = new ProductSaleReport();
-                IWorkbook wb = report.Create(model, start, end);
+                ProductSaleExcelReport report = new ProductSaleExcelReport();
+                IWorkbook wb = report.Create(model);
                 wb.Write(memoryStream);
             }
             catch (Exception e)

@@ -11,9 +11,9 @@ using System.Web;
 
 namespace LoveMeHandMake2.Helper.ExcelReport
 {
-    public class ProductSaleReport
+    public class ProductSaleExcelReport
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(ProductSaleReport));
+        private static readonly ILog log = LogManager.GetLogger(typeof(ProductSaleExcelReport));
 
         private IWorkbook wb;
         private ICellStyle defaultCellStyle_Center;
@@ -26,7 +26,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             defaultCellStyle_Center.VerticalAlignment = VerticalAlignment.Center;
         }
 
-        public IWorkbook Create(ProductSaleReportViewModel arg, DateTime startTime, DateTime endTime)
+        public IWorkbook Create(ProductSaleReportViewModel arg)
         {
             Init();
             //IFont font_15 = wb.CreateFont();
@@ -36,7 +36,9 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             //detail sheet
             ISheet detailSheet = this.wb.CreateSheet("明細");
             int rowCount = 0;
-            rowCount = createTitlePart(detailSheet, rowCount, startTime, endTime);
+            rowCount = createTitlePart(detailSheet, rowCount, 
+                arg.SearchDateStart.GetValueOrDefault(DateTime.MinValue), 
+                arg.SearchDateEnd.GetValueOrDefault(DateTime.MaxValue));
             rowCount = createDataPart(detailSheet, rowCount, arg);
             for (int i = 0; i < 8; i++)
             {
