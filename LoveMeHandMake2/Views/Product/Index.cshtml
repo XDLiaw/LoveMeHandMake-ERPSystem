@@ -8,12 +8,12 @@
 
 @using (Html.BeginForm("Index", "Product", FormMethod.Post))
 {
-    <div class="container">
-        
+    <div class="container breadcrumb">
+
         <div class="col-md-3">
-            @Html.ActionLink("新增产品", "Create")
-        </div>      
-        <div class="col-md-3"></div>      
+            @Html.ActionLink("新增产品", "Create", null, new { @class = "btn btn-primary" })
+        </div>
+        <div class="col-md-3"></div>
         <div class="col-md-3">
             @Html.DropDownList("SearchProductCategoryID", (IEnumerable<SelectListItem>)ViewBag.ProductCategoryList, htmlAttributes: new { @class = "form-control" })
         </div>

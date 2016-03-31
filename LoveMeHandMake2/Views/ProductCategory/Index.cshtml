@@ -7,7 +7,7 @@
 <h2>产品类别</h2>
 
 <p>
-    @Html.ActionLink("新增产品类别", "Create")
+    @Html.ActionLink("新增产品类别", "Create", null, new { @class = "btn btn-primary" })
 </p>
 <table class="table table-striped table-hover">
     <tr>
@@ -37,8 +37,8 @@
                 }
             </td>
             <td>
-                <input type="button" value="Edit" id=@item.ID class="edit btn-default" />
-                <input type="button" value="Delete" id=@item.ID class="delete btn-default" />
+                <input type="button" value="Edit" id=@item.ID class="edit btn btn-default" />
+                <input type="button" value="Delete" id=@item.ID class="delete btn btn-danger" />
             </td>
         </tr>
     }

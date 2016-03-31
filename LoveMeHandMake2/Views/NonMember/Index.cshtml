@@ -8,7 +8,7 @@
 
 @using (Html.BeginForm("Index", "NonMember", FormMethod.Post))
 {
-    <div class="container">
+    <div class="container breadcrumb">
         <div class="col-md-3">
             <input type="text" name="searchPhone" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Phone)">
         </div>
@@ -23,7 +23,6 @@
         </div>
     </div>
 }
-<hr />
 
 <table class="table table-striped table-hover">
     <tr>

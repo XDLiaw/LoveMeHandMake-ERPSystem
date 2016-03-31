@@ -9,7 +9,10 @@
 
 @using (Html.BeginForm("Index", "Member", FormMethod.Post))
 {
-    <div class="container">
+    <div class="container breadcrumb">
+        <div class="col-md-2">
+            @Html.ActionLink("新增会员", "Create", null, new { @class = "btn btn-primary" })
+        </div>
         <div class="col-md-3">
             <input type="text" name="searchName" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Name)">
         </div>
@@ -19,16 +22,11 @@
         <div class="col-md-3">
             <input type="text" name="searchCardID" class="form-control" placeholder="@Html.DisplayNameFor(model => model.CardID)">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-1">
             <input type="submit" value="搜寻" class="btn btn-default" />
         </div>
     </div>
 }
-<hr />
-
-<p>
-    @Html.ActionLink("新增会员", "Create")
-</p>
 
 <table class="table table-striped table-hover">
     <tr>
