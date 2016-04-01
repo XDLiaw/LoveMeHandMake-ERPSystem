@@ -211,6 +211,7 @@
     <Compile Include="Controllers\WebControllers\NonMemberController.cs" />
     <Compile Include="Controllers\WebControllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\WebControllers\ProductController.cs" />
+    <Compile Include="Controllers\WebControllers\PopularProductController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\DailyBusinessReportController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\DepositReportController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\ProductSaleReportController.cs" />
@@ -560,6 +561,7 @@
     <Compile Include="Models\ViewModels\DailyBusinessReportViewModel.cs" />
     <Compile Include="Models\ViewModels\DepositReportViewModel.cs" />
     <Compile Include="Models\ViewModels\NonMemberTradeHistoryViewModel.cs" />
+    <Compile Include="Models\ViewModels\PopularProductViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductSaleReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DepositService.cs" />
@@ -704,6 +706,7 @@
     <Content Include="Views\ProductSaleReport\Index.cshtml" />
     <Content Include="Views\DepositReport\Index.cshtml" />
     <Content Include="Views\DailyBusinessReport\Index.cshtml" />
+    <Content Include="Views\PopularProduct\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
