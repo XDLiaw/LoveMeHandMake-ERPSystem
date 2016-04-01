@@ -5,6 +5,7 @@ using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -23,7 +24,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             //detail sheet
             ISheet detailSheet = this.workbook.CreateSheet("明細");
             int rowCount = 0;
-            rowCount = createTitlePart(detailSheet, rowCount, arg.SearchDateStart, arg.SearchDateEnd);
+            rowCount = createTitlePart(detailSheet, rowCount, arg.StoreName, arg.SearchDateStart, arg.SearchDateEnd);
             rowCount = createDataPart(detailSheet, rowCount, arg);
             for (int i = 0; i < 8; i++)
             {
@@ -38,13 +39,13 @@ namespace LoveMeHandMake2.Helper.ExcelReport
         }
 
 
-        private int createTitlePart(ISheet sheet, int rowCount, DateTime? startTime, DateTime? endTime)
+        private int createTitlePart(ISheet sheet, int rowCount, string storeName, DateTime? startTime, DateTime? endTime)
         {
             {
                 IRow firstRow = sheet.CreateRow(rowCount++);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 7));
                 ICell cell = firstRow.CreateCell(0);
-                cell.SetCellValue("国贸360 - 巧乐思");
+                cell.SetCellValue(storeName);
                 cell.CellStyle = this.defaultCellStyle_Center;
             }
             {
@@ -58,6 +59,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             {
                 int colCount = 0;
                 IRow titleRow = sheet.CreateRow(rowCount++);
+
                 ICell dateCell = titleRow.CreateCell(colCount++);
                 dateCell.SetCellValue("日期");
                 dateCell.CellStyle = this.defaultCellStyle_Center;
@@ -95,6 +97,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
 
         private int createDataPart(ISheet sheet, int rowCount, ProductSaleReportViewModel arg)
         {
+            CultureInfo ci = new CultureInfo("zh-CN");
             foreach (ProductSaleRecord psr in arg.saleList)
             {
                 for (int i = 0; i < psr.Amount; i++)
@@ -102,11 +105,10 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                     int colCount = 0;
                     IRow row = sheet.CreateRow(rowCount++);
 
-                    ICell tradeDateCell = row.CreateCell(colCount++);
+                    ICell tradeDateCell = row.CreateCell(colCount++);                    
                     tradeDateCell.SetCellValue(psr.TradeDateTime);
                     tradeDateCell.CellStyle = this.defaultCellStyle_Date;
-
-
+                    
                     ICell productCell = row.CreateCell(colCount++);
                     productCell.SetCellValue(psr.ProductName);
                     productCell.CellStyle = this.defaultCellStyle_Center;

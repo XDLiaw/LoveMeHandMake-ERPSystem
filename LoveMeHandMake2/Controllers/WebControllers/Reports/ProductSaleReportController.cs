@@ -37,36 +37,47 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
             model.SearchStoreID = storeID;
             model.SearchDateStart = dateStart;
             model.SearchDateEnd = dateEnd;
-            model.saleList =
-            (
-                from tpp in db.TradePurchaseProduct
-                join o in db.TradeOrder on tpp.OrderID equals o.ID
-                join p in db.Products on tpp.ProductID equals p.ID               
-                where (storeID == null ? true : o.StoreID == storeID)
-                    && (dateStart == null ? true : dateStart <= o.TradeDateTime)
-                    && (dateEnd == null ? true : o.TradeDateTime <= dateEnd)
-                    && (o.ValidFlag == true)
-                    && (tpp.ValidFlag == true)
-                orderby o.TradeDateTime
-                select new ProductSaleRecord
-                { 
-                    TradeDateTime = o.TradeDateTime,
-                    ProductName = p.Name,
-                    Amount = tpp.Amount,
-                    UnitPoint = tpp.UnitPoint,
-                    UnitBean = tpp.UnitBean,
-                    MemberCardID = (o.Member == null ? null : o.Member.CardID),
-                    Sum = tpp.Sum,
-                    Gender = (o.Member == null ? null : (bool?)o.Member.Gender),
-                    TeacherName = (o.Teacher == null ? null : o.Teacher.Name)
+            try
+            {
+                if (storeID != null)
+                {
+                    model.StoreName = db.Stores.Where(x => x.ID == storeID).Select(x => x.Name).FirstOrDefault();
                 }
-            ).ToList();
+                model.saleList =
+                (
+                    from tpp in db.TradePurchaseProduct
+                    join o in db.TradeOrder on tpp.OrderID equals o.ID
+                    join p in db.Products on tpp.ProductID equals p.ID
+                    where (storeID == null ? true : o.StoreID == storeID)
+                        && (dateStart == null ? true : dateStart <= o.TradeDateTime)
+                        && (dateEnd == null ? true : o.TradeDateTime <= dateEnd)
+                        && (o.ValidFlag == true)
+                        && (tpp.ValidFlag == true)
+                    orderby o.TradeDateTime
+                    select new ProductSaleRecord
+                    {
+                        TradeDateTime = o.TradeDateTime,
+                        ProductName = p.Name,
+                        Amount = tpp.Amount,
+                        UnitPoint = tpp.UnitPoint,
+                        UnitBean = tpp.UnitBean,
+                        MemberCardID = (o.Member == null ? null : o.Member.CardID),
+                        Sum = tpp.Sum,
+                        Gender = (o.Member == null ? null : (bool?)o.Member.Gender),
+                        TeacherName = (o.Teacher == null ? null : o.Teacher.Name)
+                    }
+                ).ToList();
 
-            model.ComputeTotalPoint();
-            model.ComputeTotalBean();
-            model.ComputeTotalMoney();
-            model.ComputeTradeTimes();
-            model.ComputeAveragePrice();
+                model.ComputeTotalPoint();
+                model.ComputeTotalBean();
+                model.ComputeTotalMoney();
+                model.ComputeTradeTimes();
+                model.ComputeAveragePrice();
+            }
+            catch (Exception e) {
+                log.Error(null, e);
+            
+            }
 
             return model;
         }

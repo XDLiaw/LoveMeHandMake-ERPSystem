@@ -16,6 +16,9 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         [Display(Name = "日期(讫)")]
         public DateTime? SearchDateEnd { get; set; }
+
+        [Display(Name = "门市名称")]
+        public string StoreName { get; set; }
        
         [Display(Name = "总消费点数")]
         public int TotalPoint { get; set; }

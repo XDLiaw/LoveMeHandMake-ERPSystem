@@ -18,7 +18,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             //detail sheet
             ISheet detailSheet = this.workbook.CreateSheet("明細");
             int rowCount = 0;
-            rowCount = createTitlePart(detailSheet, rowCount, arg.SearchDateStart,arg.SearchDateEnd);
+            rowCount = createTitlePart(detailSheet, rowCount, arg.StoreName, arg.SearchDateStart,arg.SearchDateEnd);
             rowCount = createDataPart(detailSheet, rowCount, arg);
             for (int i = 0; i < 8; i++)
             {
@@ -35,20 +35,20 @@ namespace LoveMeHandMake2.Helper.ExcelReport
 
 
 
-        private int createTitlePart(ISheet sheet, int rowCount, DateTime? startTime, DateTime? endTime)
+        private int createTitlePart(ISheet sheet, int rowCount, string storeName, DateTime? startTime, DateTime? endTime)
         {
             {
                 IRow firstRow = sheet.CreateRow(rowCount++);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 7));
                 ICell cell = firstRow.CreateCell(0);
-                cell.SetCellValue("国贸360 - 巧乐思");
+                cell.SetCellValue(storeName);
                 cell.CellStyle = this.defaultCellStyle_Center;
             }
             {
                 IRow secondRow = sheet.CreateRow(rowCount++);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(1, 3, 0, 7));
                 ICell cell = secondRow.CreateCell(0);
-                cell.SetCellValue(String.Format("国贸- 巧乐思 会员点数销售表＆通讯录（{0:yyyy/MM/dd}~{1:yyyy/MM/dd}）", startTime, endTime));
+                cell.SetCellValue(String.Format("{0} 会员点数销售表＆通讯录（{1:yyyy/MM/dd}~{2:yyyy/MM/dd}）", storeName, startTime, endTime));
                 cell.CellStyle = this.defaultCellStyle_Center;
                 rowCount = 4;
             }
@@ -135,8 +135,9 @@ namespace LoveMeHandMake2.Helper.ExcelReport
 
         private void createSummerySheet(DepositReportViewModel arg)
         {
-            ISheet summarySheet = this.workbook.CreateSheet("个人业绩销售小计");
-            for (int r = 0; r < arg.TeacherSalesPerformanceList.Count; r ++) 
+            ISheet summarySheet = this.workbook.CreateSheet("业绩销售小计");
+            int r = 0;
+            for (; r < arg.TeacherSalesPerformanceList.Count; r ++) 
             {
                 IRow row = summarySheet.CreateRow(r);
 
@@ -148,6 +149,16 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 pointCell.SetCellValue(arg.TeacherSalesPerformanceList.ElementAt(r).Point);
                 pointCell.CellStyle = this.defaultCellStyle_Center;
             }
+            IRow totalRow = summarySheet.CreateRow(r++);
+            ICell TotalNameCell = totalRow.CreateCell(0);
+            TotalNameCell.SetCellValue("会员卡销售小计");
+            TotalNameCell.CellStyle = this.defaultCellStyle_Center;
+
+            ICell totalCell = totalRow.CreateCell(1);
+            totalCell.SetCellValue(arg.TotalPoint);
+            totalCell.CellStyle = this.defaultCellStyle_Center;
+
+
             summarySheet.AutoSizeColumn(0);
             summarySheet.AutoSizeColumn(1);
         }

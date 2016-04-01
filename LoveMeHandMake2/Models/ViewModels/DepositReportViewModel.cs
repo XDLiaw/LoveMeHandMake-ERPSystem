@@ -20,6 +20,21 @@ namespace LoveMeHandMake2.Models.ViewModels
         public List<DepositRecord> DepositList { get; set; }
 
         public List<TeacherSalesPerformance> TeacherSalesPerformanceList { get; set; }
+
+        [Display(Name = "门市名称")]
+        public string StoreName { get; set; }
+
+        [Display(Name = "会员卡销售小计")]
+        public double TotalPoint { get; set; }
+        
+        public void ComputeTotalPoint()
+        {
+            TotalPoint = 0;
+            foreach (TeacherSalesPerformance tsp in this.TeacherSalesPerformanceList)
+            {
+                TotalPoint += tsp.Point;
+            }
+        }
     }
 
     public class DepositRecord

@@ -211,7 +211,6 @@
     <Compile Include="Controllers\WebControllers\NonMemberController.cs" />
     <Compile Include="Controllers\WebControllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\WebControllers\ProductController.cs" />
-    <Compile Include="Controllers\WebControllers\Reports\ByteArrayOutputStream.cs" />
     <Compile Include="Controllers\WebControllers\Reports\DailyBusinessReportController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\DepositReportController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\ProductSaleReportController.cs" />
@@ -223,6 +222,7 @@
     </Compile>
     <Compile Include="Helper\AESEncrypter.cs" />
     <Compile Include="Helper\ExcelReport\BaseExcelReport.cs" />
+    <Compile Include="Helper\ExcelReport\DailyBusinessExcelReport.cs" />
     <Compile Include="Helper\ExcelReport\DepositExcelReport.cs" />
     <Compile Include="Helper\ExcelReport\ProductSaleExcelReport.cs" />
     <Compile Include="Migrations\201603090616374_Init.cs" />
@@ -703,10 +703,10 @@
     <Content Include="Views\NonMember\Index.cshtml" />
     <Content Include="Views\ProductSaleReport\Index.cshtml" />
     <Content Include="Views\DepositReport\Index.cshtml" />
+    <Content Include="Views\DailyBusinessReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\DailyBusinessReport\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

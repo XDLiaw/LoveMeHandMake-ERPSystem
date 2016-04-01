@@ -12,19 +12,42 @@ namespace LoveMeHandMake2.Models.ViewModels
         public int? SearchStoreID { get; set; }
 
         [Display(Name = "日期(起)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateStart { get; set; }
 
         [Display(Name = "日期(讫)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateEnd { get; set; }
 
-        public List<DailyRecord> DailyRecords { get; set; }
+        [Display(Name = "门市名称")]
+        public string StoreName { get; set; }
+
+        [Display(Name = "总业绩")]
+        public double TotalMoney { get; set; }
+
+        public List<DailyBusinessRecord> DailyRecords { get; set; }
+
+        public void computeTotalMoeny()
+        {
+            this.TotalMoney = 0;
+            foreach (DailyBusinessRecord r in this.DailyRecords)
+            {
+                this.TotalMoney += r.Total;
+            }
+        }
     }
 
-    public class DailyRecord 
+    public class DailyBusinessRecord 
     {
+        public int Year {get; set;}
+
+        public int Month { get; set; }
+
+        public int Day { get; set; }
+
         [Display(Name = "日期")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        public DateTime Day { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd (dddd)}")]
+        public DateTime Date { get; set; }
 
         [Display(Name = "现金")]
         public double Cash { get; set; }
