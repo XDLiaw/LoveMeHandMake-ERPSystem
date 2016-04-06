@@ -37,5 +37,7 @@ namespace LoveMeHandMake2.Models
 
         [Display(Name = "总价(人民币)")]       
         public double Sum { get; set; }
+
+        public double TotalPoint { get; set; }
     }
 }

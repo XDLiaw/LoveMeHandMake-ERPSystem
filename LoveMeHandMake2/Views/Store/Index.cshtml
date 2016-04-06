@@ -18,6 +18,9 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th class="col-md-2">
+            @Html.DisplayNameFor(model => model.ThresholdPoint)
+        </th>
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.OverThresholdBonus)
         </th>
         <th class="col-md-2">
@@ -39,17 +42,17 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td class="col-md-2" valign="baseline">
+                @Html.DisplayFor(modelItem => item.ThresholdPoint)
+            </td>
+            <td class="col-md-2" valign="baseline">
                 @Html.DisplayFor(modelItem => item.OverThresholdBonus)
             </td>
             <td class="col-md-2" valign="baseline">
-                @{
-        foreach (var category in item.StoreCanSellCategories)
-        {
-            <p>@category.ProductCategory.Name</p>
-        }
+                @foreach (var category in item.StoreCanSellCategories)
+                {
+                    <p>@category.ProductCategory.Name</p>
                 }
             </td>
-
             <td class="col-md-2" valign="baseline">
                 @Html.DisplayFor(modelItem => item.StopBusinessDate)
             </td>

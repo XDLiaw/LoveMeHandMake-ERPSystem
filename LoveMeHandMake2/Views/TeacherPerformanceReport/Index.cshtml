@@ -1,0 +1,237 @@
+﻿@model LoveMeHandMake2.Models.ViewModels.TeacherPerformanceReportViewModel
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "人员销售纪录表";
+}
+
+<h2>人员销售纪录表</h2>
+
+
+@using (Html.BeginForm("Index", "TeacherPerformanceReport", FormMethod.Post))
+{
+    <div class="container breadcrumb">
+        <div class="col-md-3">
+            @Html.DropDownList("SearchStoreID", (IEnumerable<SelectListItem>)ViewBag.StoreList, htmlAttributes: new { id = "SearchStoreID", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("SearchTeacherID", (IEnumerable<SelectListItem>)ViewBag.TeacherList, htmlAttributes: new { id = "SearchTeacherID", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" id="SearchYearMonth" name="SearchYearMonth"></select>            
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="搜寻" class="btn btn-default" />
+        </div>
+        <div class="col-md-2">
+            <input type="button" value="产出Excel报表" class="btn btn-file btn-primary" onclick="btnDownload();" />
+        </div>
+    </div>
+}
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#tab_detail" data-toggle="tab" aria-expanded="true">明细</a></li>
+    <li class=""><a href="#tab_summary" data-toggle="tab" aria-expanded="true">小计</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="tab_detail">
+        @if (Model != null && Model.MultiTeacherPerformance != null)
+        {
+            foreach (var teacherPerformance in Model.MultiTeacherPerformance)
+            {
+                <h4>@teacherPerformance.TeacherName</h4>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">日期</th>
+                            <th colspan="@teacherPerformance.DailyPerformanceList.Count">
+                                @Model.SearchDateStart.GetValueOrDefault().Year 年
+                                @Model.SearchDateStart.GetValueOrDefault().Month 月
+                            </th>
+                        </tr>
+                        <tr>
+                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            {
+                                <th>@d.Day</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>教学次数</th>
+                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            {
+                                var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                                <td>@tdp.TeachTimes</td>
+                            }
+                        </tr>
+                        <tr>
+                            <th>教学点数</th>
+                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            {
+                                var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                                <td>@tdp.TeachPoints</td>
+                            }
+                        </tr>
+                        <tr>
+                            <th>销售点数</th>
+                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            {
+                                var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                                <td>@tdp.SalesPoints</td>
+                            }
+                        </tr>
+                        <tr>
+                            <th>单做点数</th>
+                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            {
+                                var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                                <td>@tdp.PointsFromNonMember</td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+                <p></p>
+            }
+        }
+        @if (Model != null && Model.allTeacherPerformance != null)
+        {
+            <h4>日统计</h4>
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2">日期</th>
+                        <th colspan="@Model.allTeacherPerformance.DailyPerformanceList.Count">
+                            @Model.SearchDateStart.GetValueOrDefault().Year 年
+                            @Model.SearchDateStart.GetValueOrDefault().Month 月
+                        </th>
+                    </tr>
+                    <tr>
+                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        {
+                            <th>@d.Day</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>教学次数</th>
+                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        {
+                            var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                            <td>@tdp.TeachTimes</td>
+                        }
+                    </tr>
+                    <tr>
+                        <th>教学点数</th>
+                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        {
+                            var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                            <td>@tdp.TeachPoints</td>
+                        }
+                    </tr>
+                    <tr>
+                        <th>销售点数</th>
+                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        {
+                            var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                            <td>@tdp.SalesPoints</td>
+                        }
+                    </tr>
+                    <tr>
+                        <th>单做点数</th>
+                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        {
+                            var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
+                            <td>@tdp.PointsFromNonMember</td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+            <p></p>
+        }
+    </div>
+    <div class="tab-pane fade" id="tab_summary">
+        <table class="table table-striped table-hover">
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.TotalTeachPoints)</td>
+                    <td>@Html.DisplayFor(model => model.TotalTeachPoints)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.TeachPointProportion)</td>
+                    <td>@String.Format("{0:N2}%", Model.TeachPointProportion*100) </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.TotalSalesPoints)</td>
+                    <td>@Html.DisplayFor(model => model.TotalSalesPoints)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.TotalPointsFromNonMember)</td>
+                    <td>@Html.DisplayFor(model => model.TotalPointsFromNonMember)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.SalesPointProportion)</td>
+                    <td>@String.Format("{0:N2}%", Model.SalesPointProportion * 100) </td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.TotalPoints)</td>
+                    <td>@Html.DisplayFor(model => model.TotalPoints)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.ThresholdPoint)</td>
+                    <td>@Html.DisplayFor(model => model.ThresholdPoint)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.OverThresholdBonus)</td>
+                    <td>@Html.DisplayFor(model => model.OverThresholdBonus)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.TotalBonus)</td>
+                    <td>@Html.DisplayFor(model => model.TotalBonus)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+    function btnDownload() {
+        try {
+            var storeID = $("#SearchStoreID").val();
+            var teacherID = $("#SearchTeacherID").val();
+            var SearchYearMonth = $("#SearchYearMonth").val();
+            window.location.href = "/TeacherPerformanceReport/DownloadReport?SearchStoreID=" + storeID + "&SearchTeacherID=" + teacherID + "&SearchYearMonth=" + SearchYearMonth;
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+
+        //var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        //for (i = 2015; i <= new Date().getFullYear(); i++) {
+        //    $.each(months, function (index, value) {
+        //        $('#SearchYearMonth').append($('<option />').val(i + "/" + (index + 1) + "/1").html(i + " " + value));
+        //    });
+        //}
+
+        for (y = 2016; y <= new Date().getFullYear() ; y++) {
+            for (m = 1; m <= 12; m++) {
+                if (new Date(y + "/" + m + "/1") <= new Date()) {
+                    $('#SearchYearMonth').append($('<option />').val(y + "/" + m + "/1").html(y + " 年 " + m + " 月"));
+                }
+
+            }
+        }
+        var defaultDate = new Date(@Html.Raw(JsonConvert.SerializeObject(Model.SearchYearMonth)));
+        $('#SearchYearMonth').val(defaultDate.getFullYear() + "/" + (defaultDate.getMonth() + 1) + "/" + defaultDate.getDate());
+    });
+    </script>
+}
+

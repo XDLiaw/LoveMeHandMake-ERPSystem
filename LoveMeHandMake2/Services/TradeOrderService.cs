@@ -77,11 +77,13 @@ namespace LoveMeHandMake2.Services
                 TradePurchaseProduct product = p.ToTradePurchaseProduct(tradeOrder.ID);
                 if (product.UnitPoint != null && product.UnitPoint != 0)
                 {
-                    product.Sum = product.Amount * product.UnitPoint.GetValueOrDefault() * pricePerPoint;
+                    product.TotalPoint = product.Amount * product.UnitPoint.GetValueOrDefault();
+                    product.Sum = product.TotalPoint * pricePerPoint;
                 }
                 else if (product.UnitBean != null && product.UnitBean != 0)
                 {
-                    product.Sum = product.Amount * product.UnitBean.GetValueOrDefault() * pricePerPoint / 2;
+                    product.TotalPoint = product.Amount * product.UnitBean.GetValueOrDefault() / 2;
+                    product.Sum = product.TotalPoint * pricePerPoint / 2;
                 }
                 products.Add(product);
             }

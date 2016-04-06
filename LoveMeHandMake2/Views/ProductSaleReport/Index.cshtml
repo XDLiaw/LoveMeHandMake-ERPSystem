@@ -51,7 +51,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null || Model.saleList != null)
+                @if (Model != null && Model.saleList != null)
                 {
                     foreach (var item in Model.saleList)
                     {

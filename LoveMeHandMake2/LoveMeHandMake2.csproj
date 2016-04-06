@@ -215,6 +215,7 @@
     <Compile Include="Controllers\WebControllers\Reports\DailyBusinessReportController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\DepositReportController.cs" />
     <Compile Include="Controllers\WebControllers\Reports\ProductSaleReportController.cs" />
+    <Compile Include="Controllers\WebControllers\Reports\TeacherPerformanceReportController.cs" />
     <Compile Include="Controllers\WebControllers\StoreController.cs" />
     <Compile Include="Controllers\WebControllers\SysParameterController.cs" />
     <Compile Include="Controllers\WebControllers\TeacherController.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Helper\ExcelReport\DailyBusinessExcelReport.cs" />
     <Compile Include="Helper\ExcelReport\DepositExcelReport.cs" />
     <Compile Include="Helper\ExcelReport\ProductSaleExcelReport.cs" />
+    <Compile Include="Helper\ExcelReport\TeacherPerformanceExcelReport.cs" />
     <Compile Include="Migrations\201603090616374_Init.cs" />
     <Compile Include="Migrations\201603090616374_Init.Designer.cs">
       <DependentUpon>201603090616374_Init.cs</DependentUpon>
@@ -522,6 +524,14 @@
     <Compile Include="Migrations\201603290239442_Init73.Designer.cs">
       <DependentUpon>201603290239442_Init73.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604060123374_Init74.cs" />
+    <Compile Include="Migrations\201604060123374_Init74.Designer.cs">
+      <DependentUpon>201604060123374_Init74.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604060409097_Init75.cs" />
+    <Compile Include="Migrations\201604060409097_Init75.Designer.cs">
+      <DependentUpon>201604060409097_Init75.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
@@ -563,6 +573,7 @@
     <Compile Include="Models\ViewModels\NonMemberTradeHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\PopularProductViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductSaleReportViewModel.cs" />
+    <Compile Include="Models\ViewModels\TeacherPerformanceReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DepositService.cs" />
     <Compile Include="Services\MemberService.cs" />
@@ -707,6 +718,7 @@
     <Content Include="Views\DepositReport\Index.cshtml" />
     <Content Include="Views\DailyBusinessReport\Index.cshtml" />
     <Content Include="Views\PopularProduct\Index.cshtml" />
+    <Content Include="Views\TeacherPerformanceReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -940,6 +952,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603290239442_Init73.resx">
       <DependentUpon>201603290239442_Init73.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604060123374_Init74.resx">
+      <DependentUpon>201604060123374_Init74.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604060409097_Init75.resx">
+      <DependentUpon>201604060409097_Init75.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

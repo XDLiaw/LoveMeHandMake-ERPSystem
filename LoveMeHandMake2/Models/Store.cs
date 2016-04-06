@@ -20,7 +20,12 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "门市名称")]
         public string Name { get; set; }
 
+        [Display(Name = "过槛奖金点数")]
+        [Required]
+        public int ThresholdPoint { get; set; }
+
         [Display(Name = "过槛每点直抽奖金")]
+        [Required]
         public int OverThresholdBonus { get; set; }
 
         [Display(Name = "可销售产品分类")]
