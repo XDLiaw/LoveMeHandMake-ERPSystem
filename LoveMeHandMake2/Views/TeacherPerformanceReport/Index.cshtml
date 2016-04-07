@@ -12,10 +12,10 @@
 {
     <div class="container breadcrumb">
         <div class="col-md-3">
-            @Html.DropDownList("SearchStoreID", (IEnumerable<SelectListItem>)ViewBag.StoreList, htmlAttributes: new { id = "SearchStoreID", @class = "form-control" })
+            @Html.DropDownList("SearchStoreID", (IEnumerable<SelectListItem>)ViewBag.StoreList, htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-md-3">
-            @Html.DropDownList("SearchTeacherID", (IEnumerable<SelectListItem>)ViewBag.TeacherList, htmlAttributes: new { id = "SearchTeacherID", @class = "form-control" })
+            @Html.DropDownList("SearchTeacherID", (IEnumerable<SelectListItem>)ViewBag.TeacherList, htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-md-3">
             <select class="form-control" id="SearchYearMonth" name="SearchYearMonth"></select>            
