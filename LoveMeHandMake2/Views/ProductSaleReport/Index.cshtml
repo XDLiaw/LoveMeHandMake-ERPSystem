@@ -17,7 +17,7 @@
             @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { id = "SearchDateStart", name = "SearchDateStart", @class = "form-control calendarBox", placeholder = "日期(起)" } })
         </div>
         <div class="col-md-3">
-            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { id = "SearchDateEnd", name = "SearchDateEnd", @class = "form-control calendarBox", placeholder = "日期(起)" } })
+            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { id = "SearchDateEnd", name = "SearchDateEnd", @class = "form-control calendarBox", placeholder = "日期(讫)" } })
         </div>
         <div class="col-md-1">
             <input type="submit" value="搜寻" class="btn btn-default" />
@@ -37,17 +37,17 @@
 </ul>
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade active in" id="tab_detail">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-bordered">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().TradeDateTime)</th>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().ProductName)</th>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().UnitPoint)</th>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().UnitBean)</th>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().MemberCardID)</th>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().Sum)</th>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().Gender)</th>
-                    <th>@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().TeacherName)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().TradeDateTime)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().ProductName)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().UnitPoint)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().UnitBean)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().MemberCardID)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().Sum)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().Gender)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().TeacherName)</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,14 +58,14 @@
                         for (int i = 0; i < item.Amount; i++)
                         {
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.TradeDateTime)</td>
-                                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.UnitPoint)</td>
-                                <td>@Html.DisplayFor(modelItem => item.UnitBean)</td>
-                                <td>@(String.IsNullOrWhiteSpace(item.MemberCardID) ? "单做现金" : item.MemberCardID)</td>
-                                <td>@(item.Sum / item.Amount)</td>
-                                <td>@(item.Gender == null ? "" : (item.Gender == true ? "男" : "女"))</td>
-                                <td>@Html.DisplayFor(modelItem => item.TeacherName)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.TradeDateTime)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.UnitPoint)</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.UnitBean)</td>
+                                <td class="text-center">@(String.IsNullOrWhiteSpace(item.MemberCardID) ? "单做现金" : item.MemberCardID)</td>
+                                <td class="text-right">@String.Format("{0:N2}", item.Sum / item.Amount)</td>
+                                <td class="text-center">@(item.Gender == null ? "" : (item.Gender == true ? "男" : "女"))</td>
+                                <td class="text-center">@Html.DisplayFor(modelItem => item.TeacherName)</td>
                             </tr>
                         }
                     }

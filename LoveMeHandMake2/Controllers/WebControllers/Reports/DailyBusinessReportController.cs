@@ -39,8 +39,8 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         {
             DailyBusinessReportViewModel model = new DailyBusinessReportViewModel();
             model.SearchStoreID = SearchStoreID;
-            model.SearchDateStart = SearchDateStart.GetValueOrDefault().Date;
-            model.SearchDateEnd = SearchDateEnd.GetValueOrDefault().Date;
+            model.SearchDateStart = SearchDateStart;
+            model.SearchDateEnd = SearchDateEnd;
             try
             {
                 if (SearchStoreID != null)
@@ -66,8 +66,8 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                 (
                     from dh in db.DepositHistory
                     where (SearchStoreID == null ? true : dh.DepositStoreID == SearchStoreID)
-                       && (SearchDateStart == null ? true : SearchDateStart <= dh.DepostitDateTime)
-                       && (SearchDateEnd == null ? true : dh.DepostitDateTime <= SearchDateEnd)
+                       && (model.SearchDateStart == null ? true : model.SearchDateStart <= dh.DepostitDateTime)
+                       && (model.SearchDateEnd == null ? true : dh.DepostitDateTime <= model.SearchDateEnd)
                        && (dh.ValidFlag == true)
                     orderby dh.DepostitDateTime
                     group dh by new { Year = dh.DepostitDateTime.Year, Month = dh.DepostitDateTime.Month, Day = dh.DepostitDateTime.Day } into g
@@ -85,8 +85,8 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                 (
                     from t in db.TradeOrder
                     where (SearchStoreID == null ? true : t.StoreID == SearchStoreID)
-                       && (SearchDateStart == null ? true : SearchDateStart <= t.TradeDateTime)
-                       && (SearchDateEnd == null ? true : t.TradeDateTime <= SearchDateEnd)
+                       && (model.SearchDateStart == null ? true : model.SearchDateStart <= t.TradeDateTime)
+                       && (model.SearchDateEnd == null ? true : t.TradeDateTime <= model.SearchDateEnd)
                        && (t.ValidFlag == true)
                     orderby t.TradeDateTime
                     group t by new { Year = t.TradeDateTime.Year, Month = t.TradeDateTime.Month, Day = t.TradeDateTime.Day } into g
@@ -101,7 +101,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                 ).ToList();
                 model.DailyRecords = new List<DailyBusinessRecord>();
                 DailyBusinessRecord defaultRecord = new DailyBusinessRecord { Cash = 0, CreditCard = 0, Month = 0 };
-                for (DateTime d = SearchDateStart.GetValueOrDefault(); d <= SearchDateEnd; d = d.AddDays(1))
+                for (DateTime d = model.SearchDateStart.GetValueOrDefault(); d <= model.SearchDateEnd; d = d.AddDays(1))
                 {
                     DailyBusinessRecord dr = depositDatas.Where(x => x.Year == d.Year && x.Month == d.Month && x.Day == d.Day).FirstOrDefault();
                     DailyBusinessRecord tr = tradeDatas.Where(x => x.Year == d.Year && x.Month == d.Month && x.Day == d.Day).FirstOrDefault();

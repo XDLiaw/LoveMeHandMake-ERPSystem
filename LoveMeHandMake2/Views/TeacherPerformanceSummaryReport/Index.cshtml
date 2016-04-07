@@ -1,0 +1,107 @@
+﻿@model LoveMeHandMake2.Models.ViewModels.TeacherPerformanceSummaryReportViewModel
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "人员销售统计表";
+}
+
+<h2>人员销售统计表</h2>
+
+@using (Html.BeginForm("Index", "TeacherPerformanceSummaryReport", FormMethod.Post))
+{
+    <div class="container breadcrumb">
+        <div class="col-md-3">
+            @Html.DropDownList("SearchStoreID", (IEnumerable<SelectListItem>)ViewBag.StoreList, htmlAttributes: new { id = "SearchStoreID", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { id = "SearchDateStart", name = "SearchDateStart", @class = "form-control calendarBox", placeholder = "日期(起)" } })
+        </div>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { id = "SearchDateEnd", name = "SearchDateEnd", @class = "form-control calendarBox", placeholder = "日期(讫)" } })
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="搜寻" class="btn btn-default" />
+        </div>
+        <div class="col-md-2">
+            <input type="button" value="产出Excel报表" class="btn btn-file btn-primary" onclick="btnDownload();" />
+        </div>
+    </div>
+}
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab_detail" data-toggle="tab" aria-expanded="true">人员销售统计表</a></li>
+        <li class=""><a href="#tab_summary" data-toggle="tab" aria-expanded="true">总计</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="tab_detail">
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.TeacherPerformanceSummaryList.FirstOrDefault().TeacherName)</th>
+                        <th>@Html.DisplayNameFor(model => model.TeacherPerformanceSummaryList.FirstOrDefault().TeachTimes)</th>
+                        <th>@Html.DisplayNameFor(model => model.TeacherPerformanceSummaryList.FirstOrDefault().TeachPoints)</th>
+                        <th>@Html.DisplayNameFor(model => model.TeacherPerformanceSummaryList.FirstOrDefault().SalesPoints)</th>
+                        <th>@Html.DisplayNameFor(model => model.TeacherPerformanceSummaryList.FirstOrDefault().PointsFromNonMember)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.TeacherPerformanceSummaryList != null)
+                    {
+                        foreach (var item in Model.TeacherPerformanceSummaryList)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(model => item.TeacherName)</td>
+                                <td>@Html.DisplayFor(model => item.TeachTimes)</td>
+                                <td>@Html.DisplayFor(model => item.TeachPoints)</td>
+                                <td>@Html.DisplayFor(model => item.SalesPoints)</td>
+                                <td>@Html.DisplayFor(model => item.PointsFromNonMember)</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="tab_summary">
+            @if (Model != null)
+            {
+                <table class="table table-striped table-hover ">
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => Model.TotalTeachTimes)</th>
+                        <td>@Html.DisplayFor(x => Model.TotalTeachTimes)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => Model.AvgPrice)</th>
+                        <td>@Html.DisplayFor(x => Model.AvgPrice)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => Model.MemberConsumptionPercentage)</th>
+                        <td>@String.Format("{0:N2}%", Model.MemberConsumptionPercentage * 100)</td>                        
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function btnDownload() {
+            try {
+                var storeID = $("#SearchStoreID").val();
+                var start = $("#SearchDateStart").val();
+                var end = $("#SearchDateEnd").val();
+                window.location.href = "/TeacherPerformanceSummaryReport/DownloadReport?SearchStoreID=" + storeID + "&SearchDateStart=" + start + "&SearchDateEnd=" + end;
+                return true;
+            }
+            catch (e) {
+                return false;
+            }
+        }
+    </script>
+}

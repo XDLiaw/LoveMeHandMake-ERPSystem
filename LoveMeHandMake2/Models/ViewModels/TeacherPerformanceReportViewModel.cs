@@ -154,17 +154,6 @@ namespace LoveMeHandMake2.Models.ViewModels
 
     public class TeacherDailyPerformance
     {
-        //public int? TeacherID { get; set; }
-
-        //[Display(Name = "老师")]
-        //public string TeacherName { get; set; }
-
-        //public int Year { get; set; }
-
-        //public int Month { get; set; }
-
-        //public int Day { get; set; }
-
         [Display(Name = "日期")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd (dddd)}")]
         public DateTime Date { get; set; }

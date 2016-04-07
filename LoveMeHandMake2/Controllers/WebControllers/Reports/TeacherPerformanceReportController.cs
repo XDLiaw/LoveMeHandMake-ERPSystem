@@ -42,7 +42,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
             return View(model);
         }
 
-        public TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
+        private TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
             TeacherPerformanceReportViewModel model = new TeacherPerformanceReportViewModel();
             model.SearchStoreID = SearchStoreID;
@@ -71,8 +71,8 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                     SearchDateEnd = maxDepsitDate > maxTradeDate ? maxDepsitDate : maxTradeDate;
                     model.SearchDateEnd = SearchDateEnd.GetValueOrDefault().Date;
                 }
-                model.MultiTeacherPerformance = GetMultiTeacherPerformanceData(SearchStoreID, SearchTeacherID, SearchDateStart, SearchDateEnd);
-                model.allTeacherPerformance = GetAllTeacherPerformance(SearchStoreID, SearchTeacherID, SearchDateStart, SearchDateEnd);
+                model.MultiTeacherPerformance = GetMultiTeacherPerformanceData(SearchStoreID, SearchTeacherID, model.SearchDateStart, model.SearchDateEnd);
+                model.allTeacherPerformance = GetAllTeacherPerformance(SearchStoreID, SearchTeacherID, model.SearchDateStart, model.SearchDateEnd);
                 model.Compute();
             }
             catch (Exception e)
@@ -138,10 +138,10 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                     PointsFromNonMember = g.Sum(x => x.MemberID.HasValue ? 0 : x.TotalPoint)
                 }
             ).ToList();
-            var TeachList = db.Teachers.Where(x => x.ValidFlag && (SearchTeacherID == null ? true : x.ID == SearchTeacherID)).ToList();
+            var TeacherList = db.Teachers.Where(x => x.ValidFlag && (SearchTeacherID == null ? true : x.ID == SearchTeacherID)).ToList();
             var defaultDepositData = new { TeacherID = -1, Year = -1, Month = -1, Day = -1, SalesPoints = 0.0 };
             var defaultTradeData = new { TeacherID = -1, Year = -1, Month = -1, Day = -1, TeachTimes = 0, TeachPoints = 0.0, PointsFromNonMember = 0.0 };
-            foreach (Teacher t in TeachList)
+            foreach (Teacher t in TeacherList)
             {
                 TeacherPerformance tp = new TeacherPerformance();
                 tp.TeacherID = t.ID;
