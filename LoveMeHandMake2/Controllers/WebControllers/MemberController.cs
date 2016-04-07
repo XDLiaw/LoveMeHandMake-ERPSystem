@@ -231,69 +231,37 @@ namespace LoveMeHandMake2.Controllers
         }
 
         // GET: Member/TradeHistory/5
-        public ActionResult TradeHistory(int? id)
+        public ActionResult TradeHistory(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
-            if (member == null)
+            MemberTradeHistoryViewModel model = new MemberTradeHistoryViewModel();
+            model.member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
+            if (model.member == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Member = member;
-            List<TradeOrder> history = db.TradeOrder
-                .Where(x => x.MemberID == member.ID && x.ValidFlag == true)
+            
+            model.TradeOrderList = db.TradeOrder
+                .Where(x => x.MemberID == model.member.ID && x.ValidFlag == true)
                 .OrderByDescending(x => x.TradeDateTime).ToList();
-            return View(history);
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult TradeHistory(int? id, FormCollection formCollection)
+        public ActionResult TradeHistory(int id, MemberTradeHistoryViewModel model)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
-            if (member == null)
+            model.member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
+            if (model.member == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Member = member;
-            DateTime dateStart = DateTime.MinValue;
-            DateTime dateEnd = DateTime.MaxValue;
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(formCollection["dateStart"]))
-                {
-                    dateStart = Convert.ToDateTime(formCollection["dateStart"]);
-                }
-            }
-            catch (FormatException e)
-            {
-                log.Warn(null, e);
-            }
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(formCollection["dateEnd"]))
-                {
-                    dateEnd = Convert.ToDateTime(formCollection["dateEnd"]);
-                }
-            }
-            catch (FormatException e)
-            {
-                log.Warn(null, e);
-            }
- 
-            List<TradeOrder> history = db.TradeOrder
+
+            model.TradeOrderList = db.TradeOrder
                 .Where(x => x.ValidFlag == true)
-                .Where(x => x.MemberID == member.ID)
-                .Where(x => (DateTime.Compare(dateStart, x.TradeDateTime) <=0))
-                .Where(x => (DateTime.Compare(x.TradeDateTime, dateEnd) <= 0))
+                .Where(x => x.MemberID == model.member.ID)
+                .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.TradeDateTime)
+                .Where(x => model.SearchDateEnd == null ? true : x.TradeDateTime <= model.SearchDateEnd)
                 .OrderByDescending(x => x.TradeDateTime).ToList();
-            return View(history);
+            return View(model);
         }
 
         // GET: Member/TradeDetail/5
