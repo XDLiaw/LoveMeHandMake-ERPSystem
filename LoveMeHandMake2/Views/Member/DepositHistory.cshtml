@@ -19,82 +19,127 @@
             <h5>累计储值金额 : @Model.member.AccumulateDeposit</h5>
         </div>
         <div class="col-md-2">
-            @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { id = "SearchDateStart", name = "SearchDateStart", @class = "form-control calendarBox", placeholder = "日期(起)" } })
+            @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(起)" } })
         </div>
         <div class="col-md-2">
-            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { id = "SearchDateEnd", name = "SearchDateEnd", @class = "form-control calendarBox", placeholder = "日期(讫)" } })
+            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(讫)" } })
         </div>
         <div class="col-md-1">
-            <input type="submit" value="搜寻" class="btn btn-default" />
+            <input type="submit" value="搜寻" class="btn btn-default" id="btn-search"/>
         </div>
     </div>
-}
-<br />
 
-<table class="table table-striped table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepostitDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().OrderID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().TotalDepositMoney)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().RewardMoney)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepositPoint)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().RewardPoint)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepositRewardPoint)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().AvgPointCost)
-        </th>
-        <th></th>
-    </tr>
+    <br />
 
-    @foreach (var item in Model.DepositHistoryList)
-    {
+    <table class="table table-striped table-hover">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepostitDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalDepositMoney)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RewardMoney)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepositPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RewardPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepositRewardPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvgPointCost)
-            </td>
-            <td>
-                @Html.ActionLink("取消储值", "CancelDeposit", new { id = item.ID })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepostitDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().OrderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().TotalDepositMoney)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().RewardMoney)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepositPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().RewardPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepositRewardPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().AvgPointCost)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model.DepositHistoryList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepostitDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalDepositMoney)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RewardMoney)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepositPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RewardPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepositRewardPoint)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvgPointCost)
+                </td>
+                <td>
+                    @Html.ActionLink("取消储值", "CancelDeposit", new { id = item.ID })
+                </td>
+            </tr>
+        }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    </table>
+
+    @Html.HiddenFor(model => model.PageNumber)
+    <ul class="pagination">
+        <li class=""><input type="submit" value=&laquo; class="btn-previous-page" /></li>
+        @for (int i = 1; i <= Model.DepositHistoryList.PageCount; i++)
+        {
+            <li><input type="submit" value=@i class="btn-page"/></li>
+        }
+        <li class=""><input type="submit" value=&raquo; class="btn-next-page" /></li>
+        <text>Displaying @Model.DepositHistoryList.ItemStart - @Model.DepositHistoryList.ItemEnd of @Model.DepositHistoryList.TotalItemCount item(s)</text>        
+    </ul>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("ul > li > input").addClass("btn btn-default btn-sm");
+        $("ul > li > input.btn-page").click(function () {
+            $("#PageNumber").val($(this).attr("value"));
+            return true;
+        });
+        $("ul > li > input.btn-page:eq(@Model.DepositHistoryList.PageIndex)").addClass("active");
+        $("ul > li > input.btn-previous-page").click(function () {
+            if (@Model.DepositHistoryList.PageIndex > 0) {
+                $("#PageNumber").val(@Model.DepositHistoryList.PageNumber -1);
+                return true;
+            }
+            else {
+                return false;
+            }            
+        });
+        $("ul > li > input.btn-next-page").click(function () {
+            if ((@Model.DepositHistoryList.PageIndex) < (@Model.DepositHistoryList.PageCount-1)) {
+                $("#PageNumber").val(@Model.DepositHistoryList.PageNumber + 1);
+                return true;            
+            }
+            else {
+                return false;
+            }
+        });
+        $("#btn-search").click(function(){
+            $("#PageNumber").val(1);
+            return true;
+        });
+    });
+</script>

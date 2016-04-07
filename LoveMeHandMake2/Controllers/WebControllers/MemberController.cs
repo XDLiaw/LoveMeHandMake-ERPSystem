@@ -10,6 +10,8 @@ using LoveMeHandMake2.Models;
 using log4net;
 using LoveMeHandMake2.Models.ViewModels;
 using LoveMeHandMake2.Services;
+using MvcPaging;
+
 
 namespace LoveMeHandMake2.Controllers
 {
@@ -194,7 +196,8 @@ namespace LoveMeHandMake2.Controllers
             }
             model.DepositHistoryList = db.DepositHistory
                 .Where(x => x.MemberID == model.member.ID && x.ValidFlag == true)
-                .OrderByDescending(x => x.DepostitDateTime).ToList();
+                .OrderByDescending(x => x.DepostitDateTime)
+                .ToPagedList(model.PageNumber-1, model.PageSize);
             return View(model);           
         }
 
@@ -210,7 +213,8 @@ namespace LoveMeHandMake2.Controllers
                 .Where(x => x.MemberID == model.member.ID && x.ValidFlag == true)
                 .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.DepostitDateTime)
                 .Where(x => model.SearchDateEnd == null ? true : x.DepostitDateTime <= model.SearchDateEnd)
-                .OrderByDescending(x => x.DepostitDateTime).ToList();
+                .OrderByDescending(x => x.DepostitDateTime)
+                .ToPagedList(model.PageNumber - 1, model.PageSize);
             return View(model);
         }
 
