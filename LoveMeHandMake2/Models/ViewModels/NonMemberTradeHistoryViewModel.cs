@@ -73,23 +73,5 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime TradeDateTime { get; set; }
-
-        public void SetNonMember(NonMember arg)
-        {
-            this.Name = arg.Name;
-            this.Gender = arg.Gender;
-            this.Birthday = arg.Birthday;
-            this.Phone = arg.Phone;
-        }
-
-        public void SetTrade(NonMemberTradeList arg)
-        {
-            this.StoreID = arg.StoreID;
-            this.store = arg.Store;
-            this.TeacherID = arg.TeacherID;
-            this.teacher = arg.Teacher;
-            this.Point = arg.Point;
-            this.TradeDateTime = arg.TradeDateTime;
-        }
     }
 }
