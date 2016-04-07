@@ -39,19 +39,16 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.DailyRecords != null)
+        @foreach (var item in Model.DailyRecords)
         {
-            foreach (var item in Model.DailyRecords)
-            {
-                <tr>
-                    <td class="text-center">@Html.DisplayFor(modelItem => item.Date)</td>
-                    <td class="text-right">@Html.DisplayFor(modelItem => item.Cash)</td>
-                    <td class="text-right">@Html.DisplayFor(modelItem => item.CreditCard)</td>
-                    <td class="text-right">@Html.DisplayFor(modelItem => item.MallCard)</td>
-                    <td class="text-right">@Html.DisplayFor(modelItem => item.Total)</td>
-                </tr>
-            }
-        }
+            <tr>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.Date)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.Cash)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.CreditCard)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.MallCard)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.Total)</td>
+            </tr>
+        }        
     </tbody>
     <tfoot>
         <tr class="">

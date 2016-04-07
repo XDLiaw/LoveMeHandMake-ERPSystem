@@ -20,8 +20,9 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         // GET: DepositReport
         public ActionResult Index()
         {
+            DepositReportViewModel model = new DepositReportViewModel();
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
-            return View();
+            return View(model);
         }
 
         [HttpPost]

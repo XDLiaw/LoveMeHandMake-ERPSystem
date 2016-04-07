@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvcPaging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,6 +8,34 @@ using System.Web;
 namespace LoveMeHandMake2.Models.ViewModels
 {
     public class NonMemberTradeHistoryViewModel
+    {
+        [Display(Name = "电话")]
+        public string SearchPhone { get; set; }
+
+        [Display(Name = "日期(起)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? SearchDateStart { get; set; }
+
+        [Display(Name = "日期(讫)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? SearchDateEnd { get; set; }
+
+        [Display(Name = "页码")]
+        public int Page { get; set; }
+
+        //----------------------------------------------------------------------------
+
+        public List<NonMemberTradeRecord> NonMemberTradeRecordList { get; set; }
+
+        public NonMemberTradeHistoryViewModel ()
+        {
+            this.Page = 0;
+            this.NonMemberTradeRecordList = new List<NonMemberTradeRecord>();
+        }
+
+    }    
+    
+    public class NonMemberTradeRecord
     {
         [Display(Name = "姓名")]
         public string Name { get; set; }

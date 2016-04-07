@@ -19,10 +19,10 @@ namespace LoveMeHandMake2.Models.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateEnd { get; set; }
 
-        [Display(Name = "门市名称")]
-        public string StoreName { get; set; }
-
         //--------------------------------------------------------------------------
+
+        [Display(Name = "门市名称")]
+        public string StoreName { get; set; }        
 
         public List<TeacherPerformanceSummary> TeacherPerformanceSummaryList { get; set; }
 
@@ -37,6 +37,11 @@ namespace LoveMeHandMake2.Models.ViewModels
         // 办卡率 = 會員消費點數 / (會員消費點數 + 非換元消費點數)
         [Display(Name = "办卡率")]
         public double MemberConsumptionPercentage { get; set; }
+
+        public TeacherPerformanceSummaryReportViewModel()
+        {
+            this.TeacherPerformanceSummaryList = new List<TeacherPerformanceSummary>();
+        }
 
         public void Compute()
         {

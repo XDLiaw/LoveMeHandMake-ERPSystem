@@ -19,8 +19,9 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
 
         public ActionResult Index()
         {
+            ProductSaleReportViewModel model = new ProductSaleReportViewModel();
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -68,11 +69,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                     }
                 ).ToList();
 
-                model.ComputeTotalPoint();
-                model.ComputeTotalBean();
-                model.ComputeTotalMoney();
-                model.ComputeTradeTimes();
-                model.ComputeAveragePrice();
+                model.ComputeAll();
             }
             catch (Exception e) {
                 log.Error(null, e);

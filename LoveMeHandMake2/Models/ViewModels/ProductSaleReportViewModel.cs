@@ -17,6 +17,8 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "日期(讫)")]
         public DateTime? SearchDateEnd { get; set; }
 
+        // ---------------------------------------------------------------------------------------------
+
         [Display(Name = "门市名称")]
         public string StoreName { get; set; }
        
@@ -49,7 +51,21 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         public List<ProductSaleRecord> saleList { get; set; }
 
-        public void ComputeTotalPoint()
+        public ProductSaleReportViewModel()
+        {
+            this.saleList = new List<ProductSaleRecord>();
+        }
+
+        public void ComputeAll()
+        {
+            ComputeTotalPoint();
+            ComputeTotalBean();
+            ComputeTotalMoney();
+            ComputeTradeTimes();
+            ComputeAveragePrice();
+        }
+
+        private void ComputeTotalPoint()
         {
             this.TotalPoint = 0;
             foreach (ProductSaleRecord psr in this.saleList)
@@ -58,7 +74,7 @@ namespace LoveMeHandMake2.Models.ViewModels
             }
         }
 
-        public void ComputeTotalBean()
+        private void ComputeTotalBean()
         {
             this.TotalBean = 0;
             foreach (ProductSaleRecord psr in this.saleList)
@@ -67,7 +83,7 @@ namespace LoveMeHandMake2.Models.ViewModels
             }
         }
 
-        public void ComputeTotalMoney()
+        private void ComputeTotalMoney()
         {
             this.TotalMoney = 0;
             foreach (ProductSaleRecord psr in this.saleList)
@@ -76,7 +92,7 @@ namespace LoveMeHandMake2.Models.ViewModels
             }
         }
 
-        public void ComputeTradeTimes()
+        private void ComputeTradeTimes()
         {
             this.NonMemberTradeTimes = 0;
             this.MemberTradeTimes = 0;
@@ -104,7 +120,7 @@ namespace LoveMeHandMake2.Models.ViewModels
             this.TotalTradeTimes = this.NonMemberTradeTimes + this.MemberTradeTimes;
         }
 
-        public void ComputeAveragePrice()
+        private void ComputeAveragePrice()
         {
             this.AvgPrice = this.TotalMoney / this.TotalTradeTimes;
         }

@@ -19,6 +19,8 @@ namespace LoveMeHandMake2.Models.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateEnd { get; set; }
 
+        // -----------------------------------------------------------------------------------------
+
         [Display(Name = "门市名称")]
         public string StoreName { get; set; }
 
@@ -26,6 +28,11 @@ namespace LoveMeHandMake2.Models.ViewModels
         public double TotalMoney { get; set; }
 
         public List<DailyBusinessRecord> DailyRecords { get; set; }
+
+        public DailyBusinessReportViewModel()
+        {
+            this.DailyRecords = new List<DailyBusinessRecord>();
+        }
 
         public void computeTotalMoeny()
         {

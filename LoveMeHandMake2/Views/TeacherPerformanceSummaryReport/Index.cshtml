@@ -46,9 +46,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model != null && Model.TeacherPerformanceSummaryList != null)
-                    {
-                        foreach (var item in Model.TeacherPerformanceSummaryList)
+
+                        @foreach (var item in Model.TeacherPerformanceSummaryList)
                         {
                             <tr>
                                 <td>@Html.DisplayFor(model => item.TeacherName)</td>
@@ -58,7 +57,7 @@
                                 <td>@Html.DisplayFor(model => item.PointsFromNonMember)</td>
                             </tr>
                         }
-                    }
+
                 </tbody>
             </table>
         </div>

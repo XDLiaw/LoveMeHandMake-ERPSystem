@@ -22,6 +22,8 @@ namespace LoveMeHandMake2.Models.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateEnd { get; set; }
 
+        // -----------------------------------------------------------------------------------------
+
         public IQueryable<PopularProduct> productList { get; set; }
     }
 

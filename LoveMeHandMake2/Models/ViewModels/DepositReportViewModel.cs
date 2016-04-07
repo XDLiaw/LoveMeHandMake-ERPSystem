@@ -17,6 +17,8 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "日期(讫)")]
         public DateTime? SearchDateEnd { get; set; }
 
+        // -----------------------------------------------------------------------------------------
+
         public List<DepositRecord> DepositList { get; set; }
 
         public List<TeacherSalesPerformance> TeacherSalesPerformanceList { get; set; }
@@ -26,7 +28,13 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         [Display(Name = "会员卡销售小计")]
         public double TotalPoint { get; set; }
-        
+
+        public DepositReportViewModel()
+        {
+            this.DepositList = new List<DepositRecord>();
+            this.TeacherSalesPerformanceList = new List<TeacherSalesPerformance>();
+        }
+
         public void ComputeTotalPoint()
         {
             TotalPoint = 0;

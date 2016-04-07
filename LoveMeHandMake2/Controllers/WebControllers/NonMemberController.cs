@@ -14,75 +14,50 @@ namespace LoveMeHandMake2.Controllers.WebControllers
         private static readonly ILog log = LogManager.GetLogger(typeof(NonMemberController));
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
+        private const int pageSize = 5;
+
         // GET: NonMember
         public ActionResult Index()
         {
+            NonMemberTradeHistoryViewModel model = new NonMemberTradeHistoryViewModel();
             List<NonMemberTradeList> tradeList = db.NonMemverTradeList.Where(x => x.ValidFlag == true).OrderByDescending(x => x.TradeDateTime).ToList();
-            List<NonMemberTradeHistoryViewModel> resList = new List<NonMemberTradeHistoryViewModel>();
             foreach (NonMemberTradeList trade in tradeList)
             {
-                NonMemberTradeHistoryViewModel t = new NonMemberTradeHistoryViewModel();
+                NonMemberTradeRecord t = new NonMemberTradeRecord();
                 t.SetTrade(trade);
                 NonMember nonM = db.NonMembers.Where(x => x.Phone == trade.Phone && x.ValidFlag == true).FirstOrDefault();
                 if (nonM != null)
                 {
                     t.SetNonMember(nonM);
                 }
-                resList.Add(t);
+                model.NonMemberTradeRecordList.Add(t);
             }
 
-            return View(resList);
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection formCollection)
+        public ActionResult Index(NonMemberTradeHistoryViewModel model)
         {
-            string searchPhone = formCollection["searchPhone"];
-            DateTime dateStart = DateTime.MinValue;
-            DateTime dateEnd = DateTime.MaxValue;
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(formCollection["dateStart"]))
-                {
-                    dateStart = Convert.ToDateTime(formCollection["dateStart"]);
-                }
-            }
-            catch (FormatException e)
-            {
-                log.Warn(null, e);
-            }
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(formCollection["dateEnd"]))
-                {
-                    dateEnd = Convert.ToDateTime(formCollection["dateEnd"]);
-                }
-            }
-            catch (FormatException e)
-            {
-                log.Warn(null, e);
-            }
-
             List<NonMemberTradeList> tradeList = db.NonMemverTradeList
                 .Where(x => x.ValidFlag == true)
-                .Where(x => (string.IsNullOrEmpty(searchPhone) ? true : x.Phone.Equals(searchPhone)))
-                .Where(x => (DateTime.Compare(dateStart, x.TradeDateTime) <= 0))
-                .Where(x => (DateTime.Compare(x.TradeDateTime, dateEnd) <= 0))
+                .Where(x => (string.IsNullOrEmpty(model.SearchPhone) ? true : x.Phone.Equals(model.SearchPhone)))
+                .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.TradeDateTime )
+                .Where(x => model.SearchDateEnd == null ? true : x.TradeDateTime <= model.SearchDateEnd)                
                 .OrderByDescending(x => x.TradeDateTime).ToList();
-            List<NonMemberTradeHistoryViewModel> resList = new List<NonMemberTradeHistoryViewModel>();
             foreach (NonMemberTradeList trade in tradeList)
             {
-                NonMemberTradeHistoryViewModel t = new NonMemberTradeHistoryViewModel();
+                NonMemberTradeRecord t = new NonMemberTradeRecord();
                 t.SetTrade(trade);
                 NonMember nonM = db.NonMembers.Where(x => x.Phone == trade.Phone && x.ValidFlag == true).FirstOrDefault();
                 if (nonM != null)
                 {
                     t.SetNonMember(nonM);
                 }
-                resList.Add(t);
+                model.NonMemberTradeRecordList.Add(t);
             }
 
-            return View(resList);
+            return View(model);
         }
     }
 }

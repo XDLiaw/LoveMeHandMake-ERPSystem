@@ -99,7 +99,6 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                         MallCard = g.Sum(x => x.ChargeByMallCard)
                     }
                 ).ToList();
-                model.DailyRecords = new List<DailyBusinessRecord>();
                 DailyBusinessRecord defaultRecord = new DailyBusinessRecord { Cash = 0, CreditCard = 0, Month = 0 };
                 for (DateTime d = model.SearchDateStart.GetValueOrDefault(); d <= model.SearchDateEnd; d = d.AddDays(1))
                 {

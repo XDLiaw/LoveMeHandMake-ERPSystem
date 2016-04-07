@@ -64,6 +64,11 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "总奖金")]
         public double? TotalBonus { get; set; }
 
+        public TeacherPerformanceReportViewModel()
+        {
+            this.MultiTeacherPerformance = new List<TeacherPerformance>();
+        }
+
         public void Compute()
         {
             foreach (TeacherPerformance tp in this.MultiTeacherPerformance)
