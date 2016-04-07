@@ -184,22 +184,34 @@ namespace LoveMeHandMake2.Controllers
         }
 
         // GET: Member/DepositHistory/5
-        public ActionResult DepositHistory(int? id)
+        public ActionResult DepositHistory(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
-            if (member == null)
+            MemberDepositHistoryViewModel model = new MemberDepositHistoryViewModel();
+            model.member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
+            if (model.member == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Member = member;
-            List<DepositHistory> history = db.DepositHistory
-                .Where(x => x.MemberID == member.ID && x.ValidFlag == true)
+            model.DepositHistoryList = db.DepositHistory
+                .Where(x => x.MemberID == model.member.ID && x.ValidFlag == true)
                 .OrderByDescending(x => x.DepostitDateTime).ToList();
-            return View(history);           
+            return View(model);           
+        }
+
+        [HttpPost]
+        public ActionResult DepositHistory(int id, MemberDepositHistoryViewModel model)
+        {
+            model.member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
+            if (model.member == null)
+            {
+                return HttpNotFound();
+            }
+            model.DepositHistoryList = db.DepositHistory
+                .Where(x => x.MemberID == model.member.ID && x.ValidFlag == true)
+                .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.DepostitDateTime)
+                .Where(x => model.SearchDateEnd == null ? true : x.DepostitDateTime <= model.SearchDateEnd)
+                .OrderByDescending(x => x.DepostitDateTime).ToList();
+            return View(model);
         }
 
         public ActionResult CancelDeposit(int id)

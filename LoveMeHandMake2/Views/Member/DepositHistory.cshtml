@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LoveMeHandMake2.Models.DepositHistory>
+﻿@model LoveMeHandMake2.Models.ViewModels.MemberDepositHistoryViewModel
 
 @{
     ViewBag.Title = "储值纪录";
@@ -6,50 +6,61 @@
 
 <h2>储值纪录</h2>
 
-
-
-<div class="container">
-    <h4>@ViewBag.Member.Name</h4>
-    <div class="col-md-2">
-        剩余点数: @ViewBag.Member.Point
+@using (Html.BeginForm("DepositHistory", "Member", FormMethod.Post))
+{
+    <div class="container">
+        <div class="col-md-2">
+            <h4>@Model.member.Name</h4>
+        </div>
+        <div class="col-md-2">
+            <h5>剩余点数: @Model.member.Point</h5>
+        </div>
+        <div class="col-md-2">
+            <h5>累计储值金额 : @Model.member.AccumulateDeposit</h5>
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { id = "SearchDateStart", name = "SearchDateStart", @class = "form-control calendarBox", placeholder = "日期(起)" } })
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { id = "SearchDateEnd", name = "SearchDateEnd", @class = "form-control calendarBox", placeholder = "日期(讫)" } })
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="搜寻" class="btn btn-default" />
+        </div>
     </div>
-    <div class="col-md-2">
-        累计储值金额 : @ViewBag.Member.AccumulateDeposit
-    </div>
-</div>
-
-<hr/>
+}
+<br />
 
 <table class="table table-striped table-hover">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DepostitDateTime)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepostitDateTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderID)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().OrderID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TotalDepositMoney)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().TotalDepositMoney)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RewardMoney)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().RewardMoney)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DepositPoint)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepositPoint)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RewardPoint)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().RewardPoint)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DepositRewardPoint)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepositRewardPoint)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AvgPointCost)
+            @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().AvgPointCost)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.DepositHistoryList)
     {
         <tr>
             <td>

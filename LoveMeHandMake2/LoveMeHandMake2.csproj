@@ -576,6 +576,7 @@
     <Compile Include="Models\TradeOrder.cs" />
     <Compile Include="Models\ViewModels\DailyBusinessReportViewModel.cs" />
     <Compile Include="Models\ViewModels\DepositReportViewModel.cs" />
+    <Compile Include="Models\ViewModels\MemberDepositHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\MemberTradeHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\NonMemberTradeHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\PopularProductViewModel.cs" />
