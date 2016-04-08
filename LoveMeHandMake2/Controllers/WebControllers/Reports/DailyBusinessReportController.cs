@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace LoveMeHandMake2.Controllers.WebControllers.Reports
 {
+    [Authorize]
     public class DailyBusinessReportController : Controller
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(DailyBusinessReportController));

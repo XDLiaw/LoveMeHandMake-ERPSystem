@@ -11,6 +11,7 @@ using log4net;
 
 namespace LoveMeHandMake2.Controllers
 {
+    [Authorize]
     public class TeacherController : Controller
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(StoreController));

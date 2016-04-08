@@ -10,6 +10,7 @@ using log4net;
 
 namespace LoveMeHandMake2.Controllers
 {
+    [Authorize]
     public class ProductCategoryController : Controller
     {
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();

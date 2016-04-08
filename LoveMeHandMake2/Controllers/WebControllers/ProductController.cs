@@ -12,6 +12,7 @@ using System.Web.Configuration;
 
 namespace LoveMeHandMake2.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();

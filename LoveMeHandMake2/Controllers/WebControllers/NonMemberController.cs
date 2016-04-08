@@ -11,6 +11,7 @@ using MvcPaging;
 
 namespace LoveMeHandMake2.Controllers.WebControllers
 {
+    [Authorize]
     public class NonMemberController : Controller
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(NonMemberController));

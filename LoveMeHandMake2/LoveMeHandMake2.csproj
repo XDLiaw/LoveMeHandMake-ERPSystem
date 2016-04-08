@@ -546,6 +546,14 @@
     <Compile Include="Migrations\201604060409097_Init75.Designer.cs">
       <DependentUpon>201604060409097_Init75.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604080346448_Init76.cs" />
+    <Compile Include="Migrations\201604080346448_Init76.Designer.cs">
+      <DependentUpon>201604080346448_Init76.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604080902007_Init77.cs" />
+    <Compile Include="Migrations\201604080902007_Init77.Designer.cs">
+      <DependentUpon>201604080902007_Init77.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
@@ -977,6 +985,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604060409097_Init75.resx">
       <DependentUpon>201604060409097_Init75.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604080346448_Init76.resx">
+      <DependentUpon>201604080346448_Init76.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604080902007_Init77.resx">
+      <DependentUpon>201604080902007_Init77.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

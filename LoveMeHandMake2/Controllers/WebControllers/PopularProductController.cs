@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace LoveMeHandMake2.Controllers.WebControllers
 {
+    [Authorize]
     public class PopularProductController : Controller
     {
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();

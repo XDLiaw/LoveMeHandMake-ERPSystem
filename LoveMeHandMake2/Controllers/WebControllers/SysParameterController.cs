@@ -10,6 +10,7 @@ using LoveMeHandMake2.Models;
 
 namespace LoveMeHandMake2.Controllers
 {
+    [Authorize]
     public class SysParameterController : Controller
     {
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();

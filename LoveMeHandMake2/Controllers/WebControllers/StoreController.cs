@@ -11,6 +11,7 @@ using LoveMeHandMake2.Services;
 
 namespace LoveMeHandMake2.Controllers
 {
+    [Authorize]
     public class StoreController : Controller
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(StoreController));
