@@ -258,7 +258,8 @@ namespace LoveMeHandMake2.Controllers
             
             model.TradeOrderList = db.TradeOrder
                 .Where(x => x.MemberID == model.member.ID && x.ValidFlag == true)
-                .OrderByDescending(x => x.TradeDateTime).ToList();
+                .OrderByDescending(x => x.TradeDateTime)
+                .ToPagedList(model.PageNumber - 1, model.PageSize);
             return View(model);
         }
 
@@ -276,7 +277,8 @@ namespace LoveMeHandMake2.Controllers
                 .Where(x => x.MemberID == model.member.ID)
                 .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.TradeDateTime)
                 .Where(x => model.SearchDateEnd == null ? true : x.TradeDateTime <= model.SearchDateEnd)
-                .OrderByDescending(x => x.TradeDateTime).ToList();
+                .OrderByDescending(x => x.TradeDateTime)
+                .ToPagedList(model.PageNumber - 1, model.PageSize);
             return View(model);
         }
 

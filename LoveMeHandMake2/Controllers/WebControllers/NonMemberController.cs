@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcPaging;
+
 
 namespace LoveMeHandMake2.Controllers.WebControllers
 {
@@ -38,7 +40,9 @@ namespace LoveMeHandMake2.Controllers.WebControllers
                     Point = nmtl.Point,
                     TradeDateTime = nmtl.TradeDateTime
                 }
-            ).OrderByDescending(x => x.TradeDateTime).ToList();
+            )
+            .OrderByDescending(x => x.TradeDateTime)
+            .ToPagedList(model.PageNumber -1, model.PageSize);
             return View(model);
         }
 
@@ -66,7 +70,9 @@ namespace LoveMeHandMake2.Controllers.WebControllers
                     Point = nmtl.Point,
                     TradeDateTime = nmtl.TradeDateTime
                 }
-            ).OrderByDescending(x => x.TradeDateTime).ToList();
+            )
+            .OrderByDescending(x => x.TradeDateTime)
+            .ToPagedList(model.PageNumber - 1, model.PageSize);
             return View(model);
         }
     }

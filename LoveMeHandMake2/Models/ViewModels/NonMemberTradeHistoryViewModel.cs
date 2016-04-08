@@ -21,16 +21,19 @@ namespace LoveMeHandMake2.Models.ViewModels
         public DateTime? SearchDateEnd { get; set; }
 
         [Display(Name = "页码")]
-        public int Page { get; set; }
+        public int PageNumber { get; set; }
+
+        [Display(Name = "每页资料笔数")]
+        public int PageSize { get; private set; }
 
         //----------------------------------------------------------------------------
 
-        public List<NonMemberTradeRecord> NonMemberTradeRecordList { get; set; }
+        public IPagedList<NonMemberTradeRecord> NonMemberTradeRecordList { get; set; }
 
         public NonMemberTradeHistoryViewModel ()
         {
-            this.Page = 0;
-            this.NonMemberTradeRecordList = new List<NonMemberTradeRecord>();
+            this.PageNumber = 1;
+            this.PageSize = 10;
         }
 
     }    

@@ -20,95 +20,94 @@
             @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(讫)" } })
         </div>
         <div class="col-md-3">
-            <input type="submit" value="搜寻" class="btn btn-default" />
+            <input type="submit" value="搜寻" class="btn btn-default" id="btn-search" />
         </div>
     </div>
-}    
-<br />
 
-
-<table class="table table-striped table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().TradeDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().OrderID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().Store)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().Teacher)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByPoint)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByCash)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByCreditCard)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByMallCard)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardMoney)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardPoint)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().TotalIncomeMoney)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.TradeOrderList)
-    {
+    <br />
+    <table class="table table-striped table-hover">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TradeDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Store.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChargeByPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChargeByCash)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChargeByCreditCard)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChargeByMallCard)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RewardMoney)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RewardPoint)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalIncomeMoney)
-            </td>
-            <td>
-                @Html.ActionLink("明细", "TradeDetail", new { id = item.ID })
-            </td>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().TradeDateTime)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().OrderID)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().Store)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().Teacher)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByPoint)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByCash)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByCreditCard)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByMallCard)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardMoney)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardPoint)</th>
+            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().TotalIncomeMoney)</th>
+            <th></th>
         </tr>
-    }
+        @if (Model != null && Model.TradeOrderList != null)
+        {
+            foreach (var item in Model.TradeOrderList)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TradeDateTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.OrderID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Store.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Teacher.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ChargeByPoint)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ChargeByCash)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ChargeByCreditCard)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ChargeByMallCard)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RewardMoney)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RewardPoint)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TotalIncomeMoney)</td>
+                    <td>@Html.ActionLink("明细", "TradeDetail", new { id = item.ID })</td>
+                </tr>
+            }
+        }
+    </table>
 
-</table>
+    @Html.HiddenFor(model => model.PageNumber)
+    <ul class="pagination">
+        <li class=""><input type="submit" value=&laquo; class="btn-previous-page" /></li>
+        @for (int i = 1; i <= Model.TradeOrderList.PageCount; i++)
+        {
+            <li><input type="submit" value=@i class="btn-page" /></li>
+        }
+        <li class=""><input type="submit" value=&raquo; class="btn-next-page" /></li>
+        <text>Displaying @Model.TradeOrderList.ItemStart - @Model.TradeOrderList.ItemEnd of @Model.TradeOrderList.TotalItemCount item(s)</text>
+    </ul>
 
-<div>
-    @Html.ActionLink("回到会员", "Index")
-</div>
+    <div>
+        @Html.ActionLink("回到会员", "Index")
+    </div>
+
+}    
+
+<script>
+    $(document).ready(function () {
+        $("ul > li > input").addClass("btn btn-default btn-sm");
+        $("ul > li > input.btn-page").click(function () {
+            $("#PageNumber").val($(this).attr("value"));
+            return true;
+        });
+        $("ul > li > input.btn-page:eq(@Model.TradeOrderList.PageIndex)").addClass("active");
+        $("ul > li > input.btn-previous-page").click(function () {
+            if (@Model.TradeOrderList.PageIndex > 0) {
+                $("#PageNumber").val(@Model.TradeOrderList.PageNumber -1);
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+        $("ul > li > input.btn-next-page").click(function () {
+            if ((@Model.TradeOrderList.PageIndex) < (@Model.TradeOrderList.PageCount-1)) {
+                $("#PageNumber").val(@Model.TradeOrderList.PageNumber + 1);
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+        $("#btn-search").click(function(){
+            $("#PageNumber").val(1);
+            return true;
+        });
+    });
+</script>
