@@ -101,13 +101,11 @@ namespace LoveMeHandMake2.Models
             if (this.UploadImage == null) return;
             //===========================================================================
             string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            this.ImageName = this.ProductCategory.Name + "_" + this.Name + "_" + DateTime.Now.ToString("yyyyMMddHHmm") + "_" + this.UploadImage.FileName;
-            //this.UploadImage.SaveAs(this.ImagePath);
-
+            this.ImageName = this.ProductCategory.Name + "_" + this.Name + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
+            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
             Image img = Image.FromStream(this.UploadImage.InputStream, true, true);
             Image thumbnails = ScaleImage(img, 100, 100);
-            thumbnails.Save(System.IO.Path.Combine(folder, this.ImageName));
-
+            thumbnails.Save(imgPath, System.Drawing.Imaging.ImageFormat.Jpeg);
         }
 
         private static Image ScaleImage(Image image, int maxWidth, int maxHeight)
