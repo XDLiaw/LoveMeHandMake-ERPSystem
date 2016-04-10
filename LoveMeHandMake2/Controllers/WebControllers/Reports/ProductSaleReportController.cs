@@ -33,26 +33,27 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
             return View(model);
         }
 
-        private ProductSaleReportViewModel GetModelData(int? storeID, DateTime? dateStart, DateTime? dateEnd)
+        private ProductSaleReportViewModel GetModelData(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
             ProductSaleReportViewModel model = new ProductSaleReportViewModel();
-            model.SearchStoreID = storeID;
-            model.SearchDateStart = dateStart;
-            model.SearchDateEnd = dateEnd;
+            model.SearchStoreID = SearchStoreID;
+            model.SearchDateStart = SearchDateStart;
+            model.SearchDateEnd = SearchDateEnd;
             try
             {
-                if (storeID != null)
+                if (SearchStoreID != null)
                 {
-                    model.StoreName = db.Stores.Where(x => x.ID == storeID).Select(x => x.Name).FirstOrDefault();
+                    model.StoreName = db.Stores.Where(x => x.ID == SearchStoreID).Select(x => x.Name).FirstOrDefault();
                 }
+
                 model.saleList =
                 (
                     from tpp in db.TradePurchaseProduct
                     join o in db.TradeOrder on tpp.OrderID equals o.ID
                     join p in db.Products on tpp.ProductID equals p.ID
-                    where (storeID == null ? true : o.StoreID == storeID)
-                        && (dateStart == null ? true : dateStart <= o.TradeDateTime)
-                        && (dateEnd == null ? true : o.TradeDateTime <= dateEnd)
+                    where (SearchStoreID == null ? true : o.StoreID == SearchStoreID)
+                        && (SearchDateStart == null ? true : SearchDateStart <= o.TradeDateTime)
+                        && (SearchDateEnd == null ? true : o.TradeDateTime <= SearchDateEnd)
                         && (o.ValidFlag == true)
                         && (tpp.ValidFlag == true)
                     orderby o.TradeDateTime

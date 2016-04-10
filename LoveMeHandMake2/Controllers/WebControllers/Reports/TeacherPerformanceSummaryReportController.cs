@@ -41,8 +41,8 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         {
             TeacherPerformanceSummaryReportViewModel model = new TeacherPerformanceSummaryReportViewModel();
             model.SearchStoreID = SearchStoreID;
-            model.SearchDateStart = SearchDateStart.GetValueOrDefault().Date;
-            model.SearchDateEnd = SearchDateEnd.GetValueOrDefault().Date;
+            model.SearchDateStart = SearchDateStart;
+            model.SearchDateEnd = SearchDateEnd;
             try
             {
                 model.StoreName = db.Stores.Where(x => x.ID == model.SearchStoreID && x.ValidFlag == true).Select(x => x.Name).FirstOrDefault();
