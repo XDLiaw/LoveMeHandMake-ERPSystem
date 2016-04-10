@@ -16,11 +16,6 @@ namespace LoveMeHandMake2.Helper.ExcelReport
     {
         public IWorkbook Create(ProductSaleReportViewModel arg)
         {
-            base.Init();
-            //IFont font_15 = wb.CreateFont();
-            //font_15.FontHeightInPoints = 15;
-            //font_15.FontName = "新細明體";
-
             //detail sheet
             ISheet detailSheet = this.workbook.CreateSheet("明細");
             int rowCount = 0;
@@ -31,6 +26,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 detailSheet.AutoSizeColumn(i);
             }
             detailSheet.SetColumnWidth(0, 30 * 256);
+            detailSheet.CreateFreezePane(0, 5);
 
             // summary sheet 
             createSummerySheet(arg);
@@ -44,53 +40,30 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             {
                 IRow firstRow = sheet.CreateRow(rowCount++);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 7));
-                ICell cell = firstRow.CreateCell(0);
-                cell.SetCellValue(storeName);
-                cell.CellStyle = this.defaultCellStyle_Center;
+                ICell cell = base.CreateCell(firstRow, 0, storeName);
+                IFont font = this.workbook.CreateFont();
+                font.FontName = base.defaultFontName;
+                font.FontHeightInPoints = 14;
+                font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+                cell.CellStyle.SetFont(font); 
             }
             {
-                IRow secondRow = sheet.CreateRow(rowCount++);
+                IRow row = sheet.CreateRow(rowCount);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(1, 3, 0, 7));
-                ICell cell = secondRow.CreateCell(0);
-                cell.SetCellValue(String.Format("商品销售表（{0:yyyy/MM/dd}~{1:yyyy/MM/dd}）", startTime, endTime));
-                cell.CellStyle = this.defaultCellStyle_Center;
+                ICell cell = base.CreateCell(row, 0, String.Format("商品销售表（{0:yyyy/MM/dd}~{1:yyyy/MM/dd}）", startTime, endTime));
                 rowCount = 4;
             }
             {
                 int colCount = 0;
-                IRow titleRow = sheet.CreateRow(rowCount++);
-
-                ICell dateCell = titleRow.CreateCell(colCount++);
-                dateCell.SetCellValue("日期");
-                dateCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell productCell = titleRow.CreateCell(colCount++);
-                productCell.SetCellValue("商品名称");
-                productCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell pointCell = titleRow.CreateCell(colCount++);
-                pointCell.SetCellValue("点数");
-                pointCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell beanCell = titleRow.CreateCell(colCount++);
-                beanCell.SetCellValue("豆数");
-                beanCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell memberCardCell = titleRow.CreateCell(colCount++);
-                memberCardCell.SetCellValue("会员卡号");
-                memberCardCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell priceCell = titleRow.CreateCell(colCount++);
-                priceCell.SetCellValue("金额");
-                priceCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell genderCell = titleRow.CreateCell(colCount++);
-                genderCell.SetCellValue("性别");
-                genderCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell teacherCell = titleRow.CreateCell(colCount++);
-                teacherCell.SetCellValue("指导老师");
-                teacherCell.CellStyle = this.defaultCellStyle_Center;
+                IRow row = sheet.CreateRow(rowCount++);
+                base.CreateCell(row, colCount++, "日期");
+                base.CreateCell(row, colCount++, "商品名称");
+                base.CreateCell(row, colCount++, "点数");
+                base.CreateCell(row, colCount++, "豆数");
+                base.CreateCell(row, colCount++, "会员卡号");
+                base.CreateCell(row, colCount++, "金额");
+                base.CreateCell(row, colCount++, "性别");
+                base.CreateCell(row, colCount++, "指导老师");
             }
             return rowCount;
         }
@@ -104,38 +77,14 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 {
                     int colCount = 0;
                     IRow row = sheet.CreateRow(rowCount++);
-
-                    ICell tradeDateCell = row.CreateCell(colCount++);                    
-                    tradeDateCell.SetCellValue(psr.TradeDateTime);
-                    tradeDateCell.CellStyle = this.defaultCellStyle_Date;
-                    
-                    ICell productCell = row.CreateCell(colCount++);
-                    productCell.SetCellValue(psr.ProductName);
-                    productCell.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell pointCell = row.CreateCell(colCount++);
-                    pointCell.SetCellValue(psr.UnitPoint.GetValueOrDefault());
-                    pointCell.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell beanCell = row.CreateCell(colCount++);
-                    beanCell.SetCellValue(psr.UnitBean.GetValueOrDefault());
-                    beanCell.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell memberCardCell = row.CreateCell(colCount++);
-                    memberCardCell.SetCellValue(String.IsNullOrWhiteSpace(psr.MemberCardID) ? "单做现金" : psr.MemberCardID);
-                    memberCardCell.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell priceCell = row.CreateCell(colCount++);
-                    priceCell.SetCellValue(psr.Sum / psr.Amount);
-                    priceCell.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell genderCell = row.CreateCell(colCount++);
-                    genderCell.SetCellValue(psr.Gender == null ? "" : (psr.Gender == true ? "男" : "女"));
-                    genderCell.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell teacherCell = row.CreateCell(colCount++);
-                    teacherCell.SetCellValue(psr.TeacherName);
-                    teacherCell.CellStyle = this.defaultCellStyle_Center;
+                    base.CreateCell(row, colCount++, psr.TradeDateTime);
+                    base.CreateCell(row, colCount++, psr.ProductName);
+                    base.CreateCell(row, colCount++, psr.UnitPoint.GetValueOrDefault());
+                    base.CreateCell(row, colCount++, psr.UnitBean.GetValueOrDefault());
+                    base.CreateCell(row, colCount++, String.IsNullOrWhiteSpace(psr.MemberCardID) ? "单做现金" : psr.MemberCardID);
+                    base.CreateCell(row, colCount++, psr.Sum / psr.Amount);
+                    base.CreateCell(row, colCount++, psr.Gender == null ? "" : (psr.Gender == true ? "男" : "女"));
+                    base.CreateCell(row, colCount++, psr.TeacherName);
                 }
             }
             return rowCount;
@@ -161,9 +110,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 IRow row = summarySheet.CreateRow(r);
                 for (int c = 0; c < summary.GetLength(1); c++)
                 {
-                    ICell cell = row.CreateCell(c);
-                    cell.SetCellValue(summary[r, c].ToString());
-                    cell.CellStyle = this.defaultCellStyle_Center;
+                    base.CreateCell(row, c, summary[r, c].ToString());
                 }
             }
             summarySheet.AutoSizeColumn(0);

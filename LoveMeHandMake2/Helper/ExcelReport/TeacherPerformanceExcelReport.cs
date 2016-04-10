@@ -14,175 +14,151 @@ namespace LoveMeHandMake2.Helper.ExcelReport
 
         public IWorkbook Create(TeacherPerformanceReportViewModel arg)
         {
-            base.Init();
             //detail sheet
-            ISheet detailSheet = this.workbook.CreateSheet("明細");
+            ISheet detailSheet = base.workbook.CreateSheet("明細");
             int rowCount = 0;
             rowCount = createTitlePart(detailSheet, rowCount, arg.StoreName, arg.SearchDateStart, arg.SearchDateEnd);
             rowCount = createDataPart(detailSheet, rowCount, arg);
+            for (int c = 0; c <= detailSheet.GetRow(rowCount-1).Cells.Count; c++)
+            {
+                detailSheet.AutoSizeColumn(c);
+            }
             detailSheet.SetColumnWidth(0, 30 * 256);
+            detailSheet.CreateFreezePane(1, 5);
 
             // summary sheet 
             createSummerySheet(arg);
 
-            return this.workbook;
+            return base.workbook;
         }
 
         private int createTitlePart(ISheet sheet, int rowCount, string storeName, DateTime? startTime, DateTime? endTime)
         {
             {
                 IRow row = sheet.CreateRow(rowCount++);
-                sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowCount - 1, rowCount - 1, 0, 7));
-                ICell cell = row.CreateCell(0);
-                cell.SetCellValue(String.Format("{0} 人员销售纪录表（{1:yyyy/MM/dd}~{2:yyyy/MM/dd}）", storeName, startTime, endTime));
-                cell.CellStyle = this.defaultCellStyle_Center;
+                sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowCount - 1, rowCount - 1, 0, 10));
+                string cellValue = String.Format("{0} 人员销售纪录表（{1:yyyy/MM/dd}~{2:yyyy/MM/dd}）", storeName, startTime, endTime);
+                ICell cell = base.CreateCell(row, 0, cellValue);
+                IFont font = base.workbook.CreateFont();
+                font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+                font.FontName = base.defaultFontName;
+                font.FontHeightInPoints = 18;
+                cell.CellStyle.SetFont(font);                
             }
-            {
-                IRow row = sheet.CreateRow(rowCount++);
-            }
-            {
-                IRow row = sheet.CreateRow(rowCount++);
-            }            
+            sheet.CreateRow(rowCount++);
+            sheet.CreateRow(rowCount++);           
             
             return rowCount;
         }
 
         private int createDataPart(ISheet sheet, int rowCount, TeacherPerformanceReportViewModel arg)
         {
-            {
+            {//老師名字列
                 int colCount = 0;
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowCount, rowCount + 1, colCount, colCount++));
                 IRow row = sheet.CreateRow(rowCount++);
                 foreach (TeacherPerformance tp in arg.MultiTeacherPerformance)
                 {
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowCount - 1, rowCount - 1, colCount, colCount + 3));
-                    ICell cell = row.CreateCell(colCount);
-                    cell.SetCellValue(tp.TeacherName);
-                    cell.CellStyle = this.defaultCellStyle_Center;
+                    base.CreateCell(row, colCount, tp.TeacherName);
                     colCount += 4;
                 }
                 colCount++;
                 {
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowCount - 1, rowCount - 1, colCount, colCount + 3));
-                    ICell AllTeacherCell = row.CreateCell(colCount);
-                    AllTeacherCell.SetCellValue("日统计");
-                    AllTeacherCell.CellStyle = this.defaultCellStyle_Center;
+                    base.CreateCell(row, colCount, "日统计");
                     colCount += 4;
                 }
             }
-            {
+            IFont fontBlack = base.workbook.CreateFont();
+            fontBlack.Color = NPOI.HSSF.Util.HSSFColor.Black.Index;
+            fontBlack.FontHeightInPoints = base.defaultFontHeightInPoints;
+            fontBlack.FontName = base.defaultFontName;
+            IFont fontBlue = base.workbook.CreateFont();
+            fontBlue.Color = NPOI.HSSF.Util.HSSFColor.Blue.Index;
+            fontBlue.FontHeightInPoints = base.defaultFontHeightInPoints;
+            IFont fontRed = base.workbook.CreateFont();
+            fontRed.Color = NPOI.HSSF.Util.HSSFColor.Red.Index;
+            fontRed.FontHeightInPoints = base.defaultFontHeightInPoints;
+            fontRed.FontName = base.defaultFontName;
+            IFont fontGreen = base.workbook.CreateFont();
+            fontGreen.Color = NPOI.HSSF.Util.HSSFColor.Green.Index;
+            fontGreen.FontHeightInPoints = base.defaultFontHeightInPoints;
+            fontGreen.FontName = base.defaultFontName;
+            {// title 列
                 int colCount = 1;
                 IRow row = sheet.CreateRow(rowCount++);
-                //XSSFColor colorToFill = new XSSFColor(Color.Black);
                 foreach (TeacherPerformance tp in arg.MultiTeacherPerformance)
                 {
-                    ICell cell1 = row.CreateCell(colCount++);
-                    cell1.SetCellValue("教学次数");
-                    cell1.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell2 = row.CreateCell(colCount++);
-                    cell2.SetCellValue("教学点数");
-                    cell2.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell3 = row.CreateCell(colCount++);
-                    cell3.SetCellValue("销售点数");
-                    cell3.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell4 = row.CreateCell(colCount++);
-                    cell4.SetCellValue("单做点数");
-                    cell4.CellStyle = this.defaultCellStyle_Center;
+                    base.CreateCell(row, colCount++, "教学次数").CellStyle.SetFont(fontBlack);
+                    base.CreateCell(row, colCount++, "教学点数").CellStyle.SetFont(fontBlue);
+                    base.CreateCell(row, colCount++, "销售点数").CellStyle.SetFont(fontRed);
+                    base.CreateCell(row, colCount++, "单做点数").CellStyle.SetFont(fontGreen);
+                }
+                colCount++;
+                {
+                    base.CreateCell(row, colCount++, "教学次数").CellStyle.SetFont(fontBlack);
+                    base.CreateCell(row, colCount++, "教学点数").CellStyle.SetFont(fontBlue);
+                    base.CreateCell(row, colCount++, "销售点数").CellStyle.SetFont(fontRed);
+                    base.CreateCell(row, colCount++, "单做点数").CellStyle.SetFont(fontGreen);
                 }
             }
+            // 資料數值部分
             for (DateTime d = arg.SearchDateStart.GetValueOrDefault(); d <= arg.SearchDateEnd; d = d.AddDays(1))
             {
                 int colCount = 0;
                 IRow row = sheet.CreateRow(rowCount++);
-                ICell dateCell = row.CreateCell(colCount++);
-                dateCell.SetCellValue(d);
-                dateCell.CellStyle = this.defaultCellStyle_Date;
+                ICell dateCell = base.CreateCell(row, colCount++, d);
 
                 foreach (TeacherPerformance tp in arg.MultiTeacherPerformance)
-                {
+                {//各老師 資料
                     TeacherDailyPerformance tdp = tp.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
-                    ICell cell1 = row.CreateCell(colCount++);
-                    cell1.SetCellValue(tdp.TeachTimes);
-                    cell1.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell1 = base.CreateCell(row, colCount++, tdp.TeachTimes);
+                    cell1.CellStyle.SetFont(fontBlack);
 
-                    ICell cell2 = row.CreateCell(colCount++);
-                    cell2.SetCellValue(tdp.TeachPoints);
-                    cell2.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell2 = base.CreateCell(row, colCount++, tdp.TeachPoints);
+                    cell2.CellStyle.SetFont(fontBlue);
 
-                    ICell cell3 = row.CreateCell(colCount++);
-                    cell3.SetCellValue(tdp.SalesPoints);
-                    cell3.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell3 = base.CreateCell(row, colCount++, tdp.SalesPoints);
+                    cell3.CellStyle.SetFont(fontRed);
 
-                    ICell cell4 = row.CreateCell(colCount++);
-                    cell4.SetCellValue(tdp.PointsFromNonMember);
-                    cell4.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell4 = base.CreateCell(row, colCount++, tdp.PointsFromNonMember);
+                    cell4.CellStyle.SetFont(fontGreen);
                 }
                 colCount++;
-                {//日统计
+                {//日统计 資料
                     TeacherDailyPerformance tdp = arg.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
-                    ICell cell1 = row.CreateCell(colCount++);
-                    cell1.SetCellValue(tdp.TeachTimes);
-                    cell1.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell1 = base.CreateCell(row, colCount++, tdp.TeachTimes);
+                    cell1.CellStyle.SetFont(fontBlack);
 
-                    ICell cell2 = row.CreateCell(colCount++);
-                    cell2.SetCellValue(tdp.TeachPoints);
-                    cell2.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell2 = base.CreateCell(row, colCount++, tdp.TeachPoints);
+                    cell2.CellStyle.SetFont(fontBlue);
 
-                    ICell cell3 = row.CreateCell(colCount++);
-                    cell3.SetCellValue(tdp.SalesPoints);
-                    cell3.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell3 = base.CreateCell(row, colCount++, tdp.SalesPoints);
+                    cell3.CellStyle.SetFont(fontRed);
 
-                    ICell cell4 = row.CreateCell(colCount++);
-                    cell4.SetCellValue(tdp.PointsFromNonMember);
-                    cell4.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell4 = base.CreateCell(row, colCount++, tdp.PointsFromNonMember);
+                    cell4.CellStyle.SetFont(fontGreen);
                 }
             }
             {//最下方總計列 
                 int colCount = 0;
                 IRow row = sheet.CreateRow(rowCount++);
-                ICell dateCell = row.CreateCell(colCount++);
-                dateCell.SetCellValue("总计");
-                dateCell.CellStyle = this.defaultCellStyle_Center;
+                ICell dateCell = base.CreateCell(row, colCount++, "总计");
 
                 foreach (TeacherPerformance tp in arg.MultiTeacherPerformance)
                 {
-                    ICell cell1 = row.CreateCell(colCount++);
-                    cell1.SetCellValue(tp.TotalTeachTimes);
-                    cell1.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell2 = row.CreateCell(colCount++);
-                    cell2.SetCellValue(tp.TotalTeachPoints);
-                    cell2.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell3 = row.CreateCell(colCount++);
-                    cell3.SetCellValue(tp.TotalSalesPoints);
-                    cell3.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell4 = row.CreateCell(colCount++);
-                    cell4.SetCellValue(tp.TotalPointsFromNonMember);
-                    cell4.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell1 = base.CreateCell(row, colCount++, tp.TotalTeachTimes);
+                    ICell cell2 = base.CreateCell(row, colCount++, tp.TotalTeachPoints);
+                    ICell cell3 = base.CreateCell(row, colCount++, tp.TotalSalesPoints);
+                    ICell cell4 = base.CreateCell(row, colCount++, tp.TotalPointsFromNonMember);
                 }
-
                 colCount++;
                 {//日统计
-                    ICell cell1 = row.CreateCell(colCount++);
-                    cell1.SetCellValue(arg.allTeacherPerformance.TotalTeachTimes);
-                    cell1.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell2 = row.CreateCell(colCount++);
-                    cell2.SetCellValue(arg.allTeacherPerformance.TotalTeachPoints);
-                    cell2.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell3 = row.CreateCell(colCount++);
-                    cell3.SetCellValue(arg.allTeacherPerformance.TotalSalesPoints);
-                    cell3.CellStyle = this.defaultCellStyle_Center;
-
-                    ICell cell4 = row.CreateCell(colCount++);
-                    cell4.SetCellValue(arg.allTeacherPerformance.TotalPointsFromNonMember);
-                    cell4.CellStyle = this.defaultCellStyle_Center;
+                    ICell cell1 = base.CreateCell(row, colCount++, arg.allTeacherPerformance.TotalTeachTimes);
+                    ICell cell2 = base.CreateCell(row, colCount++, arg.allTeacherPerformance.TotalTeachPoints);
+                    ICell cell3 = base.CreateCell(row, colCount++, arg.allTeacherPerformance.TotalSalesPoints);
+                    ICell cell4 = base.CreateCell(row, colCount++, arg.allTeacherPerformance.TotalPointsFromNonMember);
                 }
             }
             return rowCount;
@@ -208,9 +184,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 IRow row = summarySheet.CreateRow(r);
                 for (int c = 0; c < summary.GetLength(1); c++)
                 {
-                    ICell cell = row.CreateCell(c);
-                    cell.SetCellValue(summary[r, c].ToString());
-                    cell.CellStyle = this.defaultCellStyle_Center;
+                    base.CreateCell(row, c, summary[r, c].ToString());
                 }
             }
             summarySheet.AutoSizeColumn(0);

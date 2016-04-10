@@ -26,6 +26,8 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         public List<TeacherPerformanceSummary> TeacherPerformanceSummaryList { get; set; }
 
+        public TeacherPerformanceSummary AvgTeacherPerformanceSummary { get; private set; }
+
         [Display(Name = "来客数")]
         public int TotalTeachTimes { get; set; }
 
@@ -45,7 +47,15 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         public void Compute()
         {
-            this.TotalTeachTimes = this.TeacherPerformanceSummaryList.Sum(x => x.TeachTimes);
+            this.AvgTeacherPerformanceSummary = new TeacherPerformanceSummary();
+            this.AvgTeacherPerformanceSummary.TeacherID = -1;
+            this.AvgTeacherPerformanceSummary.TeacherName = "平均";
+            this.AvgTeacherPerformanceSummary.TeachTimes = this.TeacherPerformanceSummaryList.Average(x => x.TeachTimes);
+            this.AvgTeacherPerformanceSummary.TeachPoints = this.TeacherPerformanceSummaryList.Average(x => x.TeachPoints);
+            this.AvgTeacherPerformanceSummary.SalesPoints = this.TeacherPerformanceSummaryList.Average(x => x.SalesPoints);
+            this.AvgTeacherPerformanceSummary.PointsFromNonMember = this.TeacherPerformanceSummaryList.Average(x => x.PointsFromNonMember);
+
+            this.TotalTeachTimes = (int)this.TeacherPerformanceSummaryList.Sum(x => x.TeachTimes);
             this.AvgPrice = this.TeacherPerformanceSummaryList.Sum(x => x.TotalPrice) / this.TotalTeachTimes;
             double NonMemberConsumptionPoint = this.TeacherPerformanceSummaryList.Sum(x => x.PointsFromNonMember);
             double TotalPoint = this.TeacherPerformanceSummaryList.Sum(x => x.TeachPoints);
@@ -62,7 +72,7 @@ namespace LoveMeHandMake2.Models.ViewModels
         public string TeacherName { get; set; }
 
         [Display(Name = "教学次数")]
-        public int TeachTimes { get; set; }
+        public double TeachTimes { get; set; }
 
         [Display(Name = "教学点数")]
         [DisplayFormat(DataFormatString = "{0:F1}", ApplyFormatInEditMode = true)]

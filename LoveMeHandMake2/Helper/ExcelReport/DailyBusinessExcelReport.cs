@@ -11,7 +11,6 @@ namespace LoveMeHandMake2.Helper.ExcelReport
     {
         public IWorkbook Create(DailyBusinessReportViewModel arg)
         {
-            base.Init();
             ISheet sheet = this.workbook.CreateSheet();
             int rowCount = 0;
             rowCount = createTitlePart(sheet, rowCount, arg.StoreName);
@@ -21,6 +20,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 sheet.AutoSizeColumn(i);
             }
             sheet.SetColumnWidth(0, 30 * 256);
+            sheet.CreateFreezePane(0, 4);
 
             return this.workbook;
         }
@@ -30,35 +30,23 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             {
                 IRow firstRow = sheet.CreateRow(rowCount++);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 4));
-                ICell cell = firstRow.CreateCell(0);
-                cell.SetCellValue(string.Format("{0} 营业日报表", storeName));
-                cell.CellStyle = this.defaultCellStyle_Center;
+                ICell cell = base.CreateCell(firstRow, 0, string.Format("{0} 营业日报表", storeName));
+                IFont font = this.workbook.CreateFont();
+                font.FontName = base.defaultFontName;
+                font.FontHeightInPoints = 18;
+                font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+                cell.CellStyle.SetFont(font);
             }
             sheet.CreateRow(rowCount++);
             sheet.CreateRow(rowCount++);
             {
                 int colCount = 0;
                 IRow titleRow = sheet.CreateRow(rowCount++);
-
-                ICell dateCell = titleRow.CreateCell(colCount++);
-                dateCell.SetCellValue("日期");
-                dateCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell productCell = titleRow.CreateCell(colCount++);
-                productCell.SetCellValue("现金");
-                productCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell pointCell = titleRow.CreateCell(colCount++);
-                pointCell.SetCellValue("信用卡");
-                pointCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell beanCell = titleRow.CreateCell(colCount++);
-                beanCell.SetCellValue("商城卡");
-                beanCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell memberCardCell = titleRow.CreateCell(colCount++);
-                memberCardCell.SetCellValue("当日业绩");
-                memberCardCell.CellStyle = this.defaultCellStyle_Center;
+                base.CreateCell(titleRow, colCount++, "日期");
+                base.CreateCell(titleRow, colCount++, "现金");
+                base.CreateCell(titleRow, colCount++, "信用卡");
+                base.CreateCell(titleRow, colCount++, "商城卡");
+                base.CreateCell(titleRow, colCount++, "当日业绩");
             }
 
             return rowCount;
@@ -70,39 +58,19 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             {
                 int colCount = 0;
                 IRow row = sheet.CreateRow(rowCount++);
-
-                ICell dateCell = row.CreateCell(colCount++);
-                dateCell.SetCellValue(dbr.Date);
-                dateCell.CellStyle = this.defaultCellStyle_Date;
-
-                ICell cashCell = row.CreateCell(colCount++);
-                cashCell.SetCellValue(dbr.Cash);
-                cashCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell creditCardCell = row.CreateCell(colCount++);
-                creditCardCell.SetCellValue(dbr.CreditCard);
-                creditCardCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell MallCardCell = row.CreateCell(colCount++);
-                MallCardCell.SetCellValue(dbr.MallCard);
-                MallCardCell.CellStyle = this.defaultCellStyle_Center;
-
-                ICell totalCell = row.CreateCell(colCount++);
-                totalCell.SetCellValue(dbr.Total);
-                totalCell.CellStyle = this.defaultCellStyle_Center;
+                base.CreateCell(row, colCount++, dbr.Date);
+                base.CreateCell(row, colCount++, dbr.Cash);
+                base.CreateCell(row, colCount++, dbr.CreditCard);
+                base.CreateCell(row, colCount++, dbr.MallCard);
+                base.CreateCell(row, colCount++, dbr.Total);
             }
             {
                 IRow totalRow = sheet.CreateRow(rowCount);
                 sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowCount, rowCount, 0, 3));
-
-                ICell cell = totalRow.CreateCell(0);
-                cell.CellStyle = this.defaultCellStyle_Center;
-                cell.SetCellValue("总业绩");
-
-                ICell totalCell = totalRow.CreateCell(4);
-                totalCell.SetCellValue(arg.TotalMoney);
-                totalCell.CellStyle = this.defaultCellStyle_Center;
                 rowCount++;
+
+                base.CreateCell(totalRow, 0, "总业绩");
+                base.CreateCell(totalRow, 4, arg.TotalMoney);
             }
 
             return rowCount;
