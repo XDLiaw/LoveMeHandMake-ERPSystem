@@ -93,6 +93,7 @@ namespace LoveMeHandMake2.Controllers
             }
             catch (Exception e)
             {
+                log.Error(null, e);
                 ViewBag.ErrMsg = e.Message;
                 ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
                 ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
@@ -221,13 +222,21 @@ namespace LoveMeHandMake2.Controllers
 
         public ActionResult CancelDeposit(int id)
         {
-            DepositService service = new DepositService(db);
-            if (service.IsOrderIDExist(id) == false)
+            try
             {
-                return HttpNotFound();
+                if (new DepositService(db).IsOrderIDExist(id) == false)
+                {
+                    return HttpNotFound();
+                }
+                DepositHistory dh = db.DepositHistory.Find(id);
+                return View(dh);
             }
-            DepositHistory dh = db.DepositHistory.Find(id);
-            return View(dh);
+            catch (Exception e) {
+                log.Warn(null, e);
+                ViewBag.ErrorMessage = e.Message;
+                return RedirectToAction("Index");
+            }
+
         }
 
         [HttpPost]
@@ -334,45 +343,27 @@ namespace LoveMeHandMake2.Controllers
                 ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
                 return View(member);
             }
-            if (new MemberService().IsCardIDExistExceptCurrent(member.ID, member.CardID))
+            try
             {
-                ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
-                ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
-                ViewBag.ErrMsg = "卡号已存在!";
+                if (new MemberService().IsCardIDExistExceptCurrent(member.ID, member.CardID))
+                {
+                    ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+                    ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+                    ViewBag.ErrMsg = "卡号已存在!";
+                    return View(member);
+                }
+                member.Update();
+                db.Entry(member).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                log.Warn(null, e);
+                ViewBag.ErrorMessage = e.Message;
                 return View(member);
             }
-            member.Update();
-            db.Entry(member).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
-        // GET: Member/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            log.Warn("Delete("+id+") method is called!");
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
-            if (member == null)
-            {
-                return HttpNotFound();
-            }
-            return View(member);
-        }
-
-        // POST: Member/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
-            member.Delete();
-            db.Entry(member).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

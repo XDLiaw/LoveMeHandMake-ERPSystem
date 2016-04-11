@@ -84,8 +84,8 @@ namespace LoveMeHandMake2.Models
         // 有使用到的 累計儲值 滿額送點 規則
         public virtual DepositRewardRule AccumulateDepositRewardRule { get; set; }
 
-         [Display(Name = "总新增点数")]
-        public int TotalPoint { get; set; }
+        [Display(Name = "总新增点数")]
+        public double TotalPoint { get; set; }
 
         [Display(Name = "每点平均成本")]
         public double AvgPointCost { get; set; }

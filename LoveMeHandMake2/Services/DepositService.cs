@@ -55,7 +55,13 @@ namespace LoveMeHandMake2.Services
 
         public DepositHistory Deposit(DepositHistory dh)
         {
-            if (new DepositService().IsOrderIDExist(dh.OrderID))
+            return Deposit(dh, true);
+        }
+
+        public DepositHistory Deposit(DepositHistory dh, bool withCompute)
+        {
+            // 資料正確性驗證
+            if (IsOrderIDExist(dh.OrderID))
             {
                 throw new ArgumentException("OrderID: [" + dh.OrderID + "] already exist!");
             }
@@ -76,9 +82,22 @@ namespace LoveMeHandMake2.Services
                 string msg = string.Format("Can't find DepositTeacher which ID is [{0}]", dh.DepositTeacherID);
                 throw new ArgumentException(msg);
             }
+            dh.Member = db.Members
+                    .Where(x => (x.ID == dh.MemberID || x.MemberGuid == dh.MemberGuid)
+                        && x.ValidFlag == true).FirstOrDefault();
+            if (dh.Member == null)
+            {
+                string msg = string.Format("Can't find member which ID is [{0}], GUID is [{1}]", dh.MemberID, dh.MemberGuid);
+                throw new ArgumentException(msg);
+            }
+            dh.MemberGuid = dh.Member.MemberGuid;
 
+            //============ Update Member Point & AccumulateDeposit==========================================================
             dh.Create();
-            dh = TryCompute(dh);
+            if (withCompute)
+            {
+                dh = TryCompute(dh);
+            }
             dh.Member.Point += dh.TotalPoint;
             dh.Member.AccumulateDeposit += dh.TotalDepositMoney;
             if (dh.AccumulateDepositRewardRule != null)
@@ -86,11 +105,15 @@ namespace LoveMeHandMake2.Services
                 dh.Member.AccumulateDeposit -= dh.AccumulateDepositRewardRule.DepositAmount;
             }
             db.Entry(dh.Member).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //=========================================================================================================
             db.DepositHistory.Add(dh);
             db.SaveChanges();
 
+            // ===================== create data to HalfPointUsage =======================================================
             List<HalfPointUsage> pointUsageList = new List<HalfPointUsage>();
-            // because sometime it will only use 0.5 point, so each instance of this represent 0.5 point
+            // Each instance of this represent 0.5 point because sometime it will only use 0.5 point
             for (int i = 0; i < dh.TotalPoint * 2 ; i++)
             {
                 HalfPointUsage pu = new HalfPointUsage()

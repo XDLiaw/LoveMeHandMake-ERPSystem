@@ -7,37 +7,34 @@ using System.Web;
 
 namespace LoveMeHandMake2.Services
 {
-    public class MemberService
+    public class MemberService : BaseService
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(MemberService));
+        public MemberService() : base() { }
+
+        public MemberService(LoveMeHandMakeContext db) : base(db) { }
 
         public bool IsCardIDExist(string id)
         {
-            LoveMeHandMakeContext db = new LoveMeHandMakeContext();
-            return db.Members.Where(x => x.CardID == id).Count() > 0;
+             return db.Members.Where(x => x.CardID == id).Count() > 0;
         }
 
         public bool IsCardIDExistExceptCurrent(int currentMemberID, string cardId)
         {
-            LoveMeHandMakeContext db = new LoveMeHandMakeContext();
             return db.Members.Where(x => x.ID != currentMemberID && x.CardID == cardId).Count() > 0;
         }
 
         public bool IsCardIDExistExceptCurrent(Guid currentMemberGuid, string cardId)
         {
-            LoveMeHandMakeContext db = new LoveMeHandMakeContext();
             return db.Members.Where(x => x.MemberGuid != currentMemberGuid && x.CardID == cardId).Count() > 0;
         }
 
         public bool IsGuidExist(Guid guid)
         {
-            LoveMeHandMakeContext db = new LoveMeHandMakeContext();
             return db.Members.Where(x => x.MemberGuid == guid).Count() > 0;
         }
 
         public List<string> Create(Member m)
         {
-            LoveMeHandMakeContext db = new LoveMeHandMakeContext();
             List<string> errMsgs = new List<string>();
             if (new MemberService().IsCardIDExist(m.CardID))
             {
@@ -58,6 +55,7 @@ namespace LoveMeHandMake2.Services
                 log.Warn(errMsg);
             }
 
+            //這裡new 一個新Member是為了下面還要做公關儲點
             Member newMember = new Member();
             newMember.CreateBy(m);
             db.Members.Add(newMember);
@@ -66,16 +64,17 @@ namespace LoveMeHandMake2.Services
             // if it is PR card then deposit point for this new member
             if (m.IsPRCard && m.Point > 0)
             {
+                Store EnrollStore = db.Stores.Where(x => x.ID == m.EnrollStoreID && x.ValidFlag == true).FirstOrDefault();  
                 DepositHistory depositHistory = new DepositHistory()
                 {
+                    OrderID = string.Format("{0}{1:yyMMddHHmmss}", EnrollStore.StoreCode, newMember.EnrollDate),
                     DepositStoreID = newMember.EnrollStoreID,
                     DepositTeacherID = newMember.EnrollTeacherID,
                     MemberGuid = newMember.MemberGuid,
                     RewardPoint = (int)m.Point,
                     DepostitDateTime = newMember.EnrollDate
                 };
-                depositHistory.OrderID = string.Format("{0}{1:yyMMddHHmmss}", newMember.EnrollStore.StoreCode, depositHistory.DepostitDateTime);
-                new DepositService().Deposit(depositHistory);
+                new DepositService(db).Deposit(depositHistory);
             }
 
             return errMsgs;

@@ -90,10 +90,35 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     res.IsRequestSuccess = false;
                     return res;
                 }
-
-                List<string> errMsgs = new MemberService().Create(arg.member);
-                res.ErrMsgs.AddRange(errMsgs);
-
+                if (string.IsNullOrEmpty(arg.oldMemberDepositOrderID) == false && arg.oldMemberPoint != null && arg.oldMemberPointUnitValue != null)
+                {// 舊會員資料登錄
+                    List<string> errMsgs = new MemberService(db).Create(arg.member);
+                    res.ErrMsgs.AddRange(errMsgs);
+                    try
+                    {//補上舊會員既有點數
+                        DepositHistory dh = new DepositHistory();
+                        dh.Create();
+                        dh.OrderID = arg.oldMemberDepositOrderID;
+                        dh.MemberID = arg.member.ID;
+                        dh.MemberGuid = arg.member.MemberGuid;
+                        dh.DepositStoreID = arg.member.EnrollStoreID;
+                        dh.DepositTeacherID = arg.member.EnrollTeacherID;
+                        dh.TotalPoint = arg.oldMemberPoint.GetValueOrDefault();
+                        dh.AvgPointCost = arg.oldMemberPointUnitValue.GetValueOrDefault();
+                        dh.DepostitDateTime = arg.member.EnrollDate;
+                        new DepositService(db).Deposit(dh, false);
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(null, e);
+                        res.ErrMsgs.Add(e.Message);
+                    }
+                }
+                else
+                {
+                    List<string> errMsgs = new MemberService(db).Create(arg.member);
+                    res.ErrMsgs.AddRange(errMsgs);
+                }
                 res.IsRequestSuccess = true;
                 return res;
             }

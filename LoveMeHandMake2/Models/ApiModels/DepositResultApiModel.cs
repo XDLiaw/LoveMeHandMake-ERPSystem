@@ -18,7 +18,7 @@ namespace LoveMeHandMake2.Models.ApiModels
         public int DepositRewardPoint { get; set; }
 
         [Display(Name = "总新增点数")]
-        public int TotalPoint { get; set; }
+        public double TotalPoint { get; set; }
 
         [Display(Name = "每点平均成本")]
         public double AvgPointCost { get; set; }
