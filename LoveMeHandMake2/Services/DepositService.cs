@@ -8,18 +8,11 @@ using System.Web;
 
 namespace LoveMeHandMake2.Services
 {
-    public class DepositService
+    public class DepositService :BaseService
     {
-        private LoveMeHandMakeContext db;
+        public DepositService() : base() { }
 
-        public DepositService() { 
-            this.db = new LoveMeHandMakeContext();
-        }
-
-        public DepositService(LoveMeHandMakeContext db)
-        {
-            this.db = db;
-        }
+        public DepositService(LoveMeHandMakeContext db) : base(db) { }
 
         public bool IsOrderIDExist(int id)
         {
@@ -45,10 +38,8 @@ namespace LoveMeHandMake2.Services
                 string msg = string.Format("Can't find member which ID is [{0}], GUID is [{1}]", dh.MemberID, dh.MemberGuid);
                 throw new ArgumentException(msg);
             }
-
             dh.MemberGuid = dh.Member.MemberGuid;
-            dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true)
-                .OrderBy(x => x.DepositAmount).ToList();
+            dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
             dh.computeAll();
             return dh;
         }

@@ -6,9 +6,11 @@ using System.Web;
 
 namespace LoveMeHandMake2.Services
 {
-    public class TeacherService
+    public class TeacherService : BaseService
     {
-        private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
+        public TeacherService() : base() { }
+
+        public TeacherService(LoveMeHandMakeContext db) : base(db) { }
 
         public bool IsTeacherExist(int teacherID)
         {

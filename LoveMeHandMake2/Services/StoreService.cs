@@ -6,9 +6,11 @@ using System.Web;
 
 namespace LoveMeHandMake2.Services
 {
-    public class StoreService
+    public class StoreService : BaseService
     {
-        private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
+        public StoreService() : base() { }
+
+        public StoreService(LoveMeHandMakeContext db) : base(db) { }
 
         public bool IsStoreExist(int storeID)
         {

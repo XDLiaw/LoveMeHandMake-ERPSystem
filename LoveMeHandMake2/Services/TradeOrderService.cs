@@ -8,17 +8,11 @@ using System.Web;
 
 namespace LoveMeHandMake2.Services
 {
-    public class TradeOrderService
+    public class TradeOrderService : BaseService
     {
-        private LoveMeHandMakeContext db;
+        public TradeOrderService() : base() { }
 
-        public TradeOrderService() { 
-            db = new LoveMeHandMakeContext();
-        }
-
-        public TradeOrderService(LoveMeHandMakeContext db) {
-            this.db = db;
-        }
+        public TradeOrderService(LoveMeHandMakeContext db) : base(db) { }
 
         /// <summary>
         ///     find out is the order exist or not no matter it is marked as invalid or not

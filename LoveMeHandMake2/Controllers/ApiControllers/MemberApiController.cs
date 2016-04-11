@@ -82,7 +82,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     res.IsRequestSuccess = false;
                     return res;
                 }
-                if (new MemberService().IsGuidExist(arg.member.MemberGuid))
+                if (new MemberService(this.db).IsGuidExist(arg.member.MemberGuid))
                 {
                     string errMsg = "Guid: '" + arg.member.MemberGuid + "' already exist!";
                     log.Error(errMsg);
@@ -92,7 +92,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 }
                 if (string.IsNullOrEmpty(arg.oldMemberDepositOrderID) == false && arg.oldMemberPoint != null && arg.oldMemberPointUnitValue != null)
                 {// 舊會員資料登錄
-                    List<string> errMsgs = new MemberService(db).Create(arg.member);
+                    List<string> errMsgs = new MemberService(this.db).Create(arg.member);
                     res.ErrMsgs.AddRange(errMsgs);
                     try
                     {//補上舊會員既有點數
@@ -106,7 +106,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                         dh.TotalPoint = arg.oldMemberPoint.GetValueOrDefault();
                         dh.AvgPointCost = arg.oldMemberPointUnitValue.GetValueOrDefault();
                         dh.DepostitDateTime = arg.member.EnrollDate;
-                        new DepositService(db).Deposit(dh, false);
+                        new DepositService(this.db).Deposit(dh, false);
                     }
                     catch (Exception e)
                     {
@@ -116,7 +116,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 }
                 else
                 {
-                    List<string> errMsgs = new MemberService(db).Create(arg.member);
+                    List<string> errMsgs = new MemberService(this.db).Create(arg.member);
                     res.ErrMsgs.AddRange(errMsgs);
                 }
                 res.IsRequestSuccess = true;
