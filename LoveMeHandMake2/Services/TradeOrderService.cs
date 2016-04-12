@@ -44,6 +44,7 @@ namespace LoveMeHandMake2.Services
 
                 // deduction point from member                    
                 tradeOrder.Member.Point -= tradeOrder.ChargeByPoint;
+                tradeOrder.Member.Update();
                 db.Entry(tradeOrder.Member).State = EntityState.Modified;
 
                 // modify PointUsage 
@@ -96,16 +97,20 @@ namespace LoveMeHandMake2.Services
                 throw new ArgumentException("OrderID: [" + orderID + "] doesn't exist!");
             }
             tradeOrder.ValidFlag = false;
+            tradeOrder.Update();
             db.Entry(tradeOrder).State = EntityState.Modified;
 
             // find realative TradePurchaseProducts and mark as invalid
             List<TradePurchaseProduct> products = db.TradePurchaseProduct.Where(x => x.OrderID == tradeOrder.ID && x.ValidFlag == true).ToList();
             products.ForEach(x => x.ValidFlag = false);
+            products.ForEach(x => x.Update());
+            products.ForEach(x => db.Entry(x).State = EntityState.Modified);
 
             if (tradeOrder.MemberID != null)
             {
                 // find member who has this order and update points
                 tradeOrder.Member.Point += tradeOrder.ChargeByPoint;
+                tradeOrder.Member.Update();
                 db.Entry(tradeOrder.Member).State = EntityState.Modified;
 
                 // find halfPointUsage and update their state

@@ -228,7 +228,7 @@ namespace LoveMeHandMake2.Controllers
                 {
                     return HttpNotFound();
                 }
-                DepositHistory dh = db.DepositHistory.Find(id);
+                DepositHistory dh = db.DepositHistory.Where(x => x.ID == id && x.ValidFlag).FirstOrDefault();
                 return View(dh);
             }
             catch (Exception e) {
@@ -244,8 +244,8 @@ namespace LoveMeHandMake2.Controllers
         {
             try 
             {
-                int memberID = db.DepositHistory.Where(x => x.ID == id).Select(x => x.MemberID).FirstOrDefault();
                 new DepositService(db).Cancel(id);
+                int memberID = db.DepositHistory.Where(x => x.ID == id).Select(x => x.MemberID).FirstOrDefault();
                 return RedirectToAction("DepositHistory", new { id = memberID });
             }
             catch (Exception e)

@@ -95,6 +95,7 @@ namespace LoveMeHandMake2.Services
             {
                 dh.Member.AccumulateDeposit -= dh.AccumulateDepositRewardRule.DepositAmount;
             }
+            dh.Member.Update();
             db.Entry(dh.Member).State = EntityState.Modified;
             db.SaveChanges();
 
@@ -168,6 +169,7 @@ namespace LoveMeHandMake2.Services
 
             // mark this deposit's validValg to false as cancel
             dh.ValidFlag = false;
+            dh.Update();
             db.Entry(dh).State = EntityState.Modified;
 
             // update [point] and [AccumulateDeposit] from member
@@ -181,6 +183,7 @@ namespace LoveMeHandMake2.Services
             {
                 member.AccumulateDeposit -= dh.TotalDepositMoney;
             }
+            member.Update();
             db.Entry(member).State = EntityState.Modified;
 
             // remove halfPointUsage those created because of this deposit
@@ -192,7 +195,6 @@ namespace LoveMeHandMake2.Services
             {
                 tradeOrderService.NewTradeOrder(newTradeOrder, false);
             }
-
             
             return member.Point;
         }
