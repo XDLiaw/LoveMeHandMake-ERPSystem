@@ -204,8 +204,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ApiControllers\report\DailyBusinessReportApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\report\DepositReportApiController.cs" />
     <Compile Include="Controllers\ApiControllers\NonMemberTradeApiController.cs" />
     <Compile Include="Controllers\ApiControllers\ProductApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\report\ProductSaleReportApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\report\TeacherPerformanceReportApiController.cs" />
+    <Compile Include="Controllers\ApiControllers\report\TeacherPerformanceSummaryReportApiController.cs" />
     <Compile Include="Controllers\WebControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\DepositApiController.cs" />
     <Compile Include="Controllers\ApiControllers\DepositRewardRuleApiController.cs" />
@@ -571,6 +576,12 @@
     <Compile Include="Models\ApiModels\MemberResultApiModel.cs" />
     <Compile Include="Models\ApiModels\NonMemberTradeApiModel.cs" />
     <Compile Include="Models\ApiModels\NonMemberTradeResultApiModel.cs" />
+    <Compile Include="Models\ApiModels\report\DailyBusinessReportApiModel.cs" />
+    <Compile Include="Models\ApiModels\report\DepositReportApiModel.cs" />
+    <Compile Include="Models\ApiModels\report\ProductSaleReportApiModel.cs" />
+    <Compile Include="Models\ApiModels\report\ReportResultApiModel.cs" />
+    <Compile Include="Models\ApiModels\report\TeacherPerformanceReportApiModel.cs" />
+    <Compile Include="Models\ApiModels\report\TeacherPerformanceSummaryReportApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TeacherModifyResultApiModel.cs" />
     <Compile Include="Models\ApiModels\TradeOrderCancelRequestApiModel.cs" />

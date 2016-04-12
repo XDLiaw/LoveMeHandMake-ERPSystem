@@ -1,6 +1,7 @@
 ﻿using log4net;
 using LoveMeHandMake2.Helper.ExcelReport;
 using LoveMeHandMake2.Models;
+using LoveMeHandMake2.Models.ApiModels.report;
 using LoveMeHandMake2.Models.ViewModels;
 using LoveMeHandMake2.Services.report;
 using NPOI.SS.UserModel;
@@ -32,7 +33,16 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpPost]
         public ActionResult Index(DailyBusinessReportViewModel model)
         {
-            model = new DailyBusinessReportService(this.db).GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
+            try
+            {
+                DailyBusinessReportService service = new DailyBusinessReportService(this.db);
+                model = service.GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                ViewBag.ErrorMessage = e.Message;
+            }            
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
             return View(model);
         }
@@ -40,10 +50,11 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpGet]
         public ActionResult DownloadReport(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
-            DailyBusinessReportViewModel model = new DailyBusinessReportService(this.db).GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);
             MemoryStream memoryStream = new MemoryStream();
             try
             {
+                DailyBusinessReportService service = new DailyBusinessReportService(this.db);
+                DailyBusinessReportViewModel model = service.GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);                
                 DailyBusinessExcelReport report = new DailyBusinessExcelReport();
                 IWorkbook wb = report.Create(model);
                 wb.Write(memoryStream);
@@ -55,6 +66,5 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
 
             return File(memoryStream.ToArray(), "application/vnd.ms-excel", "营业日报表.xlsx");
         }
-
     }
 }

@@ -33,8 +33,17 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpPost]
         public ActionResult Index(TeacherPerformanceSummaryReportViewModel model)
         {
-            TeacherPerformanceSummaryReportService service = new TeacherPerformanceSummaryReportService(this.db);
-            model = service.GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
+            try
+            {
+                TeacherPerformanceSummaryReportService service = new TeacherPerformanceSummaryReportService(this.db);
+                model = service.GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                ViewBag.ErrorMessage = e.Message;
+            }
+
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
             return View(model);
         }
@@ -42,11 +51,11 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpGet]
         public ActionResult DownloadReport(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
-            TeacherPerformanceSummaryReportService service = new TeacherPerformanceSummaryReportService(this.db);
-            TeacherPerformanceSummaryReportViewModel model = service.GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);
             MemoryStream memoryStream = new MemoryStream();
             try
             {
+                TeacherPerformanceSummaryReportService service = new TeacherPerformanceSummaryReportService(this.db);
+                TeacherPerformanceSummaryReportViewModel model = service.GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);
                 TeacherPerformanceSummaryExcelReport report = new TeacherPerformanceSummaryExcelReport();
                 IWorkbook wb = report.Create(model);
                 wb.Write(memoryStream);

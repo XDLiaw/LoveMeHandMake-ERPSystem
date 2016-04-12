@@ -34,12 +34,17 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpPost]
         public ActionResult Index(TeacherPerformanceReportViewModel model)
         {
-            DateTime SearchYearMonth = model.SearchYearMonth;
-            DateTime start = new DateTime(SearchYearMonth.Year, SearchYearMonth.Month, 1);
-            DateTime end = start.AddMonths(1).AddDays(-1);
-            TeacherPerformanceReportService service = new TeacherPerformanceReportService(this.db);
-            model = service.GetModelData(model.SearchStoreID, model.SearchTeacherID, start, end);
-            model.SearchYearMonth = SearchYearMonth;
+            try
+            {
+                TeacherPerformanceReportService service = new TeacherPerformanceReportService(this.db);
+                model = service.GetModelData(model.SearchStoreID, model.SearchTeacherID, model.SearchYearMonth);
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                ViewBag.ErrorMessage = e.Message;
+            }  
+            
             ViewBag.TeacherList = DropDownListHelper.GetTeacherListWithEmpty(true);
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
             return View(model);
@@ -48,14 +53,11 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpGet]
         public ActionResult DownloadReport(int? SearchStoreID, int? SearchTeacherID, DateTime SearchYearMonth)
         {
-            DateTime start = new DateTime(SearchYearMonth.Year, SearchYearMonth.Month, 1);
-            DateTime end = start.AddMonths(1).AddDays(-1);
-            TeacherPerformanceReportService service = new TeacherPerformanceReportService(this.db);
-            TeacherPerformanceReportViewModel model = service.GetModelData(SearchStoreID, SearchTeacherID, start, end);
-            model.SearchYearMonth = SearchYearMonth;
             MemoryStream memoryStream = new MemoryStream();
             try
             {
+                TeacherPerformanceReportService service = new TeacherPerformanceReportService(this.db);
+                TeacherPerformanceReportViewModel model = service.GetModelData(SearchStoreID, SearchTeacherID, SearchYearMonth);
                 TeacherPerformanceExcelReport report = new TeacherPerformanceExcelReport();
                 IWorkbook wb = report.Create(model);
                 wb.Write(memoryStream);

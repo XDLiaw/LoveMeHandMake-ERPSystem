@@ -31,8 +31,16 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpPost]
         public ActionResult Index(DepositReportViewModel model)
         {
-            DepositReportService service = new DepositReportService(this.db);
-            model = service.GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
+            try
+            {
+                DepositReportService service = new DepositReportService(this.db);
+                model = service.GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                ViewBag.ErrorMessage = e.Message;
+            }
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
             return View(model);
         }
@@ -40,11 +48,11 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         [HttpGet]
         public ActionResult DownloadReport(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
-            DepositReportService service = new DepositReportService(this.db);
-            DepositReportViewModel model = service.GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);
             MemoryStream memoryStream = new MemoryStream();
             try
             {
+                DepositReportService service = new DepositReportService(this.db);
+                DepositReportViewModel model = service.GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);
                 DepositExcelReport report = new DepositExcelReport();
                 IWorkbook wb = report.Create(model);
                 wb.Write(memoryStream);

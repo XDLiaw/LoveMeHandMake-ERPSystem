@@ -13,7 +13,16 @@ namespace LoveMeHandMake2.Services.report
 
         public TeacherPerformanceReportService(LoveMeHandMakeContext db) : base(db) { }
 
-        public TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
+        public TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime SearchYearMonth)
+        {
+            DateTime start = new DateTime(SearchYearMonth.Year, SearchYearMonth.Month, 1);
+            DateTime end = start.AddMonths(1).AddDays(-1);
+            TeacherPerformanceReportViewModel model = GetModelData(SearchStoreID, SearchTeacherID, start, end);
+            model.SearchYearMonth = SearchYearMonth;
+            return model;
+        }
+
+        private TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
             TeacherPerformanceReportViewModel model = new TeacherPerformanceReportViewModel();
             model.SearchStoreID = SearchStoreID;
