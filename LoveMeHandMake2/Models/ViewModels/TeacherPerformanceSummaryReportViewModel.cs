@@ -56,11 +56,11 @@ namespace LoveMeHandMake2.Models.ViewModels
             this.AvgTeacherPerformanceSummary.PointsFromNonMember = this.TeacherPerformanceSummaryList.Average(x => x.PointsFromNonMember);
 
             this.TotalTeachTimes = (int)this.TeacherPerformanceSummaryList.Sum(x => x.TeachTimes);
-            this.AvgPrice = this.TeacherPerformanceSummaryList.Sum(x => x.TotalPrice) / this.TotalTeachTimes;
+            this.AvgPrice = this.TotalTeachTimes == 0 ? 0 : (this.TeacherPerformanceSummaryList.Sum(x => x.TotalPrice) / this.TotalTeachTimes);
             double NonMemberConsumptionPoint = this.TeacherPerformanceSummaryList.Sum(x => x.PointsFromNonMember);
             double TotalPoint = this.TeacherPerformanceSummaryList.Sum(x => x.TeachPoints);
             double MemberConsumptionPoint = TotalPoint - NonMemberConsumptionPoint;
-            this.MemberConsumptionPercentage = MemberConsumptionPoint / TotalPoint;
+            this.MemberConsumptionPercentage = TotalPoint == 0 ? 0 : (MemberConsumptionPoint / TotalPoint);
         }
     }
 

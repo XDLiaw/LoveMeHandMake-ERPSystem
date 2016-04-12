@@ -607,6 +607,11 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\DepositService.cs" />
     <Compile Include="Services\MemberService.cs" />
+    <Compile Include="Services\report\DailyBusinessReportService.cs" />
+    <Compile Include="Services\report\DepositReportService.cs" />
+    <Compile Include="Services\report\ProductSaleReportService.cs" />
+    <Compile Include="Services\report\TeacherPerformanceReportService.cs" />
+    <Compile Include="Services\report\TeacherPerformanceSummaryReportService.cs" />
     <Compile Include="Services\StoreService.cs" />
     <Compile Include="Services\TeacherService.cs" />
     <Compile Include="Services\TradeOrderService.cs" />

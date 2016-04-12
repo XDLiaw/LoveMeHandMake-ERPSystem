@@ -9,7 +9,7 @@ namespace LoveMeHandMake2.Services
 {
     public class BaseService
     {
-        protected static readonly ILog log = LogManager.GetLogger(typeof(MemberService));
+        protected static readonly ILog log = LogManager.GetLogger(typeof(BaseService));
         protected LoveMeHandMakeContext db;
 
         public BaseService()
