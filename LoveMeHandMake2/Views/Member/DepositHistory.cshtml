@@ -40,6 +40,9 @@
                 @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().OrderID)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().DepositStore)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DepositHistoryList.FirstOrDefault().TotalDepositMoney)
             </th>
             <th>
@@ -71,6 +74,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepositStore.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TotalDepositMoney)

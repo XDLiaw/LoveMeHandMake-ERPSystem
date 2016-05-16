@@ -39,7 +39,7 @@ namespace LoveMeHandMake2.Models
         [Required]
         public int DepositStoreID { get; set; }
 
-        [Display(Name = "储值分店")]
+        [Display(Name = "储值门市")]
         public virtual Store DepositStore { get; set; }
 
         [Required]
