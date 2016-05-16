@@ -43,7 +43,7 @@ namespace LoveMeHandMake2.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem()
             {
-                Text = "All",
+                Text = "所有門市",
                 Value = ""
             });
             List<Store> storeList;
@@ -91,7 +91,7 @@ namespace LoveMeHandMake2.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem()
             {
-                Text = "All",
+                Text = "所有产品类别",
                 Value = ""
             });
             List<ProductCategory> categoryList = db.ProductCategory.Where(x => x.ValidFlag == true).ToList();
@@ -139,7 +139,7 @@ namespace LoveMeHandMake2.Controllers
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem()
             {
-                Text = "All",
+                Text = "所有老师",
                 Value = ""
             });
             List<Teacher> teacherList;
