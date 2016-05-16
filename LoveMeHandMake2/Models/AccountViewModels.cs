@@ -49,7 +49,7 @@ namespace LoveMeHandMake2.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "電子郵件")]
+        [Display(Name = "帳號")]
         [EmailAddress]
         public string Email { get; set; }
 

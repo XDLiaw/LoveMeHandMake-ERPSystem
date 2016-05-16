@@ -38,6 +38,17 @@ namespace LoveMeHandMake2.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (depositRewardRule.AccumulateFlag)
+                {
+                    if (db.DepositRewardRule
+                        .Where( x => x.AccumulateFlag == true && x.ValidFlag == true
+                            && (x.ValidDateEnd > depositRewardRule.ValidDateStart || x.ValidDateStart < depositRewardRule.ValidDateEnd) )
+                        .Count() > 0)
+                    {
+                        ViewBag.ErrMsg = "同时间只允许一个累计储值优惠存在";
+                        return View(depositRewardRule);
+                    }
+                }
                 depositRewardRule.Create();
                 db.DepositRewardRule.Add(depositRewardRule);
                 db.SaveChanges();
@@ -71,6 +82,17 @@ namespace LoveMeHandMake2.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (depositRewardRule.AccumulateFlag)
+                {
+                    if (db.DepositRewardRule
+                        .Where( x => x.AccumulateFlag == true && x.ID != depositRewardRule.ID && x.ValidFlag == true
+                            && (x.ValidDateEnd > depositRewardRule.ValidDateStart || x.ValidDateStart < depositRewardRule.ValidDateEnd) )
+                        .Count() > 0)
+                    {
+                        ViewBag.ErrMsg = "同时间只允许一个累计储值优惠存在";
+                        return View(depositRewardRule);
+                    }
+                }
                 depositRewardRule.Update();
                 db.Entry(depositRewardRule).State = EntityState.Modified;
                 db.SaveChanges();
