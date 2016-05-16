@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 
 namespace LoveMeHandMake2.Models.ViewModels
 {
@@ -162,6 +165,47 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         [Display(Name = "指导老师")]
         public string TeacherName { get; set; }
+
+        [Display(Name = "图片")]
+        [JsonIgnore]
+        public string ImageName { get; set; }
+
+        public byte[] GetImageIfExist()
+        {
+            Bitmap img = null;
+            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
+            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
+            if (System.IO.File.Exists(imgPath) == false)
+            {
+                return null;
+            }
+            img = (Bitmap)Image.FromFile(imgPath, true);
+            ImageConverter converter = new ImageConverter();
+            byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
+            img.Dispose();
+            return imgByte;
+        }
+
+        public byte[] GetImage()
+        {
+            Bitmap img = null;
+            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
+            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
+            if (System.IO.File.Exists(imgPath) == false)
+            {
+                imgPath = System.IO.Path.Combine(folder, "logo.jpg");
+            }
+            img = (Bitmap)Image.FromFile(imgPath, true);
+            ImageConverter converter = new ImageConverter();
+            byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
+            img.Dispose();
+            return imgByte;
+        }
+
+        public string GetImageBase64String()
+        {
+            return System.Convert.ToBase64String(this.GetImage());
+        }
     }
 
 

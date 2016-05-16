@@ -49,7 +49,8 @@ namespace LoveMeHandMake2.Services.report
                         MemberCardID = (o.Member == null ? null : o.Member.CardID),
                         Sum = tpp.Sum,
                         Gender = (o.Member == null ? null : (bool?)o.Member.Gender),
-                        TeacherName = (o.Teacher == null ? null : o.Teacher.Name)
+                        TeacherName = (o.Teacher == null ? null : o.Teacher.Name),
+                        ImageName = p.ImageName
                     }
                 ).ToList();
 
