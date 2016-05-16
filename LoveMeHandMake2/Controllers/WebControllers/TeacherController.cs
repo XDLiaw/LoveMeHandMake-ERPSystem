@@ -20,7 +20,7 @@ namespace LoveMeHandMake2.Controllers
         // GET: Teacher
         public ActionResult Index()
         {
-            var teachers = db.Teachers.Where(x => x.ValidFlag == true).Include(t => t.BelongStore);
+            var teachers = db.Teachers.Where(x => x.ValidFlag == true).Include(t => t.BelongStore).OrderBy(x => x.BelongStoreID);
             return View(teachers.ToList());
         }
 
