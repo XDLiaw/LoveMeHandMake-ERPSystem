@@ -42,14 +42,15 @@ namespace LoveMeHandMake2.Controllers.WebControllers
                    && (arg.SearchProductCategoryID == null ? true : pc.ID == arg.SearchProductCategoryID)
                    && (arg.SearchDateStart == null ? true : arg.SearchDateStart <= o.TradeDateTime)
                    && (arg.SearchDateEnd == null ? true : o.TradeDateTime <= arg.SearchDateEnd)
-                group new { tpp.Amount } by new { tpp.ProductID, Name = p.Name, p.Price, CategoryName = pc.Name, pc.Unit } into g                
+                group new { tpp.Amount } by new { tpp.ProductID, Name = p.Name, p.Price, CategoryName = pc.Name, pc.Unit, p.ImageName } into g                
                 select new PopularProduct 
                 { 
                     CategoryName = g.Key.CategoryName,
                     Name = g.Key.Name,
                     Unit = g.Key.Unit,
                     Price = g.Key.Price,
-                    Amount = g.Sum(x => x.Amount)
+                    Amount = g.Sum(x => x.Amount),
+                    ImageName = g.Key.ImageName
                 }
                 
             ).OrderByDescending(x => x.Amount);
