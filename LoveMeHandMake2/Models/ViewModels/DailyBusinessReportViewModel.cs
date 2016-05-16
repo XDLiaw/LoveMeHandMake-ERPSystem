@@ -24,6 +24,15 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "门市名称")]
         public string StoreName { get; set; }
 
+        [Display(Name = "总现金业绩")]
+        public double TotalCash { get; set; }
+
+        [Display(Name = "总信用卡业绩")]
+        public double TotalCreditCard { get; set; }
+
+        [Display(Name = "总商城卡业绩")]
+        public double TotalMallCard { get; set; }
+
         [Display(Name = "总业绩")]
         public double TotalMoney { get; set; }
 
@@ -36,11 +45,10 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         public void computeTotalMoeny()
         {
-            this.TotalMoney = 0;
-            foreach (DailyBusinessRecord r in this.DailyRecords)
-            {
-                this.TotalMoney += r.Total;
-            }
+            this.TotalCash = DailyRecords.Sum(x => x.Cash);
+            this.TotalCreditCard = DailyRecords.Sum(x => x.CreditCard);
+            this.TotalMallCard = DailyRecords.Sum(x => x.MallCard);
+            this.TotalMoney = this.TotalCash + this.TotalCreditCard + this.TotalMallCard;
         }
     }
 

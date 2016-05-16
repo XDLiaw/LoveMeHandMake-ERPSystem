@@ -52,7 +52,10 @@
     </tbody>
     <tfoot>
         <tr class="">
-            <td class="text-center" colspan="4">@Html.DisplayNameFor(model => model.TotalMoney)</td>
+            <td class="text-center">@Html.DisplayNameFor(model => model.TotalMoney)</td>
+            <td class="text-right">@Html.DisplayFor(model => model.TotalCash)</td>
+            <td class="text-right">@Html.DisplayFor(model => model.TotalCreditCard)</td>
+            <td class="text-right">@Html.DisplayFor(model => model.TotalMallCard)</td>
             <td class="text-right">@Html.DisplayFor(model => model.TotalMoney)</td>
         </tr>
     </tfoot>
