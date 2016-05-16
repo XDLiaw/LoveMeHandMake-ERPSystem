@@ -75,13 +75,19 @@ namespace LoveMeHandMake2.Helper.ExcelReport
         {
             if (includeDayOfWeek)
             {
-                return CreateCell(row, columnIndex, cellValue.ToString("yyyy/MM/dd (dddd)", cultureInfo));
+                return CreateCell(row, columnIndex, cellValue.ToString("yyyy/MM/dd (dddd)", cultureInfo));                
             }
             else
             {
                 return CreateCell(row, columnIndex, cellValue.ToString("yyyy/MM/dd"));
             }     
         }
+
+        protected ICell CreateCell(IRow row, int columnIndex, DateTime cellValue, string format)
+        {
+            return CreateCell(row, columnIndex, cellValue.ToString(format, cultureInfo));
+        }
+
 
         protected ICell CreateCell(IRow row, int columnIndex, Object cellValue)
         {

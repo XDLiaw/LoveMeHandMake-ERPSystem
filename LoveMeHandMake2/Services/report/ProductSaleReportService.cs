@@ -13,10 +13,11 @@ namespace LoveMeHandMake2.Services.report
 
         public ProductSaleReportService(LoveMeHandMakeContext db) : base(db) { }
 
-        public ProductSaleReportViewModel GetModelData(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
+        public ProductSaleReportViewModel GetModelData(int? SearchStoreID, int? SearchProductCategoryID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
             ProductSaleReportViewModel model = new ProductSaleReportViewModel();
             model.SearchStoreID = SearchStoreID;
+            model.SearchProductCategoryID = SearchProductCategoryID;
             model.SearchDateStart = SearchDateStart;
             model.SearchDateEnd = SearchDateEnd;
             try
@@ -32,6 +33,7 @@ namespace LoveMeHandMake2.Services.report
                     join o in db.TradeOrder on tpp.OrderID equals o.ID
                     join p in db.Products on tpp.ProductID equals p.ID
                     where (SearchStoreID == null ? true : o.StoreID == SearchStoreID)
+                        && (SearchProductCategoryID == null ? true : p.ProductCategoryID == SearchProductCategoryID)
                         && (SearchDateStart == null ? true : SearchDateStart <= o.TradeDateTime)
                         && (SearchDateEnd == null ? true : o.TradeDateTime <= SearchDateEnd)
                         && (o.ValidFlag == true)

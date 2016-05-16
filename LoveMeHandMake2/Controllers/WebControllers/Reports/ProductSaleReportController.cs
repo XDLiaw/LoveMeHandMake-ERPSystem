@@ -23,6 +23,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
         {
             ProductSaleReportViewModel model = new ProductSaleReportViewModel();
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
             return View(model);
         }
 
@@ -32,7 +33,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
             try
             {
                 ProductSaleReportService service = new ProductSaleReportService(this.db);
-                model = service.GetModelData(model.SearchStoreID, model.SearchDateStart, model.SearchDateEnd);
+                model = service.GetModelData(model.SearchStoreID, model.SearchProductCategoryID, model.SearchDateStart, model.SearchDateEnd);
             }
             catch (Exception e)
             {
@@ -40,17 +41,18 @@ namespace LoveMeHandMake2.Controllers.WebControllers.Reports
                 ViewBag.ErrorMessage = e.Message;
             }
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
+            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult DownloadReport(int? SearchStoreID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
+        public ActionResult DownloadReport(int? SearchStoreID, int? SearchProductCategoryID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
             MemoryStream memoryStream = new MemoryStream();            
             try
             {
                 ProductSaleReportService service = new ProductSaleReportService(this.db);
-                ProductSaleReportViewModel model = service.GetModelData(SearchStoreID, SearchDateStart, SearchDateEnd);
+                ProductSaleReportViewModel model = service.GetModelData(SearchStoreID, SearchProductCategoryID, SearchDateStart, SearchDateEnd);
                 ProductSaleExcelReport report = new ProductSaleExcelReport();
                 IWorkbook wb = report.Create(model);
                 wb.Write(memoryStream);

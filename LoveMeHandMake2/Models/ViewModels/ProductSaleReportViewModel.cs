@@ -11,6 +11,9 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "门市")]
         public int? SearchStoreID { get; set; }
 
+        [Display(Name = "产品类别")]
+        public int? SearchProductCategoryID { get; set; }
+
         [Display(Name = "日期(起)")]
         public DateTime? SearchDateStart { get; set; }
 
@@ -129,7 +132,7 @@ namespace LoveMeHandMake2.Models.ViewModels
     public class ProductSaleRecord
     {
         [Display(Name = "销售时间")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd dddd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd dddd HH:mm}")]
         public DateTime TradeDateTime { get; set; }
 
         [Display(Name = "商品名称")]

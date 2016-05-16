@@ -10,19 +10,20 @@
 @using (Html.BeginForm("Index", "ProductSaleReport", FormMethod.Post))
 {
     <div class="container breadcrumb">
-        <div class="col-md-3">
+        <div class="col-md-2">
             @Html.DropDownList("SearchStoreID", (IEnumerable<SelectListItem>)ViewBag.StoreList, htmlAttributes: new { @class = "form-control" })
         </div>
-        <div class="col-md-3">
-            @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(起)" } })
-        </div>
-        <div class="col-md-3">
-            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(讫)" } })
-        </div>
-        <div class="col-md-1">
-            <input type="submit" value="搜寻" class="btn btn-default" />
+        <div class="col-md-2">
+            @Html.DropDownList("SearchProductCategoryID", (IEnumerable<SelectListItem>)ViewBag.ProductCategoryList, htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-md-2">
+            @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(起)" } })
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(讫)" } })
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="搜寻" class="btn btn-default" />
             <input type="button" value="产出Excel报表" class="btn btn-file btn-primary" onclick="btnDownload();" />
         </div>
     </div>
@@ -128,9 +129,10 @@
         function btnDownload() {
             try {
                 var storeID = $("#SearchStoreID").val();
+                var SearchProductCategoryID = $("#SearchProductCategoryID").val();
                 var start = $("#SearchDateStart").val();
                 var end = $("#SearchDateEnd").val();
-                window.location.href = "/ProductSaleReport/DownloadReport?SearchStoreID=" + storeID + "&SearchDateStart=" + start + "&SearchDateEnd=" + end;
+                window.location.href = "/ProductSaleReport/DownloadReport?SearchStoreID=" + storeID + "&SearchProductCategoryID=" + SearchProductCategoryID + "&SearchDateStart=" + start + "&SearchDateEnd=" + end;
                 return true;
             }
             catch(e) {

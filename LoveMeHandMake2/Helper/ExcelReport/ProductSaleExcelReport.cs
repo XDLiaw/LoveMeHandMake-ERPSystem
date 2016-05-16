@@ -77,7 +77,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 {
                     int colCount = 0;
                     IRow row = sheet.CreateRow(rowCount++);
-                    base.CreateCell(row, colCount++, psr.TradeDateTime);
+                    base.CreateCell(row, colCount++, psr.TradeDateTime, "yyyy/MM/dd (dddd) HH:mm");
                     base.CreateCell(row, colCount++, psr.ProductName);
                     base.CreateCell(row, colCount++, psr.UnitPoint.GetValueOrDefault());
                     base.CreateCell(row, colCount++, psr.UnitBean.GetValueOrDefault());
