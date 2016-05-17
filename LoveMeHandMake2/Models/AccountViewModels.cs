@@ -50,8 +50,8 @@ namespace LoveMeHandMake2.Models
     {
         [Required]
         [Display(Name = "帳號")]
-        [EmailAddress]
-        public string Email { get; set; }
+        //[EmailAddress]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -65,6 +65,9 @@ namespace LoveMeHandMake2.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "帳號")]
+        public string UserName { get; set; }
+
         [EmailAddress]
         [Display(Name = "電子郵件")]
         public string Email { get; set; }
@@ -84,7 +87,7 @@ namespace LoveMeHandMake2.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         [Display(Name = "電子郵件")]
         public string Email { get; set; }
 
@@ -105,7 +108,7 @@ namespace LoveMeHandMake2.Models
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         [Display(Name = "電子郵件")]
         public string Email { get; set; }
     }
