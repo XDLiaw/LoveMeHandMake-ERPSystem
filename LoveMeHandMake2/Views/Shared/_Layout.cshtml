@@ -23,47 +23,50 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("樂米手創館", "Index", "Store", null, new { @class = "navbar-brand" })
-            </div>
+            </div>  
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("门市", "Index", "Store")</li>
-                    <li>@Html.ActionLink("老师", "Index", "Teacher")</li>
-                    <li>@Html.ActionLink("会员", "Index", "Member")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            刪單紀錄 <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("储值取消纪录", "Index", "CancelDeposit")</li>
-                            <li>@Html.ActionLink("交易取消纪录", "Index", "CancelTrade")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("非会员消费纪录", "Index", "NonMember")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            产品 <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("产品类别", "Index", "ProductCategory")</li>
-                            <li>@Html.ActionLink("产品列表", "Index", "Product")</li>
-                            <li>@Html.ActionLink("热门产品", "Index", "PopularProduct")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            报表 <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("商品销售表", "Index", "ProductSaleReport")</li>
-                            <li>@Html.ActionLink("会员点数销售表＆通讯录", "Index", "DepositReport")</li>
-                            <li>@Html.ActionLink("人员销售纪录表", "Index", "TeacherPerformanceReport")</li>
-                            <li>@Html.ActionLink("人员销售统计表", "Index", "TeacherPerformanceSummaryReport")</li>
-                            <li>@Html.ActionLink("营业日报表", "Index", "DailyBusinessReport")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("储值优惠", "Index", "DepositRewardRule")</li>
-                    <li>@Html.ActionLink("系统参数", "Index", "SysParameter")</li>
-                </ul>
+                @if (Request.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("门市", "Index", "Store")</li>
+                        <li>@Html.ActionLink("老师", "Index", "Teacher")</li>
+                        <li>@Html.ActionLink("会员", "Index", "Member")</li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                刪單紀錄 <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("储值取消纪录", "Index", "CancelDeposit")</li>
+                                <li>@Html.ActionLink("交易取消纪录", "Index", "CancelTrade")</li>
+                            </ul>
+                        </li>
+                        <li>@Html.ActionLink("非会员消费纪录", "Index", "NonMember")</li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                产品 <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("产品类别", "Index", "ProductCategory")</li>
+                                <li>@Html.ActionLink("产品列表", "Index", "Product")</li>
+                                <li>@Html.ActionLink("热门产品", "Index", "PopularProduct")</li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                报表 <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("商品销售表", "Index", "ProductSaleReport")</li>
+                                <li>@Html.ActionLink("会员点数销售表＆通讯录", "Index", "DepositReport")</li>
+                                <li>@Html.ActionLink("人员销售纪录表", "Index", "TeacherPerformanceReport")</li>
+                                <li>@Html.ActionLink("人员销售统计表", "Index", "TeacherPerformanceSummaryReport")</li>
+                                <li>@Html.ActionLink("营业日报表", "Index", "DailyBusinessReport")</li>
+                            </ul>
+                        </li>
+                        <li>@Html.ActionLink("储值优惠", "Index", "DepositRewardRule")</li>
+                        <li>@Html.ActionLink("系统参数", "Index", "SysParameter")</li>
+                    </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
