@@ -91,6 +91,7 @@ namespace LoveMeHandMake2.Models
         public double AvgPointCost { get; set; }
 
         [Display(Name = "储值时间")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
         public DateTime DepostitDateTime { get; set; }
 
         //===========================================================================================================================================================

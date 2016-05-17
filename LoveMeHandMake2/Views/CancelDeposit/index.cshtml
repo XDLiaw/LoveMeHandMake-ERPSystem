@@ -1,0 +1,45 @@
+﻿@model LoveMeHandMake2.Models.ViewModels.CancelDepositViewModel
+
+@{
+    ViewBag.Title = "储值取消纪录";
+}
+
+<h2>储值取消纪录</h2>
+
+@using (Html.BeginForm("Index", "CancelDeposit", FormMethod.Post))
+{
+    <div class="container breadcrumb">
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.SearchDateStart, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(起)" } })
+        </div>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.SearchDateEnd, new { htmlAttributes = new { @class = "form-control calendarBox", placeholder = "日期(讫)" } })
+        </div>
+        <div class="col-md-2">
+            <input type="submit" value="搜寻" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th class="text-center">@Html.DisplayNameFor(model => model.cancelList.FirstOrDefault().DepostitDateTime)</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model.cancelList.FirstOrDefault().OrderID)</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model.cancelList.FirstOrDefault().Member)</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model.cancelList.FirstOrDefault().TotalDepositMoney)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.cancelList)
+        {
+            <tr>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.DepostitDateTime)</td>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.OrderID)</td>
+                <td class="text-center">@Html.DisplayFor(modelItem => item.Member.Name)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.TotalDepositMoney)</td>
+            </tr>
+        }        
+    </tbody>
+</table>

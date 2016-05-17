@@ -220,6 +220,7 @@
     <Compile Include="Controllers\ApiControllers\SysParameterApiController.cs" />
     <Compile Include="Controllers\ApiControllers\TeacherApiController.cs" />
     <Compile Include="Controllers\ApiControllers\TradeApiController.cs" />
+    <Compile Include="Controllers\WebControllers\CancelTradeController.cs" />
     <Compile Include="Controllers\WebControllers\DepositRewardRuleController.cs" />
     <Compile Include="Controllers\WebControllers\DropDownListHelper.cs" />
     <Compile Include="Controllers\WebControllers\HomeController.cs" />
@@ -592,6 +593,7 @@
     <Compile Include="Models\ApiModels\TradeOrderRequestApiModel.cs" />
     <Compile Include="Models\ApiModels\TradeOrderResultApiModel.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Controllers\WebControllers\CancelDepositController.cs" />
     <Compile Include="Models\DepositHistory.cs" />
     <Compile Include="Models\DepositRewardRule.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -609,6 +611,8 @@
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TradePurchaseProduct.cs" />
     <Compile Include="Models\TradeOrder.cs" />
+    <Compile Include="Models\ViewModels\CancelDepositViewModel.cs" />
+    <Compile Include="Models\ViewModels\CancelTradeViewModel.cs" />
     <Compile Include="Models\ViewModels\DailyBusinessReportViewModel.cs" />
     <Compile Include="Models\ViewModels\DepositReportViewModel.cs" />
     <Compile Include="Models\ViewModels\MemberDepositHistoryViewModel.cs" />
@@ -770,6 +774,8 @@
     <Content Include="Views\PopularProduct\Index.cshtml" />
     <Content Include="Views\TeacherPerformanceReport\Index.cshtml" />
     <Content Include="Views\TeacherPerformanceSummaryReport\Index.cshtml" />
+    <Content Include="Views\CancelDeposit\index.cshtml" />
+    <Content Include="Views\CancelTrade\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
