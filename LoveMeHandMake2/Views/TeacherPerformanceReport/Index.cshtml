@@ -45,12 +45,12 @@
                         <tr>
                             <th rowspan="2">日期</th>
                             <th colspan="@teacherPerformance.DailyPerformanceList.Count">
-                                @Model.SearchDateStart.GetValueOrDefault().Year 年
-                                @Model.SearchDateStart.GetValueOrDefault().Month 月
+                                @Model.SearchDateStart.Year 年
+                                @Model.SearchDateStart.Month 月
                             </th>
                         </tr>
                         <tr>
-                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                             {
                                 <th class="text-center">@d.Day</th>
                             }
@@ -59,7 +59,7 @@
                     <tbody>
                         <tr>
                             <th>教学次数</th>
-                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                             {
                                 var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                                 <td class="text-center">@tdp.TeachTimes</td>
@@ -67,7 +67,7 @@
                         </tr>
                         <tr>
                             <th>教学点数</th>
-                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                             {
                                 var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                                 <td class="text-center">@tdp.TeachPoints</td>
@@ -75,7 +75,7 @@
                         </tr>
                         <tr>
                             <th>销售点数</th>
-                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                             {
                                 var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                                 <td class="text-center">@tdp.SalesPoints</td>
@@ -83,7 +83,7 @@
                         </tr>
                         <tr>
                             <th>单做点数</th>
-                            @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                            @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                             {
                                 var tdp = teacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                                 <td class="text-center">@tdp.PointsFromNonMember</td>
@@ -102,12 +102,12 @@
                     <tr>
                         <th rowspan="2">日期</th>
                         <th colspan="@Model.allTeacherPerformance.DailyPerformanceList.Count">
-                            @Model.SearchDateStart.GetValueOrDefault().Year 年
-                            @Model.SearchDateStart.GetValueOrDefault().Month 月
+                            @Model.SearchDateStart.Year 年
+                            @Model.SearchDateStart.Month 月
                         </th>
                     </tr>
                     <tr>
-                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                         {
                             <th class="text-center">@d.Day</th>
                         }
@@ -116,7 +116,7 @@
                 <tbody>
                     <tr>
                         <th>教学次数</th>
-                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                         {
                             var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                             <td class="text-center">@tdp.TeachTimes</td>
@@ -124,7 +124,7 @@
                     </tr>
                     <tr>
                         <th>教学点数</th>
-                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                         {
                             var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                             <td class="text-center">@tdp.TeachPoints</td>
@@ -132,7 +132,7 @@
                     </tr>
                     <tr>
                         <th>销售点数</th>
-                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                         {
                             var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                             <td class="text-center">@tdp.SalesPoints</td>
@@ -140,7 +140,7 @@
                     </tr>
                     <tr>
                         <th>单做点数</th>
-                        @for (DateTime d = Model.SearchDateStart.GetValueOrDefault(); d <= Model.SearchDateEnd; d = d.AddDays(1))
+                        @for (DateTime d = Model.SearchDateStart; d <= Model.SearchDateEnd; d = d.AddDays(1))
                         {
                             var tdp = Model.allTeacherPerformance.DailyPerformanceList.Where(x => x.Date == d).FirstOrDefault();
                             <td class="text-center">@tdp.PointsFromNonMember</td>

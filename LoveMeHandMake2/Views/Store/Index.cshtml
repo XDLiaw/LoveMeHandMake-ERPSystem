@@ -11,52 +11,40 @@
 </p>
 <table class="table table-striped table-hover">
     <tr class="row">
-        <th class="col-md-2">
+        <th >
             @Html.DisplayNameFor(model => model.StoreCode)
         </th>
-        <th class="col-md-2">
+        <th >
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th class="col-md-2">
-            @Html.DisplayNameFor(model => model.ThresholdPoint)
-        </th>
-        <th class="col-md-2">
-            @Html.DisplayNameFor(model => model.OverThresholdBonus)
-        </th>
-        <th class="col-md-2">
+        <th >
             @Html.DisplayNameFor(model => model.StoreCanSellCategories)
         </th>
-        <th class="col-md-2">
+        <th >
             @Html.DisplayNameFor(model => model.StopBusinessDate)
         </th>
-        <th class="col-md-2"></th>
+        <th ></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr class="row">
-            <td class="col-md-2" valign="baseline">
+            <td valign="baseline">
                 @Html.DisplayFor(modelItem => item.StoreCode)
             </td>
-            <td class="col-md-2" valign="baseline">
+            <td valign="baseline">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td class="col-md-2" valign="baseline">
-                @Html.DisplayFor(modelItem => item.ThresholdPoint)
-            </td>
-            <td class="col-md-2" valign="baseline">
-                @Html.DisplayFor(modelItem => item.OverThresholdBonus)
-            </td>
-            <td class="col-md-2" valign="baseline">
+            <td valign="baseline">
                 @foreach (var category in item.StoreCanSellCategories)
                 {
                     <p>@category.ProductCategory.Name</p>
                 }
             </td>
-            <td class="col-md-2" valign="baseline">
+            <td valign="baseline">
                 @Html.DisplayFor(modelItem => item.StopBusinessDate)
             </td>
-            <td class="col-md-2" valign="baseline">
+            <td valign="baseline">
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
             </td>
         </tr>

@@ -104,7 +104,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 }
             }
             // 資料數值部分
-            for (DateTime d = arg.SearchDateStart.GetValueOrDefault(); d <= arg.SearchDateEnd; d = d.AddDays(1))
+            for (DateTime d = arg.SearchDateStart; d <= arg.SearchDateEnd; d = d.AddDays(1))
             {
                 int colCount = 0;
                 IRow row = sheet.CreateRow(rowCount++);

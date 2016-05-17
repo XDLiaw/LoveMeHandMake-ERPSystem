@@ -16,11 +16,11 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         [Display(Name = "日期(起)")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        public DateTime? SearchDateStart { get; set; }
+        public DateTime SearchDateStart { get; set; }
 
         [Display(Name = "日期(讫)")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        public DateTime? SearchDateEnd { get; set; }
+        public DateTime SearchDateEnd { get; set; }
 
         [Display(Name = "日期")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM}")]

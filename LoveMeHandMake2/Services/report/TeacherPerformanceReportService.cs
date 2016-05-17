@@ -13,43 +13,43 @@ namespace LoveMeHandMake2.Services.report
 
         public TeacherPerformanceReportService(LoveMeHandMakeContext db) : base(db) { }
 
-        public TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime SearchYearMonth)
-        {
-            DateTime start = new DateTime(SearchYearMonth.Year, SearchYearMonth.Month, 1);
-            DateTime end = start.AddMonths(1).AddDays(-1);
-            TeacherPerformanceReportViewModel model = GetModelData(SearchStoreID, SearchTeacherID, start, end);
-            model.SearchYearMonth = SearchYearMonth;
-            return model;
-        }
+        //public TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime SearchYearMonth)
+        //{
+        //    DateTime start = new DateTime(SearchYearMonth.Year, SearchYearMonth.Month, 1);
+        //    DateTime end = start.AddMonths(1).AddDays(-1);
+        //    TeacherPerformanceReportViewModel model = GetModelData(SearchStoreID, SearchTeacherID, SearchYearMonth);
+        //    model.SearchYearMonth = SearchYearMonth;
+        //    return model;
+        //}
 
-        private TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
+        public TeacherPerformanceReportViewModel GetModelData(int? SearchStoreID, int? SearchTeacherID, DateTime SearchYearMonth)
         {
             TeacherPerformanceReportViewModel model = new TeacherPerformanceReportViewModel();
             model.SearchStoreID = SearchStoreID;
             model.SearchTeacherID = SearchTeacherID;
-            model.SearchDateStart = SearchDateStart.GetValueOrDefault().Date;
-            model.SearchDateEnd = SearchDateEnd.GetValueOrDefault().Date;
+            model.SearchYearMonth = SearchYearMonth;
+            model.SearchDateStart = new DateTime(SearchYearMonth.Year, SearchYearMonth.Month, 1);
+            model.SearchDateEnd = model.SearchDateStart.AddMonths(1).AddDays(-1);
             try
             {
+                //if (SearchDateStart == null)
+                //{
+                //    DateTime minDepositDate = db.DepositHistory.Where(x => x.ValidFlag == true).Min(x => x.DepostitDateTime);
+                //    DateTime minTradeDate = db.TradeOrder.Where(x => x.ValidFlag == true).Min(x => x.TradeDateTime);
+                //    SearchDateStart = minDepositDate < minTradeDate ? minDepositDate : minTradeDate;
+                //    model.SearchDateStart = SearchDateStart.GetValueOrDefault().Date;
+                //}
+                //if (SearchDateEnd == null)
+                //{
+                //    DateTime maxDepsitDate = db.DepositHistory.Where(x => x.ValidFlag == true).Max(x => x.DepostitDateTime);
+                //    DateTime maxTradeDate = db.TradeOrder.Where(x => x.ValidFlag == true).Max(x => x.TradeDateTime);
+                //    SearchDateEnd = maxDepsitDate > maxTradeDate ? maxDepsitDate : maxTradeDate;
+                //    model.SearchDateEnd = SearchDateEnd.GetValueOrDefault().Date;
+                //}
                 if (SearchStoreID != null)
                 {
                     model.StoreName = db.Stores.Where(x => x.ID == SearchStoreID).Select(x => x.Name).FirstOrDefault();
-                    model.ThresholdPoint = db.Stores.Where(x => x.ID == SearchStoreID).Select(x => x.ThresholdPoint).FirstOrDefault();
-                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == SearchStoreID).Select(x => x.OverThresholdBonus).FirstOrDefault();
-                }
-                if (SearchDateStart == null)
-                {
-                    DateTime minDepositDate = db.DepositHistory.Where(x => x.ValidFlag == true).Min(x => x.DepostitDateTime);
-                    DateTime minTradeDate = db.TradeOrder.Where(x => x.ValidFlag == true).Min(x => x.TradeDateTime);
-                    SearchDateStart = minDepositDate < minTradeDate ? minDepositDate : minTradeDate;
-                    model.SearchDateStart = SearchDateStart.GetValueOrDefault().Date;
-                }
-                if (SearchDateEnd == null)
-                {
-                    DateTime maxDepsitDate = db.DepositHistory.Where(x => x.ValidFlag == true).Max(x => x.DepostitDateTime);
-                    DateTime maxTradeDate = db.TradeOrder.Where(x => x.ValidFlag == true).Max(x => x.TradeDateTime);
-                    SearchDateEnd = maxDepsitDate > maxTradeDate ? maxDepsitDate : maxTradeDate;
-                    model.SearchDateEnd = SearchDateEnd.GetValueOrDefault().Date;
+                    getBonusSetting(model);
                 }
                 model.MultiTeacherPerformance = GetMultiTeacherPerformanceData(SearchStoreID, SearchTeacherID, model.SearchDateStart, model.SearchDateEnd);
                 model.allTeacherPerformance = GetAllTeacherPerformance(SearchStoreID, SearchTeacherID, model.SearchDateStart, model.SearchDateEnd);
@@ -60,6 +60,62 @@ namespace LoveMeHandMake2.Services.report
                 log.Error(null, e);
             }
             return model;
+        }
+
+        private void getBonusSetting(TeacherPerformanceReportViewModel model)
+        {
+            int month = model.SearchYearMonth.Month;
+            switch (month)
+            {
+                case 1:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint1).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus1).FirstOrDefault();
+                    break;
+                case 2:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint2).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus2).FirstOrDefault();
+                    break;
+                case 3:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint3).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus3).FirstOrDefault();
+                    break;
+                case 4:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint4).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus4).FirstOrDefault();
+                    break;
+                case 5:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint5).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus5).FirstOrDefault();
+                    break;
+                case 6:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint6).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus6).FirstOrDefault();
+                    break;
+                case 7:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint7).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus7).FirstOrDefault();
+                    break;
+                case 8:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint8).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus8).FirstOrDefault();
+                    break;
+                case 9:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint9).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus9).FirstOrDefault();
+                    break;
+                case 10:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint10).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus10).FirstOrDefault();
+                    break;
+                case 11:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint11).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus11).FirstOrDefault();
+                    break;
+                case 12:
+                    model.ThresholdPoint = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.ThresholdPoint12).FirstOrDefault();
+                    model.OverThresholdBonus = db.Stores.Where(x => x.ID == model.SearchStoreID).Select(x => x.OverThresholdBonus12).FirstOrDefault();
+                    break;
+            }
         }
 
         private List<TeacherPerformance> GetMultiTeacherPerformanceData(int? SearchStoreID, int? SearchTeacherID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
