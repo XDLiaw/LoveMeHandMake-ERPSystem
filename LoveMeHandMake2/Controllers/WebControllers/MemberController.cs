@@ -125,6 +125,7 @@ namespace LoveMeHandMake2.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Deposit([Bind(Exclude="Member")]DepositHistory dh)
         {
             if (ModelState.IsValid)
@@ -240,6 +241,7 @@ namespace LoveMeHandMake2.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CancelDepositConfirmed(int id)
         {
             try 
