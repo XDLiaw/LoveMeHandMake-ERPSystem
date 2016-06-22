@@ -362,7 +362,7 @@ namespace LoveMeHandMake2.Controllers
             catch (Exception e)
             {
                 log.Warn(null, e);
-                ViewBag.ErrorMessage = e.Message;
+                ViewBag.ErrMsg = e.Message;
                 return View(member);
             }
 

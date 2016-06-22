@@ -17,7 +17,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers
         private static readonly ILog log = LogManager.GetLogger(typeof(NonMemberController));
         private LoveMeHandMakeContext db = new LoveMeHandMakeContext();
 
-        private const int pageSize = 5;
+        //private const int pageSize = 5;
 
         // GET: NonMember
         public ActionResult Index()
