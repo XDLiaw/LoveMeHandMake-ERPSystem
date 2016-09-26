@@ -54,13 +54,24 @@ namespace LoveMeHandMake2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Teacher teacher)
         {
-            if (ModelState.IsValid)
+            try
             {
-                teacher.Create();
-                teacher.AccountID = db.Teachers.Select(x => x.AccountID).Max()+1;
-                db.Teachers.Add(teacher);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    teacher.Create();
+                    List<int> accountIdList = new List<int>();
+                    accountIdList.Add(0);
+                    accountIdList.AddRange(db.Teachers.Where(x => x.ValidFlag).Select(x => x.AccountID));
+                    teacher.AccountID = accountIdList.Max() + 1;
+                    db.Teachers.Add(teacher);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error(null, e);
+                ViewBag.ErrMsg = e.Message;
             }
 
             ViewBag.BelongStoreID = new SelectList(db.Stores, "ID", "Name", teacher.BelongStoreID);
