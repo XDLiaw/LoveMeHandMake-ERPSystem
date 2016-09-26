@@ -13,7 +13,7 @@ namespace LoveMeHandMake2.Helper
 
         public static string Encrypt(string plainText, string key)
         {
-            plainText = DateTime.Now.ToString() + plainText;
+            plainText = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.SSS") + plainText;
             byte[] plainTextData = Encoding.Unicode.GetBytes(plainText);
             RijndaelManaged AES = new RijndaelManaged();
             MD5CryptoServiceProvider MD5 = new MD5CryptoServiceProvider();
@@ -36,7 +36,8 @@ namespace LoveMeHandMake2.Helper
             byte[] keyData = MD5.ComputeHash(Encoding.Unicode.GetBytes(key));
             ICryptoTransform transform = AES.CreateDecryptor(keyData, keyData);
             byte[] outputData = transform.TransformFinalBlock(cipherTextData, 0, cipherTextData.Length);
-            return Encoding.Unicode.GetString(outputData).Substring(DateTime.Now.ToString().Length);
+            string decryptString = Encoding.Unicode.GetString(outputData);
+            return decryptString.Substring(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.SSS").Length);
         }
 
         public static string Decrypt(string cipherText)

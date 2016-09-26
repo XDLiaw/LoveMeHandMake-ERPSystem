@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace LoveMeHandMake2.Controllers.ApiControllers
 {
@@ -58,7 +59,8 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 NewTeachers = newTeachers,
                 ChangedTeachers = changedTeachers,
                 RemovedTeachers = removedTeachers
-            };
+            }; 
+            //log.Debug(JsonConvert.SerializeObject(res, Formatting.Indented));
 
             return res;
         }
