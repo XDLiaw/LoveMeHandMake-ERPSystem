@@ -624,6 +624,7 @@
     <Compile Include="Models\ViewModels\NonMemberTradeHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\PopularProductViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductSaleReportViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\TeacherPerformanceReportViewModel.cs" />
     <Compile Include="Models\ViewModels\TeacherPerformanceSummaryReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

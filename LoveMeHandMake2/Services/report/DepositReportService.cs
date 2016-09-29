@@ -19,6 +19,7 @@ namespace LoveMeHandMake2.Services.report
             model.SearchStoreID = SearchStoreID;
             model.SearchDateStart = SearchDateStart;
             model.SearchDateEnd = SearchDateEnd;
+            DateTime SearchDateEnd_nextDay = SearchDateEnd.GetValueOrDefault().AddDays(1);
             try
             {
                 if (SearchStoreID != null)
@@ -31,7 +32,7 @@ namespace LoveMeHandMake2.Services.report
                     from dh in db.DepositHistory
                     where (SearchStoreID == null ? true : dh.DepositStoreID == SearchStoreID)
                        && (SearchDateStart == null ? true : SearchDateStart <= dh.DepostitDateTime)
-                       && (SearchDateEnd == null ? true : dh.DepostitDateTime <= SearchDateEnd)
+                       && (SearchDateEnd == null ? true : dh.DepostitDateTime < SearchDateEnd_nextDay)
                        && (dh.ValidFlag == true)
                     orderby dh.DepostitDateTime
                     select new DepositRecord

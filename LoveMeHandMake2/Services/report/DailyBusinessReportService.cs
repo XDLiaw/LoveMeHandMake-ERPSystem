@@ -39,13 +39,14 @@ namespace LoveMeHandMake2.Services.report
                     SearchDateEnd = maxDepsitDate > maxTradeDate ? maxDepsitDate : maxTradeDate;
                     model.SearchDateEnd = SearchDateEnd.GetValueOrDefault().Date;
                 }
+                DateTime SearchDateEnd_nextDay = model.SearchDateEnd.GetValueOrDefault().AddDays(1);
 
                 var depositDatas =
                 (
                     from dh in db.DepositHistory
                     where (SearchStoreID == null ? true : dh.DepositStoreID == SearchStoreID)
                        && (model.SearchDateStart == null ? true : model.SearchDateStart <= dh.DepostitDateTime)
-                       && (model.SearchDateEnd == null ? true : dh.DepostitDateTime <= model.SearchDateEnd)
+                       && (model.SearchDateEnd == null ? true : dh.DepostitDateTime < SearchDateEnd_nextDay)
                        && (dh.ValidFlag == true)
                     orderby dh.DepostitDateTime
                     group dh by new { Year = dh.DepostitDateTime.Year, Month = dh.DepostitDateTime.Month, Day = dh.DepostitDateTime.Day } into g
@@ -64,7 +65,7 @@ namespace LoveMeHandMake2.Services.report
                     from t in db.TradeOrder
                     where (SearchStoreID == null ? true : t.StoreID == SearchStoreID)
                        && (model.SearchDateStart == null ? true : model.SearchDateStart <= t.TradeDateTime)
-                       && (model.SearchDateEnd == null ? true : t.TradeDateTime <= model.SearchDateEnd)
+                       && (model.SearchDateEnd == null ? true : t.TradeDateTime < SearchDateEnd_nextDay)
                        && (t.ValidFlag == true)
                     orderby t.TradeDateTime
                     group t by new { Year = t.TradeDateTime.Year, Month = t.TradeDateTime.Month, Day = t.TradeDateTime.Day } into g

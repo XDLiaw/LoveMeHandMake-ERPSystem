@@ -19,6 +19,7 @@ namespace LoveMeHandMake2.Services.report
             model.SearchStoreID = SearchStoreID;
             model.SearchDateStart = SearchDateStart;
             model.SearchDateEnd = SearchDateEnd;
+            DateTime SearchDateEnd_nextDay = SearchDateEnd.GetValueOrDefault().AddDays(1);
             try
             {
                 model.StoreName = db.Stores.Where(x => x.ID == model.SearchStoreID && x.ValidFlag == true).Select(x => x.Name).FirstOrDefault();
@@ -27,7 +28,7 @@ namespace LoveMeHandMake2.Services.report
                     from dh in db.DepositHistory
                     where (SearchStoreID == null ? true : dh.DepositStoreID == SearchStoreID)
                        && (SearchDateStart == null ? true : SearchDateStart <= dh.DepostitDateTime)
-                       && (SearchDateEnd == null ? true : dh.DepostitDateTime <= SearchDateEnd)
+                       && (SearchDateEnd == null ? true : dh.DepostitDateTime < SearchDateEnd_nextDay)
                        && (dh.ValidFlag == true)
                     group dh by new { dh.DepositTeacherID, dh.DepositTeacher.Name } into g
                     select new TeacherPerformanceSummary
@@ -43,7 +44,7 @@ namespace LoveMeHandMake2.Services.report
                     join t in db.TradeOrder on tpp.OrderID equals t.ID
                     where (SearchStoreID == null ? true : t.StoreID == SearchStoreID)
                        && (SearchDateStart == null ? true : SearchDateStart <= t.TradeDateTime)
-                       && (SearchDateEnd == null ? true : t.TradeDateTime <= SearchDateEnd)
+                       && (SearchDateEnd == null ? true : t.TradeDateTime < SearchDateEnd_nextDay)
                        && (t.ValidFlag == true)
                     group tpp by new { tpp.Order.TeacherID, tpp.Order.Teacher.Name } into g
                     select new TeacherPerformanceSummary

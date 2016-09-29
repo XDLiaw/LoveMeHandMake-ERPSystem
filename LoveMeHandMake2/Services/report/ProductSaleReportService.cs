@@ -20,6 +20,7 @@ namespace LoveMeHandMake2.Services.report
             model.SearchProductCategoryID = SearchProductCategoryID;
             model.SearchDateStart = SearchDateStart;
             model.SearchDateEnd = SearchDateEnd;
+            DateTime SearchDateEnd_nextDay = SearchDateEnd.GetValueOrDefault().AddDays(1);
             try
             {
                 if (SearchStoreID != null)
@@ -35,7 +36,7 @@ namespace LoveMeHandMake2.Services.report
                     where (SearchStoreID == null ? true : o.StoreID == SearchStoreID)
                         && (SearchProductCategoryID == null ? true : p.ProductCategoryID == SearchProductCategoryID)
                         && (SearchDateStart == null ? true : SearchDateStart <= o.TradeDateTime)
-                        && (SearchDateEnd == null ? true : o.TradeDateTime <= SearchDateEnd)
+                        && (SearchDateEnd == null ? true : o.TradeDateTime < SearchDateEnd_nextDay)
                         && (o.ValidFlag == true)
                         && (tpp.ValidFlag == true)
                     orderby o.TradeDateTime

@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using LoveMeHandMake2.Models;
 using log4net;
 using System.Web.Configuration;
+using LoveMeHandMake2.Models.ViewModels;
+using MvcPaging;
 
 namespace LoveMeHandMake2.Controllers
 {
@@ -22,28 +24,21 @@ namespace LoveMeHandMake2.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            List<Product> products = db.Products.Where(x => x.ValidFlag == true).Include(p => p.ProductCategory).ToList();
-            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
-            return View(products);
+            ProductViewModel model = new ProductViewModel();
+            return Index(model);
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection formCollection)
+        public ActionResult Index(ProductViewModel model)
         {
-            string SearchProductCategoryID = formCollection["SearchProductCategoryID"];
-            List<Product> res;
-            if (String.IsNullOrEmpty(SearchProductCategoryID) == false)
-            {
-                int productCategoryID = Convert.ToInt32(SearchProductCategoryID);
-                res = db.Products.Where(x => x.ProductCategoryID == productCategoryID && x.ValidFlag == true).ToList();
-            }
-            else
-            {
-                res = db.Products.Where(x => x.ValidFlag == true).Include(p => p.ProductCategory).ToList();
-            }
+            IQueryable<Product> query;
+            query = db.Products.Where(x =>
+                model.productCategoryID == null ? true : x.ProductCategoryID == model.productCategoryID &&
+                x.ValidFlag == true);
+            model.ProductList = query.OrderBy(x => x.ProductCategoryID).ThenBy(x => x.Name).ToPagedList(model.PageNumber - 1, model.PageSize);
 
             ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
-            return View(res);
+            return View(model);
         }
 
 

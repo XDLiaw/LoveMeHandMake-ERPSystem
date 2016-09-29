@@ -64,11 +64,20 @@ namespace LoveMeHandMake2.Models
         {
             Bitmap img = null;
             string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
-            if (System.IO.File.Exists(imgPath) == false)
+            string imgPath = null;
+            if (this.ImageName == null)
             {
                 return null;
             }
+            else
+            {
+                imgPath = System.IO.Path.Combine(folder, this.ImageName);
+                if (System.IO.File.Exists(imgPath) == false)
+                {
+                    return null;
+                }
+            }
+
             img = (Bitmap)Image.FromFile(imgPath, true);
             ImageConverter converter = new ImageConverter();
             byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
@@ -79,11 +88,20 @@ namespace LoveMeHandMake2.Models
         public byte[] GetImage() {
             Bitmap img = null;
             string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
-            if (System.IO.File.Exists(imgPath) == false)
+            string imgPath = null;
+            if (this.ImageName == null)
             {
                 imgPath = System.IO.Path.Combine(folder, "logo.jpg");
             }
+            else
+            {
+                imgPath = System.IO.Path.Combine(folder, this.ImageName);
+                if (System.IO.File.Exists(imgPath) == false)
+                {
+                    imgPath = System.IO.Path.Combine(folder, "logo.jpg");
+                }
+            }
+
             img = (Bitmap)Image.FromFile(imgPath, true);
             ImageConverter converter = new ImageConverter();
             byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
