@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MvcPaging;
 
 namespace LoveMeHandMake2.Controllers.ApiControllers
 {
@@ -43,6 +44,31 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 NewProducts = newProducts,
                 ChangedProducts = changedProducts,
                 RemovedProducts = removedProducts
+            };
+
+            return res;
+        }
+
+        [HttpGet]
+        public Object SynchronizeAll(int pageNumber, int pageSize)
+        {
+            DateTime receiveRequestTime = DateTime.Now;
+            IPagedList<Product> newProducts = db.Products
+                .Where(x => x.ValidFlag == true)
+                .OrderBy(x => x.ID)
+                .ToPagedList(pageNumber - 1, pageSize);
+
+            foreach (Product p in newProducts)
+            {
+                p.ImageByteArray = p.GetImageIfExist();
+            }
+
+            var res = new
+            {
+                receiveRequestTime = receiveRequestTime,
+                NewProducts = newProducts,
+                PageCount = newProducts.PageCount,
+                TotalItemCount = newProducts.TotalItemCount
             };
 
             return res;
