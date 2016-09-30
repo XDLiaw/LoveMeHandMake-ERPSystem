@@ -142,8 +142,8 @@ namespace LoveMeHandMake2.Models
             foreach (DepositRewardRule rule in this.DepositRewardRuleList)
             {
                 DateTime now = DateTime.Now;
-                DateTime start = rule.ValidDateStart.GetValueOrDefault(now);
-                DateTime end = rule.ValidDateEnd.GetValueOrDefault(now);
+                DateTime start = rule.ValidDateStart.GetValueOrDefault(DateTime.MinValue);
+                DateTime end = rule.ValidDateEnd.GetValueOrDefault(DateTime.MaxValue);
                 bool isAfterStart = DateTime.Compare(start, now) <= 0;
                 bool isBeforeEnd = DateTime.Compare(now, end) < 0;
                 if (isAfterStart && isBeforeEnd)
