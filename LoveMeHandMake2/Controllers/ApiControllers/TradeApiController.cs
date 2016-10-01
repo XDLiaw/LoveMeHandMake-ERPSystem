@@ -34,7 +34,6 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     return res;
                 }
                 new TradeOrderService().NewTradeOrder(arg, true);
-                res.CurrentPoint = db.Members.Where(x => x.MemberGuid == arg.MemberGuid).Select(x => x.Point).FirstOrDefault();
                 res.IsRequestSuccess = true;
             }
             catch (Exception e)
@@ -43,6 +42,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                 res.ErrMsgs.Add(e.Message);
                 res.IsRequestSuccess = false;
             }
+            res.CurrentPoint = db.Members.Where(x => x.MemberGuid == arg.MemberGuid).Select(x => x.Point).FirstOrDefault();
             return res;
         }
 
