@@ -110,7 +110,7 @@ namespace LoveMeHandMake2.Models.ApiModels
                 }
                 else if (p.UnitBean != null && p.UnitBean != 0)
                 {
-                    sum += p.UnitBean.GetValueOrDefault() * p.Amount / 2;
+                    sum += (double)(p.UnitBean.GetValueOrDefault() * p.Amount) / 2;
                 }
             }
             return sum;

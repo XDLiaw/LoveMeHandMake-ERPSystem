@@ -77,7 +77,7 @@ namespace LoveMeHandMake2.Services
                 }
                 else if (product.UnitBean != null && product.UnitBean != 0)
                 {
-                    product.TotalPoint = product.Amount * product.UnitBean.GetValueOrDefault() / 2;
+                    product.TotalPoint = (double)(product.Amount * product.UnitBean.GetValueOrDefault()) / 2;
                     product.Sum = product.TotalPoint * pricePerPoint / 2;
                 }
                 products.Add(product);
