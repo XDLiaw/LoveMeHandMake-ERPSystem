@@ -72,7 +72,7 @@ namespace LoveMeHandMake2.Services.report
                     join t in db.Teachers on dh.DepositTeacherID equals t.ID
                     where (SearchStoreID == null ? true : dh.DepositStoreID == SearchStoreID)
                        && (SearchDateStart == null ? true : SearchDateStart <= dh.DepostitDateTime)
-                       && (SearchDateEnd == null ? true : dh.DepostitDateTime <= SearchDateEnd)
+                       && (SearchDateEnd == null ? true : dh.DepostitDateTime < SearchDateEnd_nextDay)
                        && (dh.ValidFlag == true)
                     orderby dh.DepositTeacherID
                     group new { Point = dh.DepositPoint } by new { t.ID, t.Name } into g
