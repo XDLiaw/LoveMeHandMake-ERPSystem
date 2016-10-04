@@ -1,4 +1,5 @@
 ﻿@model LoveMeHandMake2.Models.Product
+@using LoveMeHandMake2.Helper
 
 @{
     ViewBag.Title = "修改产品";
@@ -48,7 +49,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ImageName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <img id="productImage" src="data:image;base64,@Model.GetImageBase64String()" style="max-width:100px; max-height:100px;" />
+                <img id="productImage" src="data:image;base64,@ProductImageHelper.GetImageBase64String(Model.ImageName)" style="max-width:100px; max-height:100px;" />
                 <p>
                     <span class="btn btn-default btn-file">
                         Browse
