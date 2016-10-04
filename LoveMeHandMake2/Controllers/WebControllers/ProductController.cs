@@ -11,6 +11,7 @@ using log4net;
 using System.Web.Configuration;
 using LoveMeHandMake2.Models.ViewModels;
 using MvcPaging;
+using LoveMeHandMake2.Helper;
 
 namespace LoveMeHandMake2.Controllers
 {
@@ -148,7 +149,7 @@ namespace LoveMeHandMake2.Controllers
             product.Delete();
             db.Entry(product).State = EntityState.Modified;
             db.SaveChanges();
-            product.DeleteProductImage();
+            ProductImageHelper.DeleteImage(product.ImageName);
             return RedirectToAction("Index");
         }
 

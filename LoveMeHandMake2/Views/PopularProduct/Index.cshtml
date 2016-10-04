@@ -1,4 +1,5 @@
 ﻿@model LoveMeHandMake2.Models.ViewModels.PopularProductViewModel
+@using LoveMeHandMake2.Helper
 
 @{
     ViewBag.Title = "热门产品";
@@ -43,8 +44,8 @@
         {
             foreach (var item in Model.productList)
             {
-                <tr>
-                    <td><img src="data:image;base64,@item.GetImageBase64String()" style="max-width:100px; max-height:100px;" /></td>
+                <tr>                    
+                    <td><img src="data:image;base64,@ProductImageHelper.GetImageBase64String(item.ImageName)" style="max-width:100px; max-height:100px;" /></td>
                     <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>

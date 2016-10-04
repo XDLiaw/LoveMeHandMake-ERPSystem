@@ -170,51 +170,6 @@ namespace LoveMeHandMake2.Models.ViewModels
         [JsonIgnore]
         public string ImageName { get; set; }
 
-        public byte[] GetImageIfExist()
-        {
-            Bitmap img = null;
-            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            string imgPath = System.IO.Path.Combine(folder, this.ImageName);
-            if (System.IO.File.Exists(imgPath) == false)
-            {
-                return null;
-            }
-            img = (Bitmap)Image.FromFile(imgPath, true);
-            ImageConverter converter = new ImageConverter();
-            byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
-            img.Dispose();
-            return imgByte;
-        }
-
-        public byte[] GetImage()
-        {
-            Bitmap img = null;
-            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            string imgPath = null;
-            if (this.ImageName == null)
-            {
-                imgPath = System.IO.Path.Combine(folder, "logo.jpg");
-            }
-            else
-            {
-                imgPath = System.IO.Path.Combine(folder, this.ImageName);
-                if (System.IO.File.Exists(imgPath) == false)
-                {
-                    imgPath = System.IO.Path.Combine(folder, "logo.jpg");
-                }
-            }
-
-            img = (Bitmap)Image.FromFile(imgPath, true);
-            ImageConverter converter = new ImageConverter();
-            byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
-            img.Dispose();
-            return imgByte;
-        }
-
-        public string GetImageBase64String()
-        {
-            return System.Convert.ToBase64String(this.GetImage());
-        }
     }
 
 

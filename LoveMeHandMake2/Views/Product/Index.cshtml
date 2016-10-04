@@ -1,4 +1,5 @@
 ﻿@model LoveMeHandMake2.Models.ViewModels.ProductViewModel
+@using LoveMeHandMake2.Helper
 
 @{
     ViewBag.Title = "产品";
@@ -53,7 +54,7 @@
             {
                 <tr>
                     <td>
-                        <img src="data:image;base64,@item.GetImageBase64String()" style="max-width:100px; max-height:100px;" />
+                        <img src="data:image;base64,@ProductImageHelper.GetImageBase64String(item.ImageName)" style="max-width:100px; max-height:100px;" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ProductCategory.Name)

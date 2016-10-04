@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using MvcPaging;
+using LoveMeHandMake2.Helper;
 
 namespace LoveMeHandMake2.Controllers.ApiControllers
 {
@@ -31,11 +32,11 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 
             foreach (Product p in newProducts)
             {
-                p.ImageByteArray = p.GetImageIfExist();
+                p.ImageByteArray = ProductImageHelper.GetImageIfExist(p.ImageName);
             }
             foreach (Product p in changedProducts)
             {
-                p.ImageByteArray = p.GetImageIfExist();
+                p.ImageByteArray = ProductImageHelper.GetImageIfExist(p.ImageName);
             }
 
             var res = new
@@ -60,7 +61,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
 
             foreach (Product p in newProducts)
             {
-                p.ImageByteArray = p.GetImageIfExist();
+                p.ImageByteArray = ProductImageHelper.GetImageIfExist(p.ImageName);
             }
 
             var res = new

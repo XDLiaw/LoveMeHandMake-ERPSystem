@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
+using LoveMeHandMake2.Helper;
 
 namespace LoveMeHandMake2.Models
 {
@@ -55,66 +56,12 @@ namespace LoveMeHandMake2.Models
         {
             base.Update();
             if (this.UploadImage != null) {
-                DeleteProductImage();
+                ProductImageHelper.DeleteImage(this.ImageName);
                 SaveImage();            
             }
         }
 
-        public byte[] GetImageIfExist()
-        {
-            Bitmap img = null;
-            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            string imgPath = null;
-            if (this.ImageName == null)
-            {
-                return null;
-            }
-            else
-            {
-                imgPath = System.IO.Path.Combine(folder, this.ImageName);
-                if (System.IO.File.Exists(imgPath) == false)
-                {
-                    return null;
-                }
-            }
-
-            img = (Bitmap)Image.FromFile(imgPath, true);
-            ImageConverter converter = new ImageConverter();
-            byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
-            img.Dispose();
-            return imgByte;
-        }
-
-        public byte[] GetImage() {
-            Bitmap img = null;
-            string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-            string imgPath = null;
-            if (this.ImageName == null)
-            {
-                imgPath = System.IO.Path.Combine(folder, "logo.jpg");
-            }
-            else
-            {
-                imgPath = System.IO.Path.Combine(folder, this.ImageName);
-                if (System.IO.File.Exists(imgPath) == false)
-                {
-                    imgPath = System.IO.Path.Combine(folder, "logo.jpg");
-                }
-            }
-
-            img = (Bitmap)Image.FromFile(imgPath, true);
-            ImageConverter converter = new ImageConverter();
-            byte[] imgByte = (byte[])converter.ConvertTo(img, typeof(byte[]));
-            img.Dispose();
-            return imgByte;
-        }
-
-        public string GetImageBase64String()
-        {
-            return System.Convert.ToBase64String(this.GetImage());
-        }
-
-        public void SaveImage()
+        private void SaveImage()
         {
             if (this.UploadImage == null) return;
             //===========================================================================
@@ -122,38 +69,8 @@ namespace LoveMeHandMake2.Models
             this.ImageName = this.ProductCategory.Name + "_" + this.Name + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
             string imgPath = System.IO.Path.Combine(folder, this.ImageName);
             Image img = Image.FromStream(this.UploadImage.InputStream, true, true);
-            Image thumbnails = ScaleImage(img, 100, 100);
+            Image thumbnails = ProductImageHelper.ScaleImage(img, 100, 100);
             thumbnails.Save(imgPath, System.Drawing.Imaging.ImageFormat.Jpeg);
-        }
-
-        private static Image ScaleImage(Image image, int maxWidth, int maxHeight)
-        {
-            var ratioX = (double)maxWidth / image.Width;
-            var ratioY = (double)maxHeight / image.Height;
-            var ratio = Math.Min(ratioX, ratioY);
-
-            var newWidth = (int)(image.Width * ratio);
-            var newHeight = (int)(image.Height * ratio);
-
-            var newImage = new Bitmap(newWidth, newHeight);
-
-            using (var graphics = Graphics.FromImage(newImage))
-                graphics.DrawImage(image, 0, 0, newWidth, newHeight);
-
-            return newImage;
-        }
-
-        public void DeleteProductImage()
-        {
-            try
-            {
-                string folder = WebConfigurationManager.AppSettings["ProductImageFolder"];
-                System.IO.File.Delete(System.IO.Path.Combine(folder, this.ImageName));
-            }
-            catch (Exception e)
-            {
-                log.Error(null, e);
-            }
         }
     }
 }

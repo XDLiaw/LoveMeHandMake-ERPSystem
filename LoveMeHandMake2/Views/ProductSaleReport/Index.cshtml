@@ -1,4 +1,5 @@
 ﻿@model LoveMeHandMake2.Models.ViewModels.ProductSaleReportViewModel
+@using LoveMeHandMake2.Helper
 
 @{
     ViewBag.Title = "商品销售表";
@@ -58,7 +59,7 @@
                     for (int i = 0; i < item.Amount; i++)
                     {
                         <tr>
-                            <td class="text-center"><img src="data:image;base64,@item.GetImageBase64String()" style="max-width:100px; max-height:100px;" /></td>
+                            <td class="text-center"><img src="data:image;base64,@ProductImageHelper.GetImageBase64String(item.ImageName)" style="max-width:100px; max-height:100px;" /></td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.TradeDateTime)</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.ProductName)</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.UnitPoint)</td>

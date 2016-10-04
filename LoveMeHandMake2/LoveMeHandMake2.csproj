@@ -248,6 +248,7 @@
     <Compile Include="Helper\ExcelReport\ProductSaleExcelReport.cs" />
     <Compile Include="Helper\ExcelReport\TeacherPerformanceExcelReport.cs" />
     <Compile Include="Helper\ExcelReport\TeacherPerformanceSummaryExcelReport.cs" />
+    <Compile Include="Helper\ProductImageHelper.cs" />
     <Compile Include="Migrations\201603090616374_Init.cs" />
     <Compile Include="Migrations\201603090616374_Init.Designer.cs">
       <DependentUpon>201603090616374_Init.cs</DependentUpon>
