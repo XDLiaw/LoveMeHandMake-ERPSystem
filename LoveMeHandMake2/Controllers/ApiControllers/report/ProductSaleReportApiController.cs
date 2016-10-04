@@ -33,7 +33,7 @@ namespace LoveMeHandMake2.Controllers.ApiControllers.report
                     return res;
                 }
                 ProductSaleReportService service = new ProductSaleReportService();
-                ProductSaleReportViewModel model = service.GetModelData(arg.SearchStoreID, null, arg.SearchDateStart, arg.SearchDateEnd);
+                ProductSaleReportViewModel model = service.GetModelData(arg.SearchStoreID, arg.SearchProductCategoryID, arg.SearchDateStart, arg.SearchDateEnd);
                 MemoryStream memoryStream = new MemoryStream();
                 ProductSaleExcelReport report = new ProductSaleExcelReport();
                 IWorkbook wb = report.Create(model);

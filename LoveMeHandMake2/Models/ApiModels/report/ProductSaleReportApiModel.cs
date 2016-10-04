@@ -9,6 +9,8 @@ namespace LoveMeHandMake2.Models.ApiModels.report
     {
         public int? SearchStoreID { get; set; }
 
+        public int? SearchProductCategoryID { get; set; }
+
         public DateTime? SearchDateStart { get; set; }
 
         public DateTime? SearchDateEnd { get; set; }
