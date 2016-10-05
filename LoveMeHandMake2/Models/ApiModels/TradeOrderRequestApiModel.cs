@@ -35,6 +35,15 @@ namespace LoveMeHandMake2.Models.ApiModels
         [Display(Name = "商城卡金额")]
         public int ChargeByMallCard { get; set; }
 
+        [Display(Name = "支付宝金额")]
+        public int ChargeByAlipay { get; set; }
+
+        [Display(Name = "微信支付金额")]
+        public int ChargeByWechatWallet { get; set; }
+
+        [Display(Name = "其他支付金额")]
+        public int ChargeByOtherPay { get; set; }
+
         [Display(Name = "送金")]
         public int RewardMoney { get; set; }
 
@@ -65,6 +74,9 @@ namespace LoveMeHandMake2.Models.ApiModels
             this.ChargeByCash = order.ChargeByCash;
             this.ChargeByCreditCard = order.ChargeByCreditCard;
             this.ChargeByMallCard = order.ChargeByMallCard;
+            this.ChargeByAlipay = order.ChargeByAlipay;
+            this.ChargeByWechatWallet = order.ChargeByWechatWallet;
+            this.ChargeByOtherPay = order.ChargeByOtherPay;
             this.RewardMoney = order.RewardMoney;
             this.RewardPoint = order.RewardPoint;
             this.PointUnitValue = order.PointUnitValue;
@@ -88,6 +100,9 @@ namespace LoveMeHandMake2.Models.ApiModels
             res.ChargeByCash = this.ChargeByCash;
             res.ChargeByCreditCard = this.ChargeByCreditCard;
             res.ChargeByMallCard = this.ChargeByMallCard;
+            res.ChargeByAlipay = this.ChargeByAlipay;
+            res.ChargeByWechatWallet = this.ChargeByWechatWallet;
+            res.ChargeByOtherPay = this.ChargeByOtherPay;
             res.RewardMoney = this.RewardMoney;
             res.RewardPoint = this.RewardPoint;
             res.PointUnitValue = this.PointUnitValue;
@@ -160,21 +175,5 @@ namespace LoveMeHandMake2.Models.ApiModels
             return res;
         }
 
-        public int Sum()
-        {
-            if (this.UnitBean == null && this.UnitPoint == null)
-            {
-                throw new ArgumentException("UnitBean and UnitPoint can't be both zero!");
-            }
-            else if (UnitPoint != null && UnitPoint != 0)
-            {
-                return this.Amount * this.UnitPoint.GetValueOrDefault();
-            }
-            else if (UnitBean != null && UnitBean != 0)
-            {
-                return this.Amount * this.UnitBean.GetValueOrDefault();
-            }
-            return 0;
-        }
     }
 }

@@ -40,17 +40,26 @@ namespace LoveMeHandMake2.Models
         [JsonIgnore]
         public virtual Member Member { get; set; }
 
-        [Display(Name = "扣除点数")]
+        [Display(Name = "扣点")]
         public double ChargeByPoint { get; set; }
 
-        [Display(Name = "付现金额")]
+        [Display(Name = "付现")]
         public int ChargeByCash { get; set; }
 
-        [Display(Name = "刷卡金额")]
+        [Display(Name = "信用卡")]
         public int ChargeByCreditCard { get; set; }
 
-        [Display(Name = "商城卡金额")]
+        [Display(Name = "商城卡")]
         public int ChargeByMallCard { get; set; }
+
+        [Display(Name = "支付宝")]
+        public int ChargeByAlipay { get; set; }
+
+        [Display(Name = "微信支付")]
+        public int ChargeByWechatWallet { get; set; }
+
+        [Display(Name = "其他支付")]
+        public int ChargeByOtherPay { get; set; }
 
         [Display(Name = "送金")]
         public int RewardMoney { get; set; }
@@ -68,9 +77,10 @@ namespace LoveMeHandMake2.Models
         public int BeanUnitValue { get; set; }
 
         /// <summary>
-        ///     TotalValue = ChargeByCash + ChargeByCreditCard + ChargeByMallCard + (Value of ChargeByPoint)
+        ///     TotalValue = ChargeByCash + ChargeByCreditCard + ChargeByMallCard + ChargeByAlipay + ChargeByWechatWallet + ChargeByOtherPay + (Value of ChargeByPoint)
         /// </summary>
         [Display(Name = "实际收入总金额")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double TotalIncomeMoney { get; set; }
 
         [Display(Name = "销售时间")]

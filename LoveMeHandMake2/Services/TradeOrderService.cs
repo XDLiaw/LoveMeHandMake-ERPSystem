@@ -27,7 +27,13 @@ namespace LoveMeHandMake2.Services
             if (new TradeOrderService().IsOrderIDExist(arg.OrderID) && checkIsOrderIdExist)
             {
                 throw new ArgumentException("OrderID: [" + arg.OrderID + "] already exist!");
-            }  
+            }
+            //check total charge is equal to purchase product price
+            if (isValidTotalCharge(arg) == false)
+            {
+                throw new ArgumentException("Total charge doesn't match Purchase Products total price!");
+            }
+
             TradeOrder tradeOrder = arg.ToTradeOrder();
             Member member = db.Members.Where(x => x.MemberGuid == arg.MemberGuid && x.ValidFlag == true).FirstOrDefault();
             if (member == null && arg.ChargeByPoint != 0)
@@ -35,19 +41,27 @@ namespace LoveMeHandMake2.Services
                 throw new ArgumentException("Can't charge point from non-member!");
             }
 
-            tradeOrder.TotalIncomeMoney = tradeOrder.ChargeByCash + tradeOrder.ChargeByCreditCard + tradeOrder.ChargeByMallCard;
+            //should't put this into follow "if block", cause maybe this order came from non-member
+            tradeOrder.TotalIncomeMoney = 
+                tradeOrder.ChargeByCash + 
+                tradeOrder.ChargeByCreditCard + 
+                tradeOrder.ChargeByMallCard + 
+                tradeOrder.ChargeByAlipay + 
+                tradeOrder.ChargeByWechatWallet + 
+                tradeOrder.ChargeByOtherPay;
+
             if (member != null)
             {
                 // asign member to TradeOrder
                 tradeOrder.MemberID = member.ID;
                 tradeOrder.Member = member;
 
-                // deduction point from member                    
+                // deduction point from member. (member point could be nagetive, this situation will happen when front-end systems not connect to back-end system, so point data are not sychnornized)
                 tradeOrder.Member.Point -= tradeOrder.ChargeByPoint;
                 tradeOrder.Member.Update();
                 db.Entry(tradeOrder.Member).State = EntityState.Modified;
 
-                // modify PointUsage 
+                // modify PointUsage (due to front-end & back-end systems sychnornize problem, this pointUsageList maybe not enough for [ChargeByPoint])
                 List<HalfPointUsage> pointUsageList = db.HalfPointUsage
                     .Where(x => x.MemberID == tradeOrder.MemberID && x.TradeOrderID == null)
                     .OrderBy(x => x.DepositTime)
@@ -55,7 +69,7 @@ namespace LoveMeHandMake2.Services
                     .ToList();
                 pointUsageList.ForEach(x => x.TradeOrderID = tradeOrder.ID);
 
-                // re-compute Total Income Money
+                // add all [HalfPointUsage]'s [HalfPointValue] to [TotalIncomeMoney]
                 foreach (HalfPointUsage hpu in pointUsageList)
                 {
                     tradeOrder.TotalIncomeMoney += hpu.HalfPointValue;
@@ -85,6 +99,29 @@ namespace LoveMeHandMake2.Services
 
             // finish whole process so save changes to DB
             db.SaveChanges();
+        }
+
+        private bool isValidTotalCharge(TradeOrderRequestApiModel arg)
+        {
+            double requirePoints = arg.ProductList.Where(x => x.UnitPoint != null && x.UnitPoint > 0).Sum(x => x.Amount * x.UnitPoint).GetValueOrDefault();
+            double requireBeans = arg.ProductList.Where(x => x.UnitBean != null && x.UnitBean > 0).Sum(x => x.Amount * x.UnitBean).GetValueOrDefault();
+            double remainBeans = arg.ChargeByPoint * 2;
+            if (remainBeans >= requireBeans)
+            {
+                remainBeans -= requireBeans;
+                requireBeans = 0;
+            }
+            else
+            {
+                remainBeans = 0;
+                requireBeans -= remainBeans;
+            }
+            double remainPoints = remainBeans / 2;
+            if (remainPoints > requirePoints) return false;
+            requirePoints -= remainPoints;
+
+            double requireMoney = requirePoints * arg.PointUnitValue + requireBeans * arg.BeanUnitValue;
+            return requireMoney == arg.ChargeByCash + arg.ChargeByCreditCard + arg.ChargeByMallCard + arg.ChargeByAlipay + arg.ChargeByWechatWallet + arg.ChargeByOtherPay + arg.RewardMoney;
         }
 
         public TradeOrder CancelTradeOrder(string orderID)

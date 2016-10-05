@@ -79,8 +79,10 @@ namespace LoveMeHandMake2.Services.report
                         Day = g.Key.Day,
                         Cash = g.Sum(x => x.ChargeByCash),
                         CreditCard = g.Sum(x => x.ChargeByCreditCard),
-                        MallCard = g.Sum(x => x.ChargeByMallCard)
-                        //TODO alipay, wechatWallet, otherPay
+                        MallCard = g.Sum(x => x.ChargeByMallCard),
+                        Alipay = g.Sum(x => x.ChargeByAlipay),
+                        WechatWallet = g.Sum(x => x.ChargeByWechatWallet),
+                        OtherPay = g.Sum(x => x.ChargeByOtherPay)
                     }
                 ).ToList();
                 DailyBusinessRecord defaultRecord = new DailyBusinessRecord { Cash = 0, CreditCard = 0, Month = 0 };
