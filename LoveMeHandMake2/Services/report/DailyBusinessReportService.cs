@@ -58,6 +58,9 @@ namespace LoveMeHandMake2.Services.report
                         Cash = g.Sum(x => x.Cash.HasValue ? x.Cash.Value : 0),
                         CreditCard = g.Sum(x => x.CreditCard.HasValue ? x.CreditCard.Value : 0),
                         MallCard = g.Sum(x => x.MallCard.HasValue ? x.MallCard.Value : 0),
+                        Alipay = g.Sum(x => x.Alipay.HasValue ? x.Alipay.Value : 0),
+                        WechatWallet = g.Sum(x => x.WechatWallet.HasValue ? x.WechatWallet.Value : 0),
+                        OtherPay = g.Sum(x => x.OtherPay.HasValue ? x.OtherPay.Value : 0)
                     }
                 ).ToList();
                 var tradeDatas =
@@ -77,6 +80,7 @@ namespace LoveMeHandMake2.Services.report
                         Cash = g.Sum(x => x.ChargeByCash),
                         CreditCard = g.Sum(x => x.ChargeByCreditCard),
                         MallCard = g.Sum(x => x.ChargeByMallCard)
+                        //TODO alipay, wechatWallet, otherPay
                     }
                 ).ToList();
                 DailyBusinessRecord defaultRecord = new DailyBusinessRecord { Cash = 0, CreditCard = 0, Month = 0 };
@@ -91,7 +95,10 @@ namespace LoveMeHandMake2.Services.report
                     record.Cash = dr.Cash + tr.Cash;
                     record.CreditCard = dr.CreditCard + tr.CreditCard;
                     record.MallCard = dr.MallCard + tr.MallCard;
-                    record.Total = record.Cash + record.CreditCard + record.MallCard;
+                    record.Alipay = dr.Alipay + tr.Alipay;
+                    record.WechatWallet = dr.WechatWallet + tr.WechatWallet;
+                    record.OtherPay = dr.OtherPay + tr.OtherPay;
+                    record.Total = record.Cash + record.CreditCard + record.MallCard + record.Alipay + record.WechatWallet + record.OtherPay;
                     model.DailyRecords.Add(record);
                 }
                 model.computeTotalMoeny();

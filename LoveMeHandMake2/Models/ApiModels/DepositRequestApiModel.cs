@@ -21,6 +21,12 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public int MallCard { get; set; }
 
+        public int Alipay { get; set; }
+
+        public int WechatWallet { get; set; }
+
+        public int OtherPay { get; set; }
+
         public int RewardMoney { get; set; }
 
         public int RewardPoint { get; set; }
@@ -40,6 +46,9 @@ namespace LoveMeHandMake2.Models.ApiModels
             dh.Cash = this.Cash;
             dh.CreditCard = this.CreditCard;
             dh.MallCard = this.MallCard;
+            dh.Alipay = this.Alipay;
+            dh.WechatWallet = this.WechatWallet;
+            dh.OtherPay = this.OtherPay;
             dh.RewardMoney = this.RewardMoney;
             dh.RewardPoint = this.RewardPoint;
             dh.PointUnitValue = this.PointUnitValue;

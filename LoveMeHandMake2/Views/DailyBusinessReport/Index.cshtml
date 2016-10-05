@@ -35,6 +35,9 @@
             <th class="text-right">@Html.DisplayNameFor(model => model.DailyRecords.FirstOrDefault().Cash)</th>
             <th class="text-right">@Html.DisplayNameFor(model => model.DailyRecords.FirstOrDefault().CreditCard)</th>
             <th class="text-right">@Html.DisplayNameFor(model => model.DailyRecords.FirstOrDefault().MallCard)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.DailyRecords.FirstOrDefault().Alipay)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.DailyRecords.FirstOrDefault().WechatWallet)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.DailyRecords.FirstOrDefault().OtherPay)</th>
             <th class="text-right">@Html.DisplayNameFor(model => model.DailyRecords.FirstOrDefault().Total)</th>
         </tr>
     </thead>
@@ -46,6 +49,9 @@
                 <td class="text-right">@Html.DisplayFor(modelItem => item.Cash)</td>
                 <td class="text-right">@Html.DisplayFor(modelItem => item.CreditCard)</td>
                 <td class="text-right">@Html.DisplayFor(modelItem => item.MallCard)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.Alipay)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.WechatWallet)</td>
+                <td class="text-right">@Html.DisplayFor(modelItem => item.OtherPay)</td>
                 <td class="text-right">@Html.DisplayFor(modelItem => item.Total)</td>
             </tr>
         }        
@@ -56,6 +62,9 @@
             <td class="text-right">@Html.DisplayFor(model => model.TotalCash)</td>
             <td class="text-right">@Html.DisplayFor(model => model.TotalCreditCard)</td>
             <td class="text-right">@Html.DisplayFor(model => model.TotalMallCard)</td>
+            <td class="text-right">@Html.DisplayFor(model => model.TotalAlipay)</td>
+            <td class="text-right">@Html.DisplayFor(model => model.TotalWechatWallet)</td>
+            <td class="text-right">@Html.DisplayFor(model => model.TotalOtherPay)</td>
             <td class="text-right">@Html.DisplayFor(model => model.TotalMoney)</td>
         </tr>
     </tfoot>

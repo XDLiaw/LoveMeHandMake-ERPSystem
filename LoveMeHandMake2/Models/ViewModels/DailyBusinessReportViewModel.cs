@@ -33,6 +33,15 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "总商城卡业绩")]
         public double TotalMallCard { get; set; }
 
+        [Display(Name = "总支付宝业绩")]
+        public double TotalAlipay { get; set; }
+
+        [Display(Name = "总微信支付业绩")]
+        public double TotalWechatWallet { get; set; }
+
+        [Display(Name = "总其他支付业绩")]
+        public double TotalOtherPay { get; set; }
+
         [Display(Name = "总业绩")]
         public double TotalMoney { get; set; }
 
@@ -48,7 +57,10 @@ namespace LoveMeHandMake2.Models.ViewModels
             this.TotalCash = DailyRecords.Sum(x => x.Cash);
             this.TotalCreditCard = DailyRecords.Sum(x => x.CreditCard);
             this.TotalMallCard = DailyRecords.Sum(x => x.MallCard);
-            this.TotalMoney = this.TotalCash + this.TotalCreditCard + this.TotalMallCard;
+            this.TotalAlipay = DailyRecords.Sum(x => x.Alipay);
+            this.TotalWechatWallet = DailyRecords.Sum(x => x.WechatWallet);
+            this.TotalOtherPay = DailyRecords.Sum(x => x.OtherPay);
+            this.TotalMoney = this.TotalCash + this.TotalCreditCard + this.TotalMallCard + this.TotalAlipay + this.TotalWechatWallet + this.TotalOtherPay;
         }
     }
 
@@ -72,6 +84,15 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         [Display(Name = "商城卡")]
         public double MallCard { get; set; }
+
+        [Display(Name = "支付宝")]
+        public double Alipay { get; set; }
+
+        [Display(Name = "微信支付")]
+        public double WechatWallet { get; set; }
+
+        [Display(Name = "其他支付")]
+        public double OtherPay { get; set; }
 
         [Display(Name = "当日业绩")]
         public double Total { get; set; }

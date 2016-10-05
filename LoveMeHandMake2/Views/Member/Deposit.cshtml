@@ -82,6 +82,30 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Alipay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Alipay, new { htmlAttributes = new { id = "Alipay", @class = "form-control", min = 0 } })
+                @Html.ValidationMessageFor(model => model.Alipay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WechatWallet, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.WechatWallet, new { htmlAttributes = new { id = "WechatWallet", @class = "form-control", min = 0 } })
+                @Html.ValidationMessageFor(model => model.WechatWallet, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OtherPay, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OtherPay, new { htmlAttributes = new { id = "OtherPay", @class = "form-control", min = 0 } })
+                @Html.ValidationMessageFor(model => model.OtherPay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.RewardMoney, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.RewardMoney, new { htmlAttributes = new { id = "RewardMoney", @class = "form-control", min = 0 } })
@@ -168,8 +192,11 @@
             var Cash = parseInt($("#Cash").val());
             var CreditCard = parseInt($("#CreditCard").val());
             var MallCard = parseInt($("#MallCard").val());
-            var RewardMoney = parseInt($("#RewardMoney").val())
-            var TotalDepositMoney = Cash + CreditCard + MallCard + RewardMoney;
+            var RewardMoney = parseInt($("#RewardMoney").val());
+            var Alipay = parseInt($("#Alipay").val());
+            var WechatWallet = parseInt($("#WechatWallet").val());
+            var OtherPay = parseInt($("OtherPay").val());
+            var TotalDepositMoney = Cash + CreditCard + MallCard + RewardMoney + Alipay + WechatWallet + OtherPay;
             var PointUnitValue = @Model.PointUnitValue;
             if (TotalDepositMoney < PointUnitValue) {
                 alert("金额至少必须为" + PointUnitValue);
@@ -183,7 +210,10 @@
                 CreditCard : parseInt($("#CreditCard").val()),
                 MallCard : parseInt($("#MallCard").val()),
                 RewardMoney : parseInt($("#RewardMoney").val()),
-                RewardPoint : parseInt($("#RewardPoint").val())
+                RewardPoint : parseInt($("#RewardPoint").val()),
+                Alipay : parseInt($("#Alipay").val()),
+                WechatWallet : parseInt($("#WechatWallet").val()),
+                OtherPay : parseInt($("#OtherPay").val())
             };
             //alert(JSON.stringify(data));
 
@@ -210,6 +240,9 @@
                            $("#Cash").parent().removeClass("has-error");
                            $("#CreditCard").parent().removeClass("has-error");
                            $("#MallCard").parent().removeClass("has-error");
+                           $("#Alipay").parent().removeClass("has-error");
+                           $("#WechatWallet").parent().removeClass("has-error");
+                           $("#OtherPay").parent().removeClass("has-error");
                            $("#RewardMoney").parent().removeClass("has-error");
                            $("#RewardPoint").parent().removeClass("has-error");
                        }
@@ -225,6 +258,9 @@
             $("#Cash").val(0);
             $("#CreditCard").val(0);
             $("#MallCard").val(0);
+            $("#Alipay").val(0);
+            $("#WechatWallet").val(0);
+            $("#OtherPay").val(0);
             $("#RewardMoney").val(0);
             $("#RewardPoint").val(0);
             $("#TotalDepositMoney").val(0);
@@ -243,13 +279,21 @@
             $("#MallCard").change(function() {
                 tryCompute(this);
             });
+            $("#Alipay").change(function() {
+                tryCompute(this);
+            });
+            $("#WechatWallet").change(function() {
+                tryCompute(this);
+            });
+            $("#OtherPay").change(function() {
+                tryCompute(this);
+            });
             $("#RewardMoney").change(function() {
                 tryCompute(this);
             });
             $("#RewardPoint").change(function() {
                 tryCompute(this);
             });
-        
         });
 
 </script>

@@ -46,6 +46,9 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 base.CreateCell(titleRow, colCount++, "现金");
                 base.CreateCell(titleRow, colCount++, "信用卡");
                 base.CreateCell(titleRow, colCount++, "商城卡");
+                base.CreateCell(titleRow, colCount++, "支付宝");
+                base.CreateCell(titleRow, colCount++, "微信支付");
+                base.CreateCell(titleRow, colCount++, "其他支付");
                 base.CreateCell(titleRow, colCount++, "当日业绩");
             }
 
@@ -62,6 +65,9 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 base.CreateCell(row, colCount++, dbr.Cash);
                 base.CreateCell(row, colCount++, dbr.CreditCard);
                 base.CreateCell(row, colCount++, dbr.MallCard);
+                base.CreateCell(row, colCount++, dbr.Alipay);
+                base.CreateCell(row, colCount++, dbr.WechatWallet);
+                base.CreateCell(row, colCount++, dbr.OtherPay);
                 base.CreateCell(row, colCount++, dbr.Total);
             }
             {

@@ -16,6 +16,9 @@ namespace LoveMeHandMake2.Models
             this.Cash = 0;
             this.CreditCard = 0;
             this.MallCard = 0;
+            this.Alipay = 0;
+            this.WechatWallet = 0;
+            this.OtherPay = 0;
             this.RewardMoney = 0;
             this.RewardPoint = 0;
 
@@ -48,6 +51,8 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "储值人员")]
         public virtual Teacher DepositTeacher { get; set; }
 
+        //-------------------------------------------------------------------------------------
+
         [Display(Name = "现金")]
         public int? Cash { get; set; }
 
@@ -57,11 +62,22 @@ namespace LoveMeHandMake2.Models
         [Display(Name = "商城卡")]
         public int? MallCard { get; set; }
 
+        [Display(Name = "支付宝")]
+        public int? Alipay { get; set; }
+
+        [Display(Name = "微信支付")]
+        public int? WechatWallet { get; set; }
+
+        [Display(Name = "其他支付")]
+        public int? OtherPay { get; set; }
+
         [Display(Name = "送金")]
         public int? RewardMoney { get; set; }
 
         [Display(Name = "送点")]
         public int? RewardPoint { get; set; }
+
+        //-------------------------------------------------------------------------------------
 
         [Display(Name = "每点人民币数")]
         public int PointUnitValue { get; set; }
@@ -106,15 +122,14 @@ namespace LoveMeHandMake2.Models
         }
 
         private void computeTotalDepositMoney() {
-            int cash = this.Cash.GetValueOrDefault();
-            int credit = this.CreditCard.GetValueOrDefault();
-            int mall = this.MallCard.GetValueOrDefault();
-            int rewardMoney = this.RewardMoney.GetValueOrDefault();
-            this.TotalDepositMoney = cash + credit + mall + rewardMoney;
-            //if (this.TotalDepositMoney < this.PointUnitValue)
-            //{
-            //    throw new ArgumentException("金额至少必须为" + this.PointUnitValue);
-            //} 
+            this.TotalDepositMoney = 
+                this.Cash.GetValueOrDefault() +
+                this.CreditCard.GetValueOrDefault() +
+                this.MallCard.GetValueOrDefault() + 
+                this.Alipay.GetValueOrDefault() + 
+                this.WechatWallet.GetValueOrDefault() +
+                this.OtherPay.GetValueOrDefault() +
+                this.RewardMoney.GetValueOrDefault();
         }
 
         private void computeDepositPoint()

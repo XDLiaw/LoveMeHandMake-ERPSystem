@@ -573,6 +573,10 @@
     <Compile Include="Migrations\201605170349327_Init80.Designer.cs">
       <DependentUpon>201605170349327_Init80.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610040659230_Init81.cs" />
+    <Compile Include="Migrations\201610040659230_Init81.Designer.cs">
+      <DependentUpon>201610040659230_Init81.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiModels\BaseRequestApiModel.cs" />
@@ -1036,6 +1040,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605170349327_Init80.resx">
       <DependentUpon>201605170349327_Init80.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610040659230_Init81.resx">
+      <DependentUpon>201610040659230_Init81.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
