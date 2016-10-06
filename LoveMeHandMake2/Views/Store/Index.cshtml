@@ -12,9 +12,6 @@
 <table class="table table-striped table-hover">
     <tr class="row">
         <th >
-            @Html.DisplayNameFor(model => model.StoreCode)
-        </th>
-        <th >
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th >
@@ -30,15 +27,12 @@
     {
         <tr class="row">
             <td valign="baseline">
-                @Html.DisplayFor(modelItem => item.StoreCode)
-            </td>
-            <td valign="baseline">
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.Raw(item.StoreCode + "-" +item.Name)
             </td>
             <td valign="baseline">
                 @foreach (var category in item.StoreCanSellCategories)
                 {
-                    <p>@category.ProductCategory.Name</p>
+                    @Html.Raw(category.ProductCategory.Name+"; ")
                 }
             </td>
             <td valign="baseline">
