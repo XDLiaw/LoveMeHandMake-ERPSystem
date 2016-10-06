@@ -87,6 +87,7 @@ namespace LoveMeHandMake2.Models
         [Required]
         public DateTime TradeDateTime { get; set; }
 
-
+        [Display(Name = "錯誤訊息")]
+        public String ErrorMsg { get; set; }
     }
 }

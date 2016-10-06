@@ -60,6 +60,10 @@ namespace LoveMeHandMake2.Services
                 tradeOrder.Member.Point -= tradeOrder.ChargeByPoint;
                 tradeOrder.Member.Update();
                 db.Entry(tradeOrder.Member).State = EntityState.Modified;
+                if (tradeOrder.Member.Point < 0)
+                {
+                    tradeOrder.ErrorMsg = "點數不足，導致會員剩餘點數為" + tradeOrder.Member.Point;
+                }
 
                 // modify PointUsage (due to front-end & back-end systems sychnornize problem, this pointUsageList maybe not enough for [ChargeByPoint])
                 List<HalfPointUsage> pointUsageList = db.HalfPointUsage
@@ -105,16 +109,16 @@ namespace LoveMeHandMake2.Services
         {
             double requirePoints = arg.ProductList.Where(x => x.UnitPoint != null && x.UnitPoint > 0).Sum(x => x.Amount * x.UnitPoint).GetValueOrDefault();
             double requireBeans = arg.ProductList.Where(x => x.UnitBean != null && x.UnitBean > 0).Sum(x => x.Amount * x.UnitBean).GetValueOrDefault();
-            double remainBeans = arg.ChargeByPoint * 2;
+            double remainBeans = (arg.ChargeByPoint + arg.RewardPoint)* 2;
             if (remainBeans >= requireBeans)
             {
                 remainBeans -= requireBeans;
                 requireBeans = 0;
             }
             else
-            {
-                remainBeans = 0;
+            {            
                 requireBeans -= remainBeans;
+                remainBeans = 0;
             }
             double remainPoints = remainBeans / 2;
             if (remainPoints > requirePoints) return false;

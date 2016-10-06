@@ -36,7 +36,7 @@
         <th>
             @Html.DisplayNameFor(model => model.CardID)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Gender)
         </th>
         <th>
@@ -45,13 +45,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Phone)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.IsPRCard)
         </th>
-        <th>
+        <th class="text-right">
             @Html.DisplayNameFor(model => model.Point)
         </th>
-        <th>
+        <th class="text-right">
             @Html.DisplayNameFor(model => model.AccumulateDeposit)
         </th>
         <th></th>
@@ -66,7 +66,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CardID)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.Label(item.Gender ? "男" : "女")
             </td>
             <td>
@@ -75,13 +75,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.IsPRCard)
             </td>
-            <td>
+            <td class="text-right">
                 @Html.DisplayFor(modelItem => item.Point)
             </td>
-            <td>
+            <td class="text-right">
                 @Html.DisplayFor(modelItem => item.AccumulateDeposit)
             </td>
             <td>

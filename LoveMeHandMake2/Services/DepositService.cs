@@ -48,31 +48,25 @@ namespace LoveMeHandMake2.Services
             checkAndSetTeacher(dh);
             checkAndSetMember(dh);
 
-            //============ Update Member Point & AccumulateDeposit==========================================================
+            //=========================================================================================================
             dh.Create();
             if (withCompute)
             {
                 dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
                 dh.computeAll();
             }
-            dh.Member.Point += dh.TotalPoint;
-            dh.Member.AccumulateDeposit += dh.TotalDepositMoney;
-            if (dh.AccumulateDepositRewardRule != null)
-            {
-                dh.Member.AccumulateDeposit -= dh.AccumulateDepositRewardRule.DepositAmount;
-            }
-            dh.Member.Update();
-            db.Entry(dh.Member).State = EntityState.Modified;
-            db.SaveChanges();
-
-            //=========================================================================================================
             db.DepositHistory.Add(dh);
             db.SaveChanges();
 
             // ===================== create data to HalfPointUsage =======================================================
+            double numOfHalfPoint = dh.TotalPoint * 2;
+            if (dh.Member.Point < 0)
+            {
+                numOfHalfPoint = (dh.TotalPoint + dh.Member.Point) * 2; // if current Member point is nagetive, need to reduce some [HalfPointUsage] to fix this nage
+            }
             List<HalfPointUsage> pointUsageList = new List<HalfPointUsage>();
             // Each instance of this represent 0.5 point because sometime it will only use 0.5 point
-            for (int i = 0; i < dh.TotalPoint * 2 ; i++)
+            for (int i = 0; i < numOfHalfPoint; i++)
             {
                 HalfPointUsage pu = new HalfPointUsage()
                 {
@@ -85,6 +79,17 @@ namespace LoveMeHandMake2.Services
                 
             }
             db.HalfPointUsage.AddRange(pointUsageList);
+            db.SaveChanges();
+
+            //============ Update Member Point & AccumulateDeposit==========================================================
+            dh.Member.Point += dh.TotalPoint;
+            dh.Member.AccumulateDeposit += dh.TotalDepositMoney;
+            if (dh.AccumulateDepositRewardRule != null)
+            {
+                dh.Member.AccumulateDeposit -= dh.AccumulateDepositRewardRule.DepositAmount;
+            }
+            dh.Member.Update();
+            db.Entry(dh.Member).State = EntityState.Modified;
             db.SaveChanges();
 
             return dh;

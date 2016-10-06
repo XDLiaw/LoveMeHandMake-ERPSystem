@@ -104,6 +104,7 @@ namespace LoveMeHandMake2.Models
         public double TotalPoint { get; set; }
 
         [Display(Name = "每点平均成本")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public double AvgPointCost { get; set; }
 
         [Display(Name = "储值时间")]

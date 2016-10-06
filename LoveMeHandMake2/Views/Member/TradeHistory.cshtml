@@ -31,10 +31,10 @@
             <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().OrderID)</th>
             <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().Store)</th>
             <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().Teacher)</th>
-            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByPoint)</th>
-            <th>付现/信用卡/商城卡/支付宝/微信/其他</th>
-            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardMoney)</th>
-            <th>@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardPoint)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().ChargeByPoint)</th>
+            <th class="text-center">付现/信用卡/商城卡/支付宝/微信/其他</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardMoney)</th>
+            <th class="text-right">@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().RewardPoint)</th>
             <th class="text-right">@Html.DisplayNameFor(model => model.TradeOrderList.FirstOrDefault().TotalIncomeMoney)</th>
         </tr>
         @if (Model != null && Model.TradeOrderList != null)
@@ -46,13 +46,13 @@
                     <td>@Html.ActionLink(item.OrderID, "TradeDetail", new { id = item.ID })</td>
                     <td>@Html.DisplayFor(modelItem => item.Store.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.Teacher.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ChargeByPoint)</td>
-                    <td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.ChargeByPoint)</td>
+                    <td class="text-center">
                         @Html.Raw(item.ChargeByCash + "/" + item.ChargeByCreditCard + "/" + item.ChargeByMallCard + "/" + item.ChargeByAlipay + "/" + item.ChargeByWechatWallet + "/" + item.ChargeByOtherPay)
                     </td>
-                    <td>@Html.DisplayFor(modelItem => item.RewardMoney)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RewardPoint)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TotalIncomeMoney)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.RewardMoney)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.RewardPoint)</td>
+                    <td class="text-right">@Html.DisplayFor(modelItem => item.TotalIncomeMoney)</td>
                 </tr>
             }
         }
