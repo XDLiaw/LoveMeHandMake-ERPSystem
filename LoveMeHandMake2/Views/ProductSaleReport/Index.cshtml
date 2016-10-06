@@ -64,7 +64,7 @@
                             <td class="text-center">@Html.DisplayFor(modelItem => item.ProductName)</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.UnitPoint)</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.UnitBean)</td>
-                            <td class="text-center">@(String.IsNullOrWhiteSpace(item.MemberCardID) ? "单做现金" : item.MemberCardID)</td>
+                            <td class="text-center">@(String.IsNullOrWhiteSpace(item.MemberCardID) ? "单做" : item.MemberCardID)</td>
                             <td class="text-right">@String.Format("{0:N2}", item.Sum / item.Amount)</td>
                             <td class="text-center">@(item.Gender == null ? "" : (item.Gender == true ? "男" : "女"))</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.TeacherName)</td>

@@ -81,7 +81,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                     base.CreateCell(row, colCount++, psr.ProductName);
                     base.CreateCell(row, colCount++, psr.UnitPoint.GetValueOrDefault());
                     base.CreateCell(row, colCount++, psr.UnitBean.GetValueOrDefault());
-                    base.CreateCell(row, colCount++, String.IsNullOrWhiteSpace(psr.MemberCardID) ? "单做现金" : psr.MemberCardID);
+                    base.CreateCell(row, colCount++, String.IsNullOrWhiteSpace(psr.MemberCardID) ? "单做" : psr.MemberCardID);
                     base.CreateCell(row, colCount++, psr.Sum / psr.Amount);
                     base.CreateCell(row, colCount++, psr.Gender == null ? "" : (psr.Gender == true ? "男" : "女"));
                     base.CreateCell(row, colCount++, psr.TeacherName);
