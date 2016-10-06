@@ -1,0 +1,67 @@
+﻿@model LoveMeHandMake2.Models.ViewModels.ProductBatchImportViewModel
+
+@{
+    ViewBag.Title = "批次匯入产品";
+}
+
+<h2>批次匯入</h2>
+@Styles.Render("~/Content/fileBrowseBtn")
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    if (Model.resultMessage != null && Model.resultMessage != "")
+    {
+        <div class="alert alert-dismissible alert-info">
+            <strong>@Model.resultMessage</strong>
+        </div>
+    }
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("選擇匯入檔案", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" class="label-fileName form-control" readonly="readonly" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <p>
+                    <span class="btn btn-default btn-file">
+                        Browse
+                        @Html.TextBoxFor(model => model.UploadFile, new { Type = "file", id = "btn_choseExcelFile", @class = "upload", accept = ".xlsx" })
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="匯入" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btn_choseExcelFile").change(function () {
+            var fileName = $(this).get(0).files[0].name;
+            $(".label-fileName").val(fileName);
+        });
+    });
+</script>
+

@@ -636,6 +636,7 @@
     <Compile Include="Models\ViewModels\MemberTradeHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\NonMemberTradeHistoryViewModel.cs" />
     <Compile Include="Models\ViewModels\PopularProductViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProductBatchImportViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductSaleReportViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\TeacherPerformanceReportViewModel.cs" />
@@ -645,6 +646,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\DepositService.cs" />
     <Compile Include="Services\MemberService.cs" />
+    <Compile Include="Services\ProductImportService.cs" />
     <Compile Include="Services\report\DailyBusinessReportService.cs" />
     <Compile Include="Services\report\DepositReportService.cs" />
     <Compile Include="Services\report\ProductSaleReportService.cs" />
@@ -796,6 +798,7 @@
     <Content Include="Views\CancelDeposit\index.cshtml" />
     <Content Include="Views\CancelTrade\index.cshtml" />
     <Content Include="Views\Member\TransferPoint.cshtml" />
+    <Content Include="Views\Product\BatchImport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

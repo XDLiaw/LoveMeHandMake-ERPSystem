@@ -12,6 +12,7 @@ using System.Web.Configuration;
 using LoveMeHandMake2.Models.ViewModels;
 using MvcPaging;
 using LoveMeHandMake2.Helper;
+using LoveMeHandMake2.Services;
 
 namespace LoveMeHandMake2.Controllers
 {
@@ -151,6 +152,19 @@ namespace LoveMeHandMake2.Controllers
             db.SaveChanges();
             ProductImageHelper.DeleteImage(product.ImageName);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult BatchImport()
+        {
+            return View(new ProductBatchImportViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BatchImport(ProductBatchImportViewModel model)
+        {
+            model.resultMessage = ProductImportService.ImportExcel(model.UploadFile.InputStream);
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

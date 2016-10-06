@@ -11,14 +11,15 @@
 {
     <div class="container breadcrumb">
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             @Html.ActionLink("新增产品", "Create", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("批次汇入产品", "BatchImport", null, new { @class = "btn btn-primary" })
         </div>
         <div class="col-md-3"></div>
         <div class="col-md-3">
             @Html.DropDownListFor(model => model.productCategoryID, (IEnumerable<SelectListItem>)ViewBag.ProductCategoryList, htmlAttributes: new { @class = "form-control" })
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="submit" value="搜寻" class="btn btn-default" id="btn-search" />
         </div>
     </div>
