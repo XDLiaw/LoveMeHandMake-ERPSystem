@@ -54,27 +54,35 @@ namespace LoveMeHandMake2.Models
         //-------------------------------------------------------------------------------------
 
         [Display(Name = "现金")]
+        [Range(0, int.MaxValue)]
         public int? Cash { get; set; }
 
         [Display(Name = "信用卡")]
+        [Range(0, int.MaxValue)]
         public int? CreditCard { get; set; }
 
         [Display(Name = "商城卡")]
+        [Range(0, int.MaxValue)]
         public int? MallCard { get; set; }
 
         [Display(Name = "支付宝")]
+        [Range(0, int.MaxValue)]
         public int? Alipay { get; set; }
 
         [Display(Name = "微信支付")]
+        [Range(0, int.MaxValue)]
         public int? WechatWallet { get; set; }
 
         [Display(Name = "其他支付")]
+        [Range(0, int.MaxValue)]
         public int? OtherPay { get; set; }
 
         [Display(Name = "送金")]
+        [Range(0, int.MaxValue)]
         public int? RewardMoney { get; set; }
 
         [Display(Name = "送点")]
+        [Range(0, int.MaxValue)]
         public int? RewardPoint { get; set; }
 
         //-------------------------------------------------------------------------------------

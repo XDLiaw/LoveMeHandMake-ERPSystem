@@ -1,6 +1,7 @@
 ﻿using log4net;
 using LoveMeHandMake2.Models;
 using LoveMeHandMake2.Models.ApiModels;
+using LoveMeHandMake2.Models.ViewModels;
 using LoveMeHandMake2.Services;
 using Newtonsoft.Json;
 using System;
@@ -96,17 +97,16 @@ namespace LoveMeHandMake2.Controllers.ApiControllers
                     res.ErrMsgs.AddRange(errMsgs);
                     try
                     {//補上舊會員既有點數
-                        DepositHistory dh = new DepositHistory();
-                        dh.Create();
-                        dh.OrderID = arg.oldMemberDepositOrderID;
-                        dh.MemberID = arg.member.ID;
-                        dh.MemberGuid = arg.member.MemberGuid;
-                        dh.DepositStoreID = arg.member.EnrollStoreID;
-                        dh.DepositTeacherID = arg.member.EnrollTeacherID;
-                        dh.TotalPoint = arg.oldMemberPoint.GetValueOrDefault();
-                        dh.AvgPointCost = arg.oldMemberPointUnitValue.GetValueOrDefault();
-                        dh.DepostitDateTime = arg.member.EnrollDate;
-                        new DepositService(this.db).Deposit(dh, false);
+                        TransferPointViewModel tpvm = new TransferPointViewModel();
+                        tpvm.OrderID = arg.oldMemberDepositOrderID;
+                        tpvm.MemberID = arg.member.ID;
+                        tpvm.MemberGuid = arg.member.MemberGuid;
+                        tpvm.DepositStoreID = arg.member.EnrollStoreID;
+                        tpvm.DepositTeacherID = arg.member.EnrollTeacherID;
+                        tpvm.Point = arg.oldMemberPoint.GetValueOrDefault();
+                        tpvm.AvgPointCost = arg.oldMemberPointUnitValue.GetValueOrDefault();
+                        tpvm.DepostitDateTime = arg.member.EnrollDate;
+                        new DepositService(this.db).transferPoint(tpvm);
                     }
                     catch (Exception e)
                     {

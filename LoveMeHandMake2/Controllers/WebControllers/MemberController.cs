@@ -102,6 +102,59 @@ namespace LoveMeHandMake2.Controllers
 
         }
 
+        public ActionResult TransferPoint(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Member member = db.Members.Where(x => x.ID == id && x.ValidFlag == true).First();
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            TransferPointViewModel model = new TransferPointViewModel();
+            model.setMember(member);
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TransferPoint([Bind(Exclude = "Member")]TransferPointViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string storeCode = db.Stores.Where(x => x.ID == model.DepositStoreID).Select(x => x.StoreCode).FirstOrDefault();
+                    model.DepostitDateTime = System.DateTime.Now;
+                    model.OrderID = string.Format("{0}{1:yyMMddHHmmss}", storeCode, model.DepostitDateTime);
+                    new DepositService(db).transferPoint(model);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    log.Warn(e.Message);
+                    ViewBag.ErrMsg = e.Message;
+                }
+            }
+            else
+            {
+                string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+                log.Warn(messages);
+                ViewBag.ErrMsg = messages;
+            }
+            //ViewBag.EnrollStoreID = new SelectList(db.Stores, "ID", "StoreCode");            
+            //ViewBag.EnrollTeacherID = new SelectList(db.Teachers, "ID", "Name");
+            ViewBag.StoreList = DropDownListHelper.GetStoreList(false);
+            ViewBag.TeacherList = DropDownListHelper.GetTeacherList(false);
+            return View(model);
+        }
+
         // GET: Member/Deposite
         public ActionResult Deposit(int? id)
         {
@@ -225,7 +278,7 @@ namespace LoveMeHandMake2.Controllers
         {
             try
             {
-                if (new DepositService(db).IsOrderIDExist(id) == false)
+                if (db.DepositHistory.Where(x => x.ID == id).Count() == 0)
                 {
                     return HttpNotFound();
                 }
@@ -237,7 +290,6 @@ namespace LoveMeHandMake2.Controllers
                 ViewBag.ErrorMessage = e.Message;
                 return RedirectToAction("Index");
             }
-
         }
 
         [HttpPost]
@@ -365,7 +417,6 @@ namespace LoveMeHandMake2.Controllers
                 ViewBag.ErrMsg = e.Message;
                 return View(member);
             }
-
         }
 
         protected override void Dispose(bool disposing)

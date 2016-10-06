@@ -1,5 +1,6 @@
 ﻿using LoveMeHandMake2.Models;
 using LoveMeHandMake2.Models.ApiModels;
+using LoveMeHandMake2.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,16 +15,6 @@ namespace LoveMeHandMake2.Services
 
         public DepositService(LoveMeHandMakeContext db) : base(db) { }
 
-        public bool IsOrderIDExist(int id)
-        {
-            return db.DepositHistory.Where(x => x.ID == id).Count() > 0;
-        }
-
-        public bool IsOrderIDExist(string orderID)
-        {
-            return db.DepositHistory.Where(x => x.OrderID == orderID && x.OrderID != null).Count() > 0;
-        }
-
         public DepositHistory TryCompute(DepositHistory dh)
         {
             checkAndSetMember(dh);
@@ -34,31 +25,84 @@ namespace LoveMeHandMake2.Services
 
         public DepositHistory Deposit(DepositHistory dh)
         {
-            return Deposit(dh, true);
-        }
-
-        public DepositHistory Deposit(DepositHistory dh, bool withCompute)
-        {
-            // 資料正確性驗證
-            if (IsOrderIDExist(dh.OrderID))
-            {
-                throw new ArgumentException("OrderID: [" + dh.OrderID + "] already exist!");
-            }
+            checkOrderIDExist(dh.OrderID);
             checkAndSetStore(dh);
             checkAndSetTeacher(dh);
             checkAndSetMember(dh);
 
-            //=========================================================================================================
+            dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
+            dh.computeAll();
             dh.Create();
-            if (withCompute)
-            {
-                dh.DepositRewardRuleList = db.DepositRewardRule.Where(x => x.ValidFlag == true).OrderBy(x => x.DepositAmount).ToList();
-                dh.computeAll();
-            }
             db.DepositHistory.Add(dh);
             db.SaveChanges();
 
-            // ===================== create data to HalfPointUsage =======================================================
+            createHalfPointUsageData(dh);
+            updateMemberPointAndAccumulateDeposit(dh);
+
+            return dh;
+        }
+
+        public void transferPoint(TransferPointViewModel tpvm)
+        {
+            DepositHistory dh = tpvm.toDepositHistory();
+            checkOrderIDExist(dh.OrderID);
+            checkAndSetStore(dh);
+            checkAndSetTeacher(dh);
+            checkAndSetMember(dh);
+            
+            dh.Create();
+            db.DepositHistory.Add(dh);
+            db.SaveChanges();
+
+            createHalfPointUsageData(dh);
+            updateMemberPointAndAccumulateDeposit(dh);
+        }
+
+        private void checkOrderIDExist(string orderID)
+        {
+            if (db.DepositHistory.Where(x => x.OrderID == orderID && x.OrderID != null).Count() > 0)
+            {
+                throw new ArgumentException("OrderID: [" + orderID + "] already exist!");
+            }
+        }
+
+        private void checkAndSetStore(DepositHistory dh)
+        {
+            dh.DepositStore = db.Stores
+                .Where(x => x.ID == dh.DepositStoreID && x.ValidFlag == true && (x.StopBusinessDate == null || x.StopBusinessDate > dh.DepostitDateTime))
+                .FirstOrDefault();
+            if (dh.DepositStore == null)
+            {
+                string msg = string.Format("Can't find DepositStore which ID is [{0}]", dh.DepositStoreID);
+                throw new ArgumentException(msg);
+            }
+        }
+
+        private void checkAndSetTeacher(DepositHistory dh)
+        {
+            dh.DepositTeacher = db.Teachers
+                .Where(x => x.ID == dh.DepositTeacherID && x.ValidFlag == true && (x.ResignDate == null || x.ResignDate > dh.DepostitDateTime))
+                .FirstOrDefault();
+            if (dh.DepositTeacher == null)
+            {
+                string msg = string.Format("Can't find DepositTeacher which ID is [{0}]", dh.DepositTeacherID);
+                throw new ArgumentException(msg);
+            }
+        }
+
+        private void checkAndSetMember(DepositHistory dh)
+        {
+            dh.Member = db.Members.Where(x => (x.ID == dh.MemberID || x.MemberGuid == dh.MemberGuid) && x.ValidFlag == true).FirstOrDefault();
+            if (dh.Member == null)
+            {
+                string msg = string.Format("Can't find member which ID is [{0}], GUID is [{1}]", dh.MemberID, dh.MemberGuid);
+                throw new ArgumentException(msg);
+            }
+            dh.MemberGuid = dh.Member.MemberGuid;
+        }
+
+        private void createHalfPointUsageData(DepositHistory dh)
+        {
             double numOfHalfPoint = dh.TotalPoint * 2;
             if (dh.Member.Point < 0)
             {
@@ -72,16 +116,18 @@ namespace LoveMeHandMake2.Services
                 {
                     MemberID = dh.Member.ID,
                     DepositOrderID = dh.ID,
-                    HalfPointValue = dh.AvgPointCost/2,
+                    HalfPointValue = dh.AvgPointCost / 2,
                     DepositTime = dh.DepostitDateTime
                 };
                 pointUsageList.Add(pu);
-                
+
             }
             db.HalfPointUsage.AddRange(pointUsageList);
             db.SaveChanges();
+        }
 
-            //============ Update Member Point & AccumulateDeposit==========================================================
+        private void updateMemberPointAndAccumulateDeposit(DepositHistory dh)
+        {
             dh.Member.Point += dh.TotalPoint;
             dh.Member.AccumulateDeposit += dh.TotalDepositMoney;
             if (dh.AccumulateDepositRewardRule != null)
@@ -91,8 +137,6 @@ namespace LoveMeHandMake2.Services
             dh.Member.Update();
             db.Entry(dh.Member).State = EntityState.Modified;
             db.SaveChanges();
-
-            return dh;
         }
 
         /// <summary>
@@ -166,44 +210,8 @@ namespace LoveMeHandMake2.Services
             {
                 tradeOrderService.NewTradeOrder(newTradeOrder, false);
             }
-            
+
             return member.Point;
         }
-
-        private void checkAndSetStore(DepositHistory dh)
-        {
-            dh.DepositStore = db.Stores
-                .Where(x => x.ID == dh.DepositStoreID && x.ValidFlag == true && (x.StopBusinessDate == null || x.StopBusinessDate > dh.DepostitDateTime))
-                .FirstOrDefault();
-            if (dh.DepositStore == null)
-            {
-                string msg = string.Format("Can't find DepositStore which ID is [{0}]", dh.DepositStoreID);
-                throw new ArgumentException(msg);
-            }
-        }
-
-        private void checkAndSetTeacher(DepositHistory dh)
-        {
-            dh.DepositTeacher = db.Teachers
-                .Where(x => x.ID == dh.DepositTeacherID && x.ValidFlag == true && (x.ResignDate == null || x.ResignDate > dh.DepostitDateTime))
-                .FirstOrDefault();
-            if (dh.DepositTeacher == null)
-            {
-                string msg = string.Format("Can't find DepositTeacher which ID is [{0}]", dh.DepositTeacherID);
-                throw new ArgumentException(msg);
-            }
-        }
-
-        private void checkAndSetMember(DepositHistory dh)
-        {
-            dh.Member = db.Members.Where(x => (x.ID == dh.MemberID || x.MemberGuid == dh.MemberGuid) && x.ValidFlag == true).FirstOrDefault();
-            if (dh.Member == null)
-            {
-                string msg = string.Format("Can't find member which ID is [{0}], GUID is [{1}]", dh.MemberID, dh.MemberGuid);
-                throw new ArgumentException(msg);
-            }
-            dh.MemberGuid = dh.Member.MemberGuid;
-        }
-
     }
 }

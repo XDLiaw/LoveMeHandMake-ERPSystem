@@ -85,6 +85,7 @@
                 @Html.DisplayFor(modelItem => item.AccumulateDeposit)
             </td>
             <td>
+                @Html.ActionLink("转点", "TransferPoint", new { id = item.ID }) |
                 @Html.ActionLink("储值", "Deposit", new { id = item.ID }) |
                 @Html.ActionLink("储值纪录", "DepositHistory", new { id = item.ID }) |
                 @Html.ActionLink("消费纪录", "TradeHistory", new { id = item.ID }) |

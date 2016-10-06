@@ -1,0 +1,100 @@
+﻿@model LoveMeHandMake2.Models.ViewModels.TransferPointViewModel
+
+@{
+    ViewBag.Title = "轉點";
+}
+
+<h2>轉點</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "TransferPointForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @if (ViewBag.ErrMsg != null)
+        {
+            <div class="alert alert-dismissible alert-danger">
+                <strong>@ViewBag.ErrMsg</strong>
+            </div>
+        }
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text=danger" })
+        @Html.HiddenFor(model => model.MemberID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Member, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Member.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Member.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Member.CardID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Member.CardID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Member.CardID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepositStore, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepositStoreID", (IEnumerable<SelectListItem>)ViewBag.StoreList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepositStoreID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepositTeacher, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepositTeacherID", (IEnumerable<SelectListItem>)ViewBag.TeacherList, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepositTeacherID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Point, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Point, new { htmlAttributes = new { id = "Point", @class = "form-control", min = 0 } })
+                @Html.ValidationMessageFor(model => model.Point, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AvgPointCost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AvgPointCost, new { htmlAttributes = new { id = "AvgPointCost", @class = "form-control", @min = 0 } })
+                @Html.ValidationMessageFor(model => model.AvgPointCost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="送出" class="btn btn-default" onclick="return tryCompute();" />
+                <input type="button" value="清除" class="btn btn-default" onclick="btnClear();" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">  
+        function btnClear() {
+            $("#Point").val(0);
+            $("#AvgPointCost").val(0);
+        }
+
+        $( document ).ready(function() {
+            
+        });
+
+</script>
+}
