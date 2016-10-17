@@ -24,25 +24,21 @@ namespace LoveMeHandMake2.Controllers
         // GET: Member
         public ActionResult Index()
         {
-            List<Member> members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher).Where(x => x.ValidFlag == true).ToList();
-            return View(members.ToList());
+            return Index(new MemberListViewModel());
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection formCollection)
+        public ActionResult Index(MemberListViewModel model)
         {
-            string searchName = formCollection["searchName"];
-            string searchPhone = formCollection["searchPhone"];
-            string searchCardID = formCollection["searchCardID"];
-
-            List<Member> members = db.Members.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher)
+            model.memberPagedList = db.Members
+                //.Include(m => m.EnrollStore).Include(m => m.EnrollTeacher)
                 .Where(x => x.ValidFlag == true)
-                .Where(x => (string.IsNullOrEmpty(searchName) ? true : x.Name.Contains(searchName)))
-                .Where(x => (string.IsNullOrEmpty(searchPhone) ? true : x.Phone.Equals(searchPhone)))
-                .Where(x => (string.IsNullOrEmpty(searchCardID) ? true : x.CardID.Equals(searchCardID)))
-                .ToList();
+                .Where(x => (string.IsNullOrEmpty(model.searchName) ? true : x.Name.Contains(model.searchName)))
+                .Where(x => (string.IsNullOrEmpty(model.searchPhone) ? true : x.Phone.Equals(model.searchPhone)))
+                .Where(x => (string.IsNullOrEmpty(model.searchCardID) ? true : x.CardID.Equals(model.searchCardID)))
+                .OrderBy(x => x.CardID).ToPagedList(model.PageNumber - 1, model.PageSize);
 
-            return View(members);
+            return View(model);
         }
 
         // GET: Member/Details/5

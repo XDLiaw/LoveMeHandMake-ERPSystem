@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcPaging;
 
 namespace LoveMeHandMake2.Controllers.WebControllers
 {
@@ -17,19 +18,21 @@ namespace LoveMeHandMake2.Controllers.WebControllers
         // GET: CancelTransaction
         public ActionResult Index()
         {
-            CancelDepositViewModel model = new CancelDepositViewModel();
-            model.cancelList = db.DepositHistory.Where(x => x.ValidFlag == false).ToList();
-            return View(model);
+            return Index(new CancelDepositViewModel());
         }
 
         [HttpPost]
-        public ActionResult Index(CancelDepositViewModel arg)
+        public ActionResult Index(CancelDepositViewModel model)
         {
-            arg.cancelList = db.DepositHistory
-                .Where(x => x.ValidFlag == false
-                    && (arg.SearchDateStart == null ? true : arg.SearchDateStart <= x.DepostitDateTime) 
-                    && (arg.SearchDateEnd == null ? true : x.DepostitDateTime <= arg.SearchDateEnd)).ToList();
-            return View(arg);
+            DateTime SearchDateEnd_nextDay = model.SearchDateEnd.GetValueOrDefault().AddDays(1);
+
+            model.cancelPagedList = db.DepositHistory
+                .Where(x => x.ValidFlag == false)
+                .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.DepostitDateTime)
+                .Where(x => model.SearchDateEnd == null ? true : x.DepostitDateTime <= SearchDateEnd_nextDay)
+                .OrderByDescending(x => x.DepostitDateTime).ToPagedList(model.PageNumber - 1, model.PageSize);
+
+            return View(model);
         }
 
     }

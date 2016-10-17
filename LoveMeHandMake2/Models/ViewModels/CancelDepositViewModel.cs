@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvcPaging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +17,20 @@ namespace LoveMeHandMake2.Models.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateEnd { get; set; }
 
+        [Display(Name = "页码")]
+        public int PageNumber { get; set; }
 
-        public List<DepositHistory> cancelList { get; set; }
+        [Display(Name = "每页资料笔数")]
+        public int PageSize { get; private set; }
+
+        // -----------------------------------------------------------------------------------------
+
+        public IPagedList<DepositHistory> cancelPagedList { get; set; }
+
+        public CancelDepositViewModel()
+        {
+            this.PageNumber = 1;
+            this.PageSize = 100;
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcPaging;
 
 namespace LoveMeHandMake2.Controllers.WebControllers
 {
@@ -18,9 +19,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers
         // GET: PropularProduct
         public ActionResult Index()
         {
-            ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
-            ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);
-            return View();
+            return Index(new PopularProductViewModel());
         }
 
         [HttpPost]
@@ -31,7 +30,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers
             model.SearchStoreID = arg.SearchStoreID;
             model.SearchDateStart = arg.SearchDateStart;
             model.SearchDateEnd = arg.SearchDateEnd;
-            model.productList =
+            model.productPagedList =
             (
                 from tpp in db.TradePurchaseProduct
                 join o in db.TradeOrder on tpp.OrderID equals o.ID
@@ -53,7 +52,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers
                     ImageName = g.Key.ImageName
                 }
                 
-            ).OrderByDescending(x => x.Amount);
+            ).OrderByDescending(x => x.Amount).ToPagedList(model.PageNumber - 1, model.PageSize);
 
             ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();
             ViewBag.StoreList = DropDownListHelper.GetStoreListWithEmpty(true);

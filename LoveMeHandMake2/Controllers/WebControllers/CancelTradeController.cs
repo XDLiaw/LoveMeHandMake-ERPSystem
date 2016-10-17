@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using MvcPaging;
 
 namespace LoveMeHandMake2.Controllers.WebControllers
 {
@@ -15,18 +16,21 @@ namespace LoveMeHandMake2.Controllers.WebControllers
 
         public ActionResult Index()
         {
-            CancelTradeViewModel model = new CancelTradeViewModel();
-            model.cancelList = db.TradeOrder.Where(x => x.ValidFlag == false).ToList();
-            return View(model);
+            return Index(new CancelTradeViewModel());
         }
 
         [HttpPost]
-        public ActionResult Index(CancelTradeViewModel arg)
+        public ActionResult Index(CancelTradeViewModel model)
         {
-            arg.cancelList = db.TradeOrder.Where(x => x.ValidFlag == false 
-                && (arg.SearchDateStart == null ? true : arg.SearchDateStart <= x.TradeDateTime) 
-                && (arg.SearchDateEnd == null ? true : x.TradeDateTime <= arg.SearchDateEnd)).ToList();
-            return View(arg);
+            DateTime SearchDateEnd_nextDay = model.SearchDateEnd.GetValueOrDefault().AddDays(1);
+
+            model.cancelPagedList = db.TradeOrder
+                .Where(x => x.ValidFlag == false)
+                .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.TradeDateTime)
+                .Where(x => model.SearchDateEnd == null ? true : x.TradeDateTime <= SearchDateEnd_nextDay)
+                .OrderByDescending(x => x.TradeDateTime).ToPagedList(model.PageNumber - 1, model.PageSize);
+
+            return View(model);
         }
     }
 }

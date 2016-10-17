@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MvcPaging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,9 +26,21 @@ namespace LoveMeHandMake2.Models.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateEnd { get; set; }
 
+        [Display(Name = "页码")]
+        public int PageNumber { get; set; }
+
+        [Display(Name = "每页资料笔数")]
+        public int PageSize { get; private set; }
+
         // -----------------------------------------------------------------------------------------
 
-        public IQueryable<PopularProduct> productList { get; set; }
+        public IPagedList<PopularProduct> productPagedList { get; set; }
+
+        public PopularProductViewModel()
+        {
+            this.PageNumber = 1;
+            this.PageSize = 100;
+        }
     }
 
     public class PopularProduct
