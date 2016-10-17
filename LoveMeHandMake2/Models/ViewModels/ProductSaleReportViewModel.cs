@@ -170,6 +170,70 @@ namespace LoveMeHandMake2.Models.ViewModels
         [JsonIgnore]
         public string ImageName { get; set; }
 
+        public int ChargeByCash { get; set; }
+
+        public int ChargeByCreditCard { get; set; }
+
+        public int ChargeByMallCard { get; set; }
+
+        public int ChargeByAlipay { get; set; }
+
+        public int ChargeByWechatWallet { get; set; }
+
+        public int ChargeByOtherPay { get; set; }
+
+        public int RewardMoney { get; set; }
+
+        public double RewardPoint { get; set; }
+
+        public string ChargeWay
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(this.MemberCardID))
+                {
+                    String s = "";
+                    if (this.ChargeByCash > 0)
+                    {
+                        s += "單做現金;\r\n";
+                    }
+                    if (this.ChargeByCreditCard > 0)
+                    {
+                        s += "單做信用卡;\r\n";
+                    }
+                    if (this.ChargeByMallCard > 0)
+                    {
+                        s += "單做商城卡;\r\n";
+                    }
+                    if (this.ChargeByAlipay > 0)
+                    {
+                        s += "單做支付宝;\r\n";
+                    }
+                    if (this.ChargeByWechatWallet > 0)
+                    {
+                        s += "單做微信支付;\r\n";
+                    }
+                    if (this.ChargeByOtherPay > 0)
+                    {
+                        s += "單做其他支付;\r\n";
+                    }
+                    if (this.RewardMoney > 0)
+                    {
+                        s += "單做送金;\r\n";
+                    }
+                    if (this.RewardPoint > 0)
+                    {
+                        s += "單做送點;\r\n";
+                    }
+
+                    return s;
+                }
+                else
+                {
+                    return this.MemberCardID;
+                }
+            }
+        }
     }
 
 

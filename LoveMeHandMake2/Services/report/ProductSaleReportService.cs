@@ -51,7 +51,15 @@ namespace LoveMeHandMake2.Services.report
                         Sum = tpp.Sum,
                         Gender = (o.Member == null ? null : (bool?)o.Member.Gender),
                         TeacherName = (o.Teacher == null ? null : o.Teacher.Name),
-                        ImageName = p.ImageName
+                        ImageName = p.ImageName,
+                        ChargeByCash = o.ChargeByCash,
+                        ChargeByCreditCard = o.ChargeByCreditCard,
+                        ChargeByMallCard = o.ChargeByMallCard,
+                        ChargeByAlipay = o.ChargeByAlipay,
+                        ChargeByWechatWallet = o.ChargeByWechatWallet,
+                        ChargeByOtherPay = o.ChargeByOtherPay,
+                        RewardMoney = o.RewardMoney,
+                        RewardPoint = o.RewardPoint
                     }
                 ).ToList();
 
