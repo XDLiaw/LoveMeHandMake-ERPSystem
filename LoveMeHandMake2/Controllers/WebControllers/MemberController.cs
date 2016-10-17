@@ -261,10 +261,11 @@ namespace LoveMeHandMake2.Controllers
             {
                 return HttpNotFound();
             }
+            DateTime SearchDateEnd_nextDay = model.SearchDateEnd.GetValueOrDefault().AddDays(1);
             model.DepositHistoryList = db.DepositHistory
                 .Where(x => x.MemberID == model.member.ID && x.ValidFlag == true)
                 .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.DepostitDateTime)
-                .Where(x => model.SearchDateEnd == null ? true : x.DepostitDateTime <= model.SearchDateEnd)
+                .Where(x => model.SearchDateEnd == null ? true : x.DepostitDateTime <= SearchDateEnd_nextDay)
                 .OrderByDescending(x => x.DepostitDateTime)
                 .ToPagedList(model.PageNumber - 1, model.PageSize);
             return View(model);
@@ -331,12 +332,12 @@ namespace LoveMeHandMake2.Controllers
             {
                 return HttpNotFound();
             }
-
+            DateTime SearchDateEnd_nextDay = model.SearchDateEnd.GetValueOrDefault().AddDays(1);
             model.TradeOrderList = db.TradeOrder
                 .Where(x => x.ValidFlag == true)
                 .Where(x => x.MemberID == model.member.ID)
                 .Where(x => model.SearchDateStart == null ? true : model.SearchDateStart <= x.TradeDateTime)
-                .Where(x => model.SearchDateEnd == null ? true : x.TradeDateTime <= model.SearchDateEnd)
+                .Where(x => model.SearchDateEnd == null ? true : x.TradeDateTime <= SearchDateEnd_nextDay)
                 .OrderByDescending(x => x.TradeDateTime)
                 .ToPagedList(model.PageNumber - 1, model.PageSize);
             return View(model);

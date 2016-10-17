@@ -23,33 +23,13 @@ namespace LoveMeHandMake2.Controllers.WebControllers
         public ActionResult Index()
         {
             NonMemberTradeHistoryViewModel model = new NonMemberTradeHistoryViewModel();            
-            model.NonMemberTradeRecordList = 
-            (
-                from nmtl in db.NonMemverTradeList
-                join nm in db.NonMembers on nmtl.Phone equals nm.Phone
-                where nmtl.ValidFlag == true                
-                select new NonMemberTradeRecord
-                {
-                    Name = nm.Name,
-                    Gender = nm.Gender,
-                    Birthday = nm.Birthday,
-                    Phone = nm.Phone,
-                    StoreID = nmtl.StoreID,
-                    store = nmtl.Store,
-                    TeacherID = nmtl.TeacherID,
-                    teacher = nmtl.Teacher,
-                    Point = nmtl.Point,
-                    TradeDateTime = nmtl.TradeDateTime
-                }
-            )
-            .OrderByDescending(x => x.TradeDateTime)
-            .ToPagedList(model.PageNumber -1, model.PageSize);
-            return View(model);
+            return Index(model);
         }
 
         [HttpPost]
         public ActionResult Index(NonMemberTradeHistoryViewModel model)
         {
+            DateTime SearchDateEnd_nextDay = model.SearchDateEnd.GetValueOrDefault().AddDays(1);
             model.NonMemberTradeRecordList =
             (
                 from nmtl in db.NonMemverTradeList
@@ -57,7 +37,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers
                 where (nmtl.ValidFlag == true)
                    && (string.IsNullOrEmpty(model.SearchPhone) ? true : nm.Phone.Equals(model.SearchPhone))
                    && (model.SearchDateStart == null ? true : model.SearchDateStart <= nmtl.TradeDateTime)
-                   && (model.SearchDateEnd == null ? true : nmtl.TradeDateTime <= model.SearchDateEnd)
+                   && (model.SearchDateEnd == null ? true : nmtl.TradeDateTime <= SearchDateEnd_nextDay)
                 select new NonMemberTradeRecord
                 {
                     Name = nm.Name,

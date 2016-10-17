@@ -30,6 +30,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers
             model.SearchStoreID = arg.SearchStoreID;
             model.SearchDateStart = arg.SearchDateStart;
             model.SearchDateEnd = arg.SearchDateEnd;
+            DateTime SearchDateEnd_nextDay = model.SearchDateEnd.GetValueOrDefault().AddDays(1);
             model.productPagedList =
             (
                 from tpp in db.TradePurchaseProduct
@@ -40,7 +41,7 @@ namespace LoveMeHandMake2.Controllers.WebControllers
                    && (arg.SearchStoreID == null ? true : o.StoreID == arg.SearchStoreID)
                    && (arg.SearchProductCategoryID == null ? true : pc.ID == arg.SearchProductCategoryID)
                    && (arg.SearchDateStart == null ? true : arg.SearchDateStart <= o.TradeDateTime)
-                   && (arg.SearchDateEnd == null ? true : o.TradeDateTime <= arg.SearchDateEnd)
+                   && (arg.SearchDateEnd == null ? true : o.TradeDateTime <= SearchDateEnd_nextDay)
                 group new { tpp.Amount } by new { tpp.ProductID, Name = p.Name, p.Price, CategoryName = pc.Name, pc.Unit, p.ImageName } into g                
                 select new PopularProduct 
                 { 
