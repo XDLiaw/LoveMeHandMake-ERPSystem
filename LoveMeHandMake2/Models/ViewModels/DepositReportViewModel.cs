@@ -65,6 +65,9 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "销售点数")]
         public double Point { get; set; }
 
+        [Display(Name = "送点")]
+        public int? RewardPoint { get; set; } 
+
         [Display(Name = "会员卡号")]
         public string MemberCardID { get; set; }
 

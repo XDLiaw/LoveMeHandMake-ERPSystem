@@ -42,6 +42,7 @@ namespace LoveMeHandMake2.Services.report
                         MemberBirthday = dh.Member.Birthday,
                         MemberGender = dh.Member.Gender,
                         Point = dh.DepositPoint,
+                        RewardPoint = dh.RewardPoint,
                         MemberCardID = dh.Member.CardID,
                         TeacherName = dh.DepositTeacher.Name,
                         MemberPhone = dh.Member.Phone

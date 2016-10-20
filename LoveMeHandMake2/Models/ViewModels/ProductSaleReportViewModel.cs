@@ -18,9 +18,11 @@ namespace LoveMeHandMake2.Models.ViewModels
         public int? SearchProductCategoryID { get; set; }
 
         [Display(Name = "日期(起)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateStart { get; set; }
 
         [Display(Name = "日期(讫)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? SearchDateEnd { get; set; }
 
         // ---------------------------------------------------------------------------------------------
@@ -59,6 +61,7 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         public ProductSaleReportViewModel()
         {
+            this.SearchDateStart = DateTime.Now.Date; 
             this.saleList = new List<ProductSaleRecord>();
         }
 

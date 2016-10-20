@@ -198,7 +198,10 @@ namespace LoveMeHandMake2.Services.report
                     tp.DailyPerformanceList.Add(tdp);
                 }
                 tp.Compute();
-                MultiTeacherPerformance.Add(tp);
+                if (tp.TotalTeachTimes + tp.TotalTeachPoints + tp.TotalSalesPoints + tp.TotalPointsFromNonMember > 0)
+                {
+                    MultiTeacherPerformance.Add(tp);
+                }
             }
 
             return MultiTeacherPerformance;
