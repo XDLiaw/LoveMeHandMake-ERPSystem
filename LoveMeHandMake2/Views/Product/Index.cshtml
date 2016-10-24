@@ -11,12 +11,17 @@
 {
     <div class="container breadcrumb">
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             @Html.ActionLink("新增产品", "Create", null, new { @class = "btn btn-primary" })
             @Html.ActionLink("批次汇入产品", "BatchImport", null, new { @class = "btn btn-primary" })
         </div>
-        <div class="col-md-3"></div>
         <div class="col-md-3">
+            @Html.EditorFor(model => model.searchName, new { htmlAttributes = new { @class = "form-control ", placeholder = @Html.DisplayNameFor(model => model.searchName) } })
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.searchPrice, new { htmlAttributes = new { @class = "form-control ", placeholder = @Html.DisplayNameFor(model => model.searchPrice) } })
+        </div>
+        <div class="col-md-2">
             @Html.DropDownListFor(model => model.productCategoryID, (IEnumerable<SelectListItem>)ViewBag.ProductCategoryList, htmlAttributes: new { @class = "form-control" })
         </div>
         <div class="col-md-2">

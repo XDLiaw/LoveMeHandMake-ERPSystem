@@ -33,10 +33,17 @@ namespace LoveMeHandMake2.Controllers
         [HttpPost]
         public ActionResult Index(ProductViewModel model)
         {
-            IQueryable<Product> query;
-            query = db.Products.Where(x =>
-                model.productCategoryID == null ? true : x.ProductCategoryID == model.productCategoryID &&
-                x.ValidFlag == true);
+            IQueryable<Product> query = db.Products.Where(x => model.productCategoryID == null ? true : x.ProductCategoryID == model.productCategoryID);
+            if (String.IsNullOrWhiteSpace(model.searchName) == false) {
+                query = query.Where(x => x.Name.Contains(model.searchName));
+            }
+            if (model.searchPrice != null)
+            {
+                int price = model.searchPrice.GetValueOrDefault();
+                query = query.Where(x => x.Price == price);
+            }            
+            query = query.Where(x => x.ValidFlag == true);              
+                
             model.ProductList = query.OrderBy(x => x.ProductCategoryID).ThenBy(x => x.Name).ToPagedList(model.PageNumber - 1, model.PageSize);
 
             ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryListWithEmpty();

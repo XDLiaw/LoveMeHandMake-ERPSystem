@@ -61,6 +61,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 base.CreateCell(titleRow, colCount++, "性别");
                 base.CreateCell(titleRow, colCount++, "销售点数");
                 base.CreateCell(titleRow, colCount++, "送点");
+                base.CreateCell(titleRow, colCount++, "送金");
                 base.CreateCell(titleRow, colCount++, "会员卡号");
                 base.CreateCell(titleRow, colCount++, "销售人员");
                 base.CreateCell(titleRow, colCount++, "电话");
@@ -80,6 +81,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 base.CreateCell(row, colCount++, dr.MemberGender == true ? "男" : "女");
                 base.CreateCell(row, colCount++, dr.Point);
                 base.CreateCell(row, colCount++, dr.RewardPoint);
+                base.CreateCell(row, colCount++, dr.RewardMoney);
                 base.CreateCell(row, colCount++, dr.MemberCardID);
                 base.CreateCell(row, colCount++, dr.TeacherName);
                 base.CreateCell(row, colCount++, dr.MemberPhone);

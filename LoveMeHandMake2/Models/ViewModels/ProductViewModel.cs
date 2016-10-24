@@ -11,6 +11,12 @@ namespace LoveMeHandMake2.Models.ViewModels
     {
         public int? productCategoryID { get; set; }
 
+        [Display(Name = "产品名称")]
+        public string searchName { get; set; }
+
+        [Display(Name = "价格")]
+        public int? searchPrice { get; set; }
+
         [Display(Name = "页码")]
         public int PageNumber { get; set; }
 
