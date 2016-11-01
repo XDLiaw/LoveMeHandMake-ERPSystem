@@ -121,13 +121,14 @@ namespace LoveMeHandMake2.Services.report
         private List<TeacherPerformance> GetMultiTeacherPerformanceData(int? SearchStoreID, int? SearchTeacherID, DateTime? SearchDateStart, DateTime? SearchDateEnd)
         {
             List<TeacherPerformance> MultiTeacherPerformance = new List<TeacherPerformance>();
+            DateTime SearchDateEnd_nextDay = SearchDateEnd.GetValueOrDefault().AddDays(1);
             var depositDatas =
             (
                 from dh in db.DepositHistory
                 where (SearchStoreID == null ? true : dh.DepositStoreID == SearchStoreID)
                    && (SearchTeacherID == null ? true : dh.DepositTeacherID == SearchTeacherID)
                    && (SearchDateStart == null ? true : SearchDateStart <= dh.DepostitDateTime)
-                   && (SearchDateEnd == null ? true : dh.DepostitDateTime <= SearchDateEnd)
+                   && (SearchDateEnd == null ? true : dh.DepostitDateTime < SearchDateEnd_nextDay)
                    && (dh.ValidFlag == true)
                 orderby dh.DepostitDateTime
                 group dh by new
@@ -153,7 +154,7 @@ namespace LoveMeHandMake2.Services.report
                 where (SearchStoreID == null ? true : t.StoreID == SearchStoreID)
                    && (SearchTeacherID == null ? true : t.TeacherID == SearchTeacherID)
                    && (SearchDateStart == null ? true : SearchDateStart <= t.TradeDateTime)
-                   && (SearchDateEnd == null ? true : t.TradeDateTime <= SearchDateEnd)
+                   && (SearchDateEnd == null ? true : t.TradeDateTime < SearchDateEnd_nextDay)
                    && (t.ValidFlag == true)
                 orderby t.TradeDateTime
                 group new { tpp.Amount, tpp.TotalPoint, t.MemberID } by new
@@ -183,7 +184,7 @@ namespace LoveMeHandMake2.Services.report
                 tp.TeacherID = t.ID;
                 tp.TeacherName = t.Name;
                 tp.DailyPerformanceList = new List<TeacherDailyPerformance>();
-                for (DateTime d = SearchDateStart.GetValueOrDefault(); d <= SearchDateEnd; d = d.AddDays(1))
+                for (DateTime d = SearchDateStart.GetValueOrDefault(); d < SearchDateEnd_nextDay; d = d.AddDays(1))
                 {
                     var depositData = depositDatas.Where(x => x.TeacherID == t.ID && x.Year == d.Year && x.Month == d.Month && x.Day == d.Day).FirstOrDefault();
                     var tradeData = TradeDatas.Where(x => x.TeacherID == t.ID && x.Year == d.Year && x.Month == d.Month && x.Day == d.Day).FirstOrDefault();
@@ -211,13 +212,14 @@ namespace LoveMeHandMake2.Services.report
         {
             AllTeacherPerformance atp = new AllTeacherPerformance();
             atp.DailyPerformanceList = new List<TeacherDailyPerformance>();
+            DateTime SearchDateEnd_nextDay = SearchDateEnd.GetValueOrDefault().AddDays(1);
             var depositDatas =
             (
                 from dh in db.DepositHistory
                 where (SearchStoreID == null ? true : dh.DepositStoreID == SearchStoreID)
                    && (SearchTeacherID == null ? true : dh.DepositTeacherID == SearchTeacherID)
                    && (SearchDateStart == null ? true : SearchDateStart <= dh.DepostitDateTime)
-                   && (SearchDateEnd == null ? true : dh.DepostitDateTime <= SearchDateEnd)
+                   && (SearchDateEnd == null ? true : dh.DepostitDateTime < SearchDateEnd_nextDay)
                    && (dh.ValidFlag == true)
                 orderby dh.DepostitDateTime
                 group dh by new
@@ -241,7 +243,7 @@ namespace LoveMeHandMake2.Services.report
                 where (SearchStoreID == null ? true : t.StoreID == SearchStoreID)
                    && (SearchTeacherID == null ? true : t.TeacherID == SearchTeacherID)
                    && (SearchDateStart == null ? true : SearchDateStart <= t.TradeDateTime)
-                   && (SearchDateEnd == null ? true : t.TradeDateTime <= SearchDateEnd)
+                   && (SearchDateEnd == null ? true : t.TradeDateTime < SearchDateEnd_nextDay)
                    && (t.ValidFlag == true)
                 orderby t.TradeDateTime
                 group new { tpp.Amount, tpp.TotalPoint, t.MemberID } by new
@@ -262,7 +264,7 @@ namespace LoveMeHandMake2.Services.report
             ).ToList();
             var defaultDepositData = new { Year = -1, Month = -1, Day = -1, SalesPoints = 0.0 };
             var defaultTradeData = new { Year = -1, Month = -1, Day = -1, TeachTimes = 0, TeachPoints = 0.0, PointsFromNonMember = 0.0 };
-            for (DateTime d = SearchDateStart.GetValueOrDefault(); d <= SearchDateEnd; d = d.AddDays(1))
+            for (DateTime d = SearchDateStart.GetValueOrDefault(); d < SearchDateEnd_nextDay; d = d.AddDays(1))
             {
                 var depositData = depositDatas.Where(x => x.Year == d.Year && x.Month == d.Month && x.Day == d.Day).FirstOrDefault();
                 var tradeData = TradeDatas.Where(x => x.Year == d.Year && x.Month == d.Month && x.Day == d.Day).FirstOrDefault();
