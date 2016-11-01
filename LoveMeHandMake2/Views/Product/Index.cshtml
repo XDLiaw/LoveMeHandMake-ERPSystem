@@ -86,8 +86,8 @@
                         @Html.DisplayFor(modelItem => item.Remark)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default btn-edit" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger btn-delete" })
                     </td>
                 </tr>
             }
@@ -113,6 +113,12 @@
 
 <script>
     $(document).ready(function () {
+        paggingSetting();
+        funcBtnSetting();
+    });
+</script>
+<script>
+    function paggingSetting() {
         $("ul > li > input").addClass("btn btn-default btn-sm");
         $("ul > li > input.btn-page").click(function () {
             $("#PageNumber").val($(this).attr("value"));
@@ -141,6 +147,18 @@
             $("#PageNumber").val(1);
             return true;
         });
-    });
+    }
 </script>
-
+<script>
+    function funcBtnSetting() {
+        $(".btn-edit").click(function(event) {
+            event.preventDefault();
+            var originAction = $("form").attr("action");
+            //var formVal = $("form").serialize();
+            //alert(formVal);
+            $("form").attr('action', $(this).attr("href"));
+            $("form").submit();
+            $("form").attr('action', originAction);
+        });
+    }
+</script>

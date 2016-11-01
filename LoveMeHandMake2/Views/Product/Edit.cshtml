@@ -1,4 +1,4 @@
-﻿@model LoveMeHandMake2.Models.Product
+﻿@model LoveMeHandMake2.Models.ViewModels.ProductViewModel
 @using LoveMeHandMake2.Helper
 
 @{
@@ -8,7 +8,7 @@
 <h2>修改</h2>
 @Styles.Render("~/Content/fileBrowseBtn")
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditSubmit", "Product", FormMethod.Post, new { enctype = "multipart/form-data", id = "form-edit"}))
 {
     @Html.AntiForgeryToken()
     
@@ -16,62 +16,63 @@
         <h4>产品</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
-        @Html.HiddenFor(model => model.CreateTime)
-        @Html.HiddenFor(model => model.UpdateTime)
-        @Html.HiddenFor(model => model.ValidFlag)
-        @Html.HiddenFor(model => model.ImageName)
+        @Html.HiddenFor(model => model.product.ID)
+        @Html.HiddenFor(model => model.product.CreateTime)
+        @Html.HiddenFor(model => model.product.UpdateTime)
+        @Html.HiddenFor(model => model.product.ValidFlag)
+        @Html.HiddenFor(model => model.product.ImageName)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductCategory, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.product.ProductCategory, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ProductCategoryID", (IEnumerable<SelectListItem>)ViewBag.ProductCategoryList, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProductCategoryID, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.product.ProductCategoryID, (IEnumerable<SelectListItem>)ViewBag.ProductCategoryList, htmlAttributes: new { @class = "form-control" })
+                @*@Html.DropDownList("ProductCategoryID", (IEnumerable<SelectListItem>)ViewBag.ProductCategoryList, htmlAttributes: new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.product.ProductCategoryID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.product.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.product.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.product.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.product.Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.product.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.product.Price, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ImageName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.product.ImageName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <img id="productImage" src="data:image;base64,@ProductImageHelper.GetImageBase64String(Model.ImageName)" style="max-width:100px; max-height:100px;" />
+                <img id="productImage" src="data:image;base64,@ProductImageHelper.GetImageBase64String(Model.product.ImageName)" style="max-width:100px; max-height:100px;" />
                 <p>
                     <span class="btn btn-default btn-file">
                         Browse
-                        @Html.TextBoxFor(model => model.UploadImage, new { Type = "file", id = "btn_choseImage", @class = "upload", onchange = "readURL(this);" })
+                        @Html.TextBoxFor(model => model.product.UploadImage, new { Type = "file", id = "btn_choseImage", @class = "upload", onchange = "readURL(this);" })
                     </span>
                 </p>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsPullFromShelves, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.product.IsPullFromShelves, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.IsPullFromShelves)
-                @Html.ValidationMessageFor(model => model.IsPullFromShelves, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.product.IsPullFromShelves)
+                @Html.ValidationMessageFor(model => model.product.IsPullFromShelves, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.product.Remark, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.product.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.product.Remark, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -83,15 +84,36 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+@using (Html.BeginForm("Index", "Product", FormMethod.Post, new { id = "form-backToIndex" }))
+{  
+    @Html.HiddenFor(model => model.productCategoryID)
+    @Html.HiddenFor(model => model.searchName)
+    @Html.HiddenFor(model => model.searchPrice)
+    @Html.HiddenFor(model => model.PageNumber)
+    @Html.HiddenFor(model => model.PageSize)
+
+    <div>
+        <input type="submit" class="grayBtn btn-link" id="btn-back" value="Back to List" />
+    </div>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-
+<script>
+    $(document).ready(function () {
+        addSearchConditionHiddenToForm();
+    });
+</script>
+<script>
+    function addSearchConditionHiddenToForm() {
+        $("#form-backToIndex input[type=hidden]").each(function (index) {
+            $("#form-edit").append($(this).clone());
+        });
+    }
+</script>
 <script type="text/javascript">
     function readURL(input) {
         if (input.files && input.files[0]) {

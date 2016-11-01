@@ -23,9 +23,15 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "每页资料笔数")]
         public int PageSize { get; private set; }
 
-        // ==========================================================================
+        // --------------------------------------------------------------------------
+
+        public Product product { get; set; }
+
+        // --------------------------------------------------------------------------
 
         public IPagedList<Product> ProductList { get; set; }
+
+        // ==========================================================================
 
         public ProductViewModel()
         {

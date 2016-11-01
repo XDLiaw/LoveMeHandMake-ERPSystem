@@ -96,40 +96,37 @@ namespace LoveMeHandMake2.Controllers
         }
 
         // GET: Product/Edit/5
-        public ActionResult Edit(int? id)
+        [HttpPost]
+        public ActionResult Edit(int? id, ProductViewModel model)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Products.Include(x => x.ProductCategory).FirstOrDefault(r => r.ID == id && r.ValidFlag == true);
-            if (product == null)
+            model.product = db.Products.Include(x => x.ProductCategory).FirstOrDefault(r => r.ID == id && r.ValidFlag == true);
+            if (model.product == null)
             {
                 return HttpNotFound();
             }
-            //ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
             ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryList();
-            return View(product);
+            return View(model);
         }
 
-        // POST: Product/Edit/5
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product product)
+        public ActionResult EditSubmit(ProductViewModel model)
         {
             if (ModelState.IsValid)
             {
-                product.ProductCategory = db.ProductCategory.Where(x => x.ID == product.ProductCategoryID && x.ValidFlag == true).First();
-                product.Update();
-                db.Entry(product).State = EntityState.Modified;
+                model.product.ProductCategory = db.ProductCategory.Where(x => x.ID == model.product.ProductCategoryID && x.ValidFlag == true).First();
+                model.product.Update();
+                db.Entry(model.product).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                Index(model);
+                return View("~/Views/Product/Index.cshtml", model);
             }
-            //ViewBag.ProductCategoryID = new SelectList(db.ProductCategory, "ID", "Name", product.ProductCategoryID);
             ViewBag.ProductCategoryList = DropDownListHelper.GetProductCategoryList();
-            return View(product);
+            return View(model);
         }
 
         // GET: Product/Delete/5
