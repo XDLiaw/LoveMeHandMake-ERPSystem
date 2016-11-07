@@ -107,7 +107,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Point, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Point, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.EditorFor(model => model.Point, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.Point, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -115,7 +115,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AccumulateDeposit, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AccumulateDeposit, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                @Html.EditorFor(model => model.AccumulateDeposit, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.AccumulateDeposit, "", new { @class = "text-danger" })
             </div>
         </div>
