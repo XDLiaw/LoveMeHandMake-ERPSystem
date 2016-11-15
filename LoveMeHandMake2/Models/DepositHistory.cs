@@ -83,7 +83,7 @@ namespace LoveMeHandMake2.Models
 
         [Display(Name = "送点")]
         [Range(0, int.MaxValue)]
-        public int? RewardPoint { get; set; }
+        public double? RewardPoint { get; set; }
 
         //-------------------------------------------------------------------------------------
 

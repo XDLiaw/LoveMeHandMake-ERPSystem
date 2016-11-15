@@ -29,7 +29,7 @@ namespace LoveMeHandMake2.Models.ApiModels
 
         public int RewardMoney { get; set; }
 
-        public int RewardPoint { get; set; }
+        public double RewardPoint { get; set; }
 
         public int PointUnitValue { get; set; }
 

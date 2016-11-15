@@ -210,7 +210,7 @@
                 CreditCard : parseInt($("#CreditCard").val()),
                 MallCard : parseInt($("#MallCard").val()),
                 RewardMoney : parseInt($("#RewardMoney").val()),
-                RewardPoint : parseInt($("#RewardPoint").val()),
+                RewardPoint : parseFloat($("#RewardPoint").val()),
                 Alipay : parseInt($("#Alipay").val()),
                 WechatWallet : parseInt($("#WechatWallet").val()),
                 OtherPay : parseInt($("#OtherPay").val())
@@ -233,7 +233,7 @@
                        $("#TotalDepositMoney").val(parseInt(res.TotalDepositMoney));
                        $("#DepositPoint").val(parseInt(res.DepositPoint));
                        $("#DepositRewardPoint").val(parseInt(res.DepositRewardPoint));
-                       $("#TotalPoint").val(parseInt(res.TotalPoint));
+                       $("#TotalPoint").val(parseFloat(res.TotalPoint));
                        $("#AvgPointCost").val(parseFloat(res.AvgPointCost));
 
                        if (obj != null) {

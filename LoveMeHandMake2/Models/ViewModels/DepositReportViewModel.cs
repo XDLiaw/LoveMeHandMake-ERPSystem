@@ -66,7 +66,7 @@ namespace LoveMeHandMake2.Models.ViewModels
         public double Point { get; set; }
 
         [Display(Name = "送点")]
-        public int? RewardPoint { get; set; }
+        public double? RewardPoint { get; set; }
 
         [Display(Name = "送金")]
         public int? RewardMoney { get; set; }
