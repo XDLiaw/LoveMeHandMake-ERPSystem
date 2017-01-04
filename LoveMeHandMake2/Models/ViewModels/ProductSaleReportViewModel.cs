@@ -117,13 +117,14 @@ namespace LoveMeHandMake2.Models.ViewModels
                 {
                     this.MemberTradeTimes += psr.Amount;
                 }
+                //計算客流量
                 if (psr.TradeDateTime.DayOfWeek == DayOfWeek.Saturday || psr.TradeDateTime.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    //TODO
+                    WeekendTradeTimes += psr.Amount;
                 }
                 else
                 {
-                    //TODO
+                    WeekdayTradeTimes += psr.Amount;
                 }
             }
             this.TotalTradeTimes = this.NonMemberTradeTimes + this.MemberTradeTimes;
