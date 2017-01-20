@@ -18,7 +18,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             int rowCount = 0;
             rowCount = createTitlePart(detailSheet, rowCount, arg.StoreName, arg.SearchDateStart,arg.SearchDateEnd);
             rowCount = createDataPart(detailSheet, rowCount, arg);
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 16; i++)
             {
                 detailSheet.AutoSizeColumn(i);
             }
@@ -60,8 +60,17 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 base.CreateCell(titleRow, colCount++, "生日");
                 base.CreateCell(titleRow, colCount++, "性别");
                 base.CreateCell(titleRow, colCount++, "销售点数");
+
+                base.CreateCell(titleRow, colCount++, "现金");
+                base.CreateCell(titleRow, colCount++, "信用卡");
+                base.CreateCell(titleRow, colCount++, "商城卡");
+                base.CreateCell(titleRow, colCount++, "支付宝");
+                base.CreateCell(titleRow, colCount++, "微信支付");
+                base.CreateCell(titleRow, colCount++, "其他支付");
+
                 base.CreateCell(titleRow, colCount++, "送点");
                 base.CreateCell(titleRow, colCount++, "送金");
+
                 base.CreateCell(titleRow, colCount++, "会员卡号");
                 base.CreateCell(titleRow, colCount++, "销售人员");
                 base.CreateCell(titleRow, colCount++, "电话");
@@ -80,8 +89,17 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 base.CreateCell(row, colCount++, dr.MemberBirthday, false);
                 base.CreateCell(row, colCount++, dr.MemberGender == true ? "男" : "女");
                 base.CreateCell(row, colCount++, dr.Point);
+
+                base.CreateCell(row, colCount++, dr.Cash);
+                base.CreateCell(row, colCount++, dr.CreditCard);
+                base.CreateCell(row, colCount++, dr.MallCard);
+                base.CreateCell(row, colCount++, dr.Alipay);
+                base.CreateCell(row, colCount++, dr.WechatWallet);
+                base.CreateCell(row, colCount++, dr.OtherPay);
+
                 base.CreateCell(row, colCount++, dr.RewardPoint);
                 base.CreateCell(row, colCount++, dr.RewardMoney);
+
                 base.CreateCell(row, colCount++, dr.MemberCardID);
                 base.CreateCell(row, colCount++, dr.TeacherName);
                 base.CreateCell(row, colCount++, dr.MemberPhone);

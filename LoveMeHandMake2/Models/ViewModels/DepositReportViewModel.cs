@@ -65,11 +65,55 @@ namespace LoveMeHandMake2.Models.ViewModels
         [Display(Name = "销售点数")]
         public double Point { get; set; }
 
+        //====================================================================
+
+        [Display(Name = "现金")]
+        [Range(0, int.MaxValue)]
+        public int? Cash { get; set; }
+
+        [Display(Name = "信用卡")]
+        [Range(0, int.MaxValue)]
+        public int? CreditCard { get; set; }
+
+        [Display(Name = "商城卡")]
+        [Range(0, int.MaxValue)]
+        public int? MallCard { get; set; }
+
+        [Display(Name = "支付宝")]
+        [Range(0, int.MaxValue)]
+        public int? Alipay { get; set; }
+
+        [Display(Name = "微信支付")]
+        [Range(0, int.MaxValue)]
+        public int? WechatWallet { get; set; }
+
+        [Display(Name = "其他支付")]
+        [Range(0, int.MaxValue)]
+        public int? OtherPay { get; set; }
+
         [Display(Name = "送点")]
         public double? RewardPoint { get; set; }
 
         [Display(Name = "送金")]
         public int? RewardMoney { get; set; }
+
+        [Display(Name = "现/信/商/支/微/其")]
+        public String PayWayString
+        {
+            get
+            {
+                String s = "";
+                s += this.Cash.GetValueOrDefault(0) + "/";
+                s += this.CreditCard.GetValueOrDefault(0) + "/";
+                s += this.MallCard.GetValueOrDefault(0) + "/";
+                s += this.Alipay.GetValueOrDefault(0) + "/";
+                s += this.WechatWallet.GetValueOrDefault(0) + "/";
+                s += this.OtherPay.GetValueOrDefault(0);
+                return s;
+            }
+        }
+
+        //====================================================================
 
         [Display(Name = "会员卡号")]
         public string MemberCardID { get; set; }
