@@ -21,7 +21,7 @@ namespace LoveMeHandMake2.Helper.ExcelReport
             int rowCount = 0;
             rowCount = createTitlePart(detailSheet, rowCount, arg.StoreName, arg.SearchDateStart, arg.SearchDateEnd);
             rowCount = createDataPart(detailSheet, rowCount, arg);
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 10; i++)
             {
                 detailSheet.AutoSizeColumn(i);
             }
@@ -60,6 +60,8 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                 base.CreateCell(row, colCount++, "商品名称");
                 base.CreateCell(row, colCount++, "点数");
                 base.CreateCell(row, colCount++, "豆数");
+                base.CreateCell(row, colCount++, "送点");
+                base.CreateCell(row, colCount++, "送金");
                 base.CreateCell(row, colCount++, "会员卡号");
                 base.CreateCell(row, colCount++, "金额");
                 base.CreateCell(row, colCount++, "性别");
@@ -81,6 +83,8 @@ namespace LoveMeHandMake2.Helper.ExcelReport
                     base.CreateCell(row, colCount++, psr.ProductName);
                     base.CreateCell(row, colCount++, psr.UnitPoint.GetValueOrDefault());
                     base.CreateCell(row, colCount++, psr.UnitBean.GetValueOrDefault());
+                    base.CreateCell(row, colCount++, psr.RewardPoint);
+                    base.CreateCell(row, colCount++, psr.RewardMoney);
                     base.CreateCell(row, colCount++, psr.ChargeWay);
                     base.CreateCell(row, colCount++, psr.Sum / psr.Amount);
                     base.CreateCell(row, colCount++, psr.Gender == null ? "" : (psr.Gender == true ? "男" : "女"));

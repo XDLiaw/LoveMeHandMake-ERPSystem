@@ -47,6 +47,8 @@
                     <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().ProductName)</th>
                     <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().UnitPoint)</th>
                     <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().UnitBean)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().RewardPoint)</th>
+                    <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().RewardMoney)</th>
                     <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().MemberCardID)</th>
                     <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().Sum)</th>
                     <th class="text-center">@Html.DisplayNameFor(model => model.saleList.FirstOrDefault().Gender)</th>
@@ -64,6 +66,8 @@
                             <td class="text-center">@Html.DisplayFor(modelItem => item.ProductName)</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.UnitPoint)</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.UnitBean)</td>
+                            <td class="text-center">@Html.DisplayFor(modelItem => item.RewardPoint)</td>
+                            <td class="text-center">@Html.DisplayFor(modelItem => item.RewardMoney)</td>
                             <td class="text-center">@Html.DisplayFor(modelItem => item.ChargeWay)</td>
                             <td class="text-right">@String.Format("{0:N2}", item.Sum / item.Amount)</td>
                             <td class="text-center">@(item.Gender == null ? "" : (item.Gender == true ? "男" : "女"))</td>

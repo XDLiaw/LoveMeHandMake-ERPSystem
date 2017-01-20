@@ -186,8 +186,10 @@ namespace LoveMeHandMake2.Models.ViewModels
 
         public int ChargeByOtherPay { get; set; }
 
+        [Display(Name = "送金")]
         public int RewardMoney { get; set; }
 
+        [Display(Name = "送点")]
         public double RewardPoint { get; set; }
 
         public string ChargeWay
