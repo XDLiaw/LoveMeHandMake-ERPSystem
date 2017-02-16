@@ -151,7 +151,7 @@ namespace LoveMeHandMake2.Models.ViewModels
         public void Compute()
         {
             this.TotalTeachTimes = this.DailyPerformanceList.Sum(x => x.TeachTimes);
-            this.TotalTeachPoints = this.DailyPerformanceList.Sum(x => x.TeachPoints);
+            this.TotalTeachPoints = this.DailyPerformanceList.Sum(x => x.TeachPoints) + this.DailyPerformanceList.Sum(x => x.PointsFromNonMember); //只影響總計頁簽資料
             this.TotalSalesPoints = this.DailyPerformanceList.Sum(x => x.SalesPoints);
             this.TotalPointsFromNonMember = this.DailyPerformanceList.Sum(x => x.PointsFromNonMember);
         }
